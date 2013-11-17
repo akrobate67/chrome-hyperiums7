@@ -1,0 +1,81 @@
+@font-color:#aa7;
+@low-color:#3a3a3a;
+@high-color:#fff;
+
+@box-background:#21212b;
+
+@ui-background:#141414;
+@ui-high-background:#2a2a2a;
+@ui-border:1px solid #3a3a3a;
+@ui-border-high:1px solid #aaa;
+
+@padding:0.5em;
+
+body {
+	background:#000;
+	color:@font-color;
+	font:12px sans-serif;
+	padding:@padding;
+}
+
+a {
+	color:@high-color;
+	text-decoration:underline;
+}
+
+a, button {
+	cursor:pointer;
+}
+
+form nav {
+	text-align:center;
+}
+
+fieldset {
+	margin-bottom:1em;
+}
+
+fieldset {
+	padding:@padding;
+	border:0.2em solid @low-color;
+	border-radius:0.5em;
+	background:@box-background;
+}
+
+button, input, select, textarea {
+	background:@ui-background;
+	border:@ui-border;
+	color:@high-color * 0.75;
+	outline:0;
+}
+
+button:focus, input:focus, select:focus, textarea:focus,
+button:hover, input:hover, select:hover, textarea:hover {
+	background:@ui-high-background;
+	border:@ui-border-high;
+	color:@high-color;
+}
+
+button:disabled, input:disabled, select:disabled, textarea:disabled {
+	color:@low-color;
+}
+
+input[type="url"] {
+	width:100%;
+}
+
+.error {
+	color:red;
+	font-weight:bold;
+}
+
+nav ul {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+nav li {
+	white-space:nowrap;
+}
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Hyperiums Extension - Login</title>
+		<script data-main="/scripts/page.js" src="/extlibs/requirejs/require.js"></script>
+		<link rel="stylesheet/less" type="text/css" href="/styles/pages.less">
+	</head>
+	<body>
+		<form autcomplete="off" style="min-width:25em;text-align:center">
+			<fieldset>
+				<legend>Authentication</legend>
+				<label>Your nickname
+					<input name="nickname" maxlength="12" required></label>
+				<br>
+				<label>Your password
+					<input name="password" maxlength="12" required type="password"></label>
+				<br>
+				<label>
+					<input name="remember" type="checkbox">
+					Remember nickname</label>
+				<br>
+				<button type="submit">Login</button>
+				<a target="_blank" href="/pages/options.html">Options</a>
+			</fieldset>
+			<nav>
+				<a target="_blank" id="new-account">I want a new account.</a>
+				<a target="_blank" id="lost-password">I've lost my password.</a>
+				<br>
+			</nav>
+		</form>
+	</body>
+</html>
+
