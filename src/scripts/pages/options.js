@@ -55,6 +55,46 @@ chrome.storage.sync.get('cfg', function(storage) {
 			});
 		}).change();
 
+	var ticksTBody = $('#ticks tbody');
+	$.each(Hyperiums7.ticks, function (_, tick) {
+		ticksTBody.append($('<tr>').append([
+			$('<th>').text(tick.name),
+			$('<td class="fixed-width">').append(
+				$('<input type="checkbox">').attr('name',
+					'notifications.tick.' + tick.name + '.isEnabled'
+				)
+			),
+			$('<td class="fixed-width">').append(
+				$('<input type="checkbox">').attr('name',
+					'notifications.tick.' + tick.name + '.isTtsEnabled'
+				)
+			),
+			$('<td class="fixed-width">').append(
+				$('<input class="tiny-number" type="number" min="2" required>').attr('name',
+					'notifications.tick.' + tick.name + '.minutesBefore'
+				)
+			)
+		]));
+	});
+
+	$('#all-ticks-enable, #all-ticks-enable-tts').change(function () {
+		var checkbox = $(this);
+		var td = checkbox.closest('td, th');
+		td.
+			closest('table').
+			find('tbody tr td:nth-child(' + (td.index() + 1) + ') input').
+			prop('checked', checkbox.prop('checked'));
+	});
+
+	$('#all-ticks-minutes-before').on('keyup change', function () {
+		var input = $(this);
+		var td = input.closest('td, th');
+		td.
+			closest('table').
+			find('tbody tr td:nth-child(' + (td.index() + 1) + ') input').
+			val(input.val());
+	});
+
 	$('#test-tts').click(function (event) {
 		var voiceName = voiceNameSelect.val();
 		chrome.tts.speak(voiceName, {voiceName: voiceName});

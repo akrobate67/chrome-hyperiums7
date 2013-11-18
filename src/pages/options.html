@@ -44,7 +44,7 @@
 				<legend>Notifications</legend>
 				<label>
 					Automatically check for new events every
-					<input name="notifications.periodInMinutes" type="number" min="1" required>
+					<input class="tiny-number" name="notifications.periodInMinutes" type="number" min="1" required>
 					minute(s)
 				</label>
 				<br>
@@ -52,9 +52,48 @@
 					<input name="notifications.isBadgeOnClickEnabled" type="checkbox">
 					Click on extension icon opens event page when there is a new event
 				</label>
+				<p>Use TTS for following notification types:</p>
+				<ul class="checkbox-list">
+					<li><label>
+						<input name="notifications.isTTSEnabled.forums" type="checkbox">
+						Forum Messages</label></li>
+					<li><label>
+						<input name="notifications.isTTSEnabled.pm" type="checkbox">
+						Personal Messages</label></li>
+					<li><label>
+						<input name="notifications.isTTSEnabled.events" type="checkbox">
+						Events</label></li>
+					<li><label>
+						<input name="notifications.isTTSEnabled.battle" type="checkbox">
+						Battle Reports</label></li>
+				</ul>
+				<table id="ticks">
+					<caption>Ticks</caption>
+					<thead>
+						<tr>
+							<th>Tick Name</th>
+							<th class="fixed-width">Enable Notification</th>
+							<th class="fixed-width">Enable TTS</th>
+							<th class="fixed-width">Notify minutes before</th>
+						</tr>
+						<tr>
+							<th>All</th>
+							<td class="fixed-width"><input id="all-ticks-enable" type="checkbox"></td>
+							<td class="fixed-width"><input id="all-ticks-enable-tts" type="checkbox"></td>
+							<td class="fixed-width"><input id="all-ticks-minutes-before" class="tiny-number" type="number" min="2"></td>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<label>TTS pattern <small>This message will be used for the TTS-enabled ticks only.</small>
+					<textarea name="" rows="5" cols="100"></textarea>
+					<br>
+					<small>The following placeholders get replaced: <kbd>%TICK_NAME%</kbd> <kbd>%MINUTES_BEFORE%</kbd></small>
+				</label>
 			</fieldset>
 			<fieldset>
-				<legend>Text-to-speech</legend>
+				<legend>Text-to-speech <small>TTS</small></legend>
 				<label>
 					<input name="tts.isEnabled" type="checkbox">
 					Enable TTS

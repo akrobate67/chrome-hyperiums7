@@ -27,7 +27,40 @@ a, button {
 	cursor:pointer;
 }
 
-form nav {
+table, caption {
+	background:@ui-background;
+}
+
+table {
+	border-collapse:collapse;
+	border:@ui-border;
+	margin-bottom:1em;
+}
+
+caption {
+	border:@ui-border;
+	border-bottom:0;
+}
+
+tr:nth-child(2n) {
+	background:@ui-high-background;
+}
+
+th, td {
+	border:@ui-border;
+	border-left:0;
+	border-right:0;
+	padding-left:0.5em;
+	padding-right:0.5em;
+}
+
+td, th {
+	text-align:left;
+}
+
+form nav,
+td.fixed-width,
+th.fixed-width {
 	text-align:center;
 }
 
@@ -81,5 +114,14 @@ nav ul {
 
 nav li {
 	white-space:nowrap;
+}
+
+.checkbox-list {
+	list-style-type:none;
+	padding-left:1em;
+}
+
+.tiny-number {
+	width:4em;
 }
 
