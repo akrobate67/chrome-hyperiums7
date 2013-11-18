@@ -33,7 +33,10 @@
 			"scripts/contentscripts/events.js",
 			"scripts/contentscripts/ticks.js"
 		],
-		"css": ["styles/ticks.css"]
+		"css": [
+			"styles/ticks.css",
+			"styles/fix-layout.css"
+		]
 	}, {
 		"matches": [
 			"http://hyp2.hyperiums.com/servlet/Player",
