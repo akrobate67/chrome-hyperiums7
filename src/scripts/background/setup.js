@@ -1,6 +1,4 @@
 chrome.runtime.onInstalled.addListener(function (details) {
-	chrome.alarms.clearAll();
-
 	chrome.storage.sync.get('cfg', function (storage) {
 		function mergeObjects(a, b) {
 			var k;
