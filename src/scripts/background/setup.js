@@ -1,4 +1,6 @@
 chrome.runtime.onInstalled.addListener(function (details) {
+	chrome.storage.local.set({browserActionId: ''});
+
 	chrome.storage.sync.get('cfg', function (storage) {
 		function mergeObjects(a, b) {
 			var k;

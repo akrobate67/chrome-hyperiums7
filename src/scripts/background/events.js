@@ -173,6 +173,21 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			clearNotification('battle');
 		}
 
+		if (action) {
+			chrome.storage.local.get('browserActionId', function (storage) {
+				if (storage.browserActionId != action.id) {
+					chrome.storage.sync.get('cfg', function (storage) {
+						if (
+							storage.cfg.tts.isEnabled &&
+							storage.cfg.notifications.isTtsEnabled[action.id]
+						) {
+							chrome.tts.speak(action.title, {voiceName: storage.cfg.tts.voiceName});
+						}
+					});
+				}
+			});
+		}
+
 		setBrowserAction(action);
 		$.each(notifications, function (_, notification) {
 			notification.options.type = notification.options.type || 'basic';
