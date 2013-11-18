@@ -71,21 +71,22 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 	});
 });
 
-var ALARM_NAME = 'Hyperiums7.events';
-chrome.alarms.onAlarm.addListener(function (alarm) {
-	if (alarm.name == ALARM_NAME) {
-		$.ajax(Hyperiums7.getServletUrl('Planet?newplanetevents=')).
-			done(function (data, textStatus, jqXHR) {
-				Hyperiums7.checkHtmlForEvents(data);
-			});
-	}
-});
-
-chrome.storage.sync.get('cfg', function (storage) {
-	chrome.alarms.create(ALARM_NAME, {
-		periodInMinutes: storage.cfg.notifications.periodInMinutes
+(function (alarmName) {
+	chrome.alarms.onAlarm.addListener(function (alarm) {
+		if (alarm.name == alarmName) {
+			$.ajax(Hyperiums7.getServletUrl('Planet?newplanetevents=')).
+				done(function (data, textStatus, jqXHR) {
+					Hyperiums7.checkHtmlForEvents(data);
+				});
+		}
 	});
-});
+
+	chrome.storage.sync.get('cfg', function (storage) {
+		chrome.alarms.create(alarmName, {
+			periodInMinutes: storage.cfg.notifications.periodInMinutes
+		});
+	});
+})('Hyperiums7.events');
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	if (message.request == 'updateNotifications') {
