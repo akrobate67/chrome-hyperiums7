@@ -50,6 +50,17 @@
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/messages.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Planetfloats",
+			"http://hyp2.hyperiums.com/servlet/Planetfloats?*",
+			"http://hyp2.hyperiums.com/servlet/Floatorders",
+			"http://hyp2.hyperiums.com/servlet/Floatorders?*"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"scripts/contentscripts/fleets.js"
+		]
 	}],
 
 	"icons": {
