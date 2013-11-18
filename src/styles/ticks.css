@@ -22,3 +22,20 @@
 	white-space:nowrap;
 }
 
+#hyperiums7-ticks ul li[title] {
+	cursor:help;
+}
+
+.hyperiums7-blink {
+	-webkit-animation-name:hyperiums7-blink;
+	-webkit-animation-duration:300ms;
+	-webkit-animation-timing-function:linear;
+	-webkit-animation-iteration-count:infinite;
+}
+
+@-webkit-keyframes hyperiums7-blink {
+	0% { opacity: 1.0; }
+	50% { opacity: 0.5; }
+	100% { opacity: 1.0; }
+}
+
