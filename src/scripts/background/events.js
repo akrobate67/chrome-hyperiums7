@@ -10,6 +10,15 @@ function setBrowserAction(action) {
 	} else {
 		chrome.browserAction.setBadgeText({text: ''});
 	}
+	if (action.id) {
+		chrome.storage.sync.get('cfg', function (storage) {
+			if (storage.cfg.notifications.isBadgeOnClickEnabled) {
+				chrome.browserAction.setPopup({popup: ''});
+			}
+		});
+	} else {
+		chrome.browserAction.setPopup({popup: 'pages/popup.html'});
+	}
 }
 
 function clearNotification(notificationId) {
@@ -55,6 +64,12 @@ chrome.notifications.onClicked.addListener(function (notificationId) {
 });
 
 chrome.notifications.onButtonClicked.addListener(onButtonClicked);
+
+chrome.browserAction.onClicked.addListener(function (tab) {
+	chrome.storage.local.get('browserActionId', function (storage) {
+		onButtonClicked(storage.browserActionId, 0);
+	});
+});
 
 var ALARM_NAME = 'Hyperiums7.events';
 chrome.alarms.onAlarm.addListener(function (alarm) {

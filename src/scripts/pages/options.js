@@ -29,6 +29,7 @@ chrome.storage.sync.get('cfg', function(storage) {
 	urlPatternInput.val(cfg.external.urlPattern);
 
 	$('[name="notifications.periodInMinutes"]').val(cfg.notifications.periodInMinutes);
+	$('[name="notifications.isBadgeOnClickEnabled"]').prop('checked', cfg.notifications.isBadgeOnClickEnabled);
 
 	$('#save-and-close').click(function () {
 		$('form').data('close', true);
@@ -41,7 +42,8 @@ chrome.storage.sync.get('cfg', function(storage) {
 		cfg.auth.nickname = $('[name="auth.nickname"]').val();
 		cfg.external.isEnabled = $('[name="external.isEnabled"]').is(':checked');
 		cfg.external.urlPattern = $('[name="external.urlPattern"]').val();
-		cfg.notifications.periodInMinutes = parseFloat($('[name="notifications.perdioInMinutes"]').val());
+		cfg.notifications.periodInMinutes = parseFloat($('[name="notifications.periodInMinutes"]').val());
+		cfg.notifications.isBadgeOnClickEnabled = $('[name="notifications.isBadgeOnClickEnabled"]').is(':checked');
 		chrome.storage.sync.set({cfg: cfg}, function () {
 			alert('Options have been saved.');
 			// reload background page because of alarm setting

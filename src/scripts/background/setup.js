@@ -24,7 +24,8 @@ chrome.runtime.onInstalled.addListener(function (details) {
 				urlPattern: ''
 			},
 			notifications: {
-				periodInMinutes: 1
+				periodInMinutes: 1,
+				isBadgeOnClickEnabled: false
 			}
 		})});
 	});
