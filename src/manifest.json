@@ -28,9 +28,12 @@
 		"matches": ["http://hyp2.hyperiums.com/servlet/*"],
 		"js": [
 			"extlibs/jquery/jquery.js",
+			"extlibs/momentjs/moment.js",
 			"classes/Hyperiums7.js",
-			"scripts/contentscripts/global.js"
-		]
+			"scripts/contentscripts/events.js",
+			"scripts/contentscripts/ticks.js"
+		],
+		"css": ["styles/ticks.css"]
 	}, {
 		"matches": [
 			"http://hyp2.hyperiums.com/servlet/Player",
