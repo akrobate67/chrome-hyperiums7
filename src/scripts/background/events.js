@@ -59,7 +59,11 @@ chrome.alarms.onAlarm.addListener(function (alarm) {
 	}
 });
 
-chrome.alarms.create(ALARM_NAME, {periodInMinutes: 0.1});
+chrome.storage.sync.get('cfg', function (storage) {
+	chrome.alarms.create(ALARM_NAME, {
+		periodInMinutes: storage.cfg.notifications.periodInMinutes
+	});
+});
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	var action, notifications = [], notification;

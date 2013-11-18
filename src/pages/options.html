@@ -40,6 +40,14 @@
 					<kbd>%GAME_ID%</kbd></small>
 				</label>
 			</fieldset>
+			<fieldset>
+				<legend>Notifications</legend>
+				<label>
+					Automatically check for new events every
+					<input name="notifications.periodInMinutes" type="number" min="1" required>
+					minute(s)
+				</label>
+			</fieldset>
 			<p>
 				<button type="submit">Save options</button>
 				<button type="submit" id="save-and-close">and close window afterwards</button>

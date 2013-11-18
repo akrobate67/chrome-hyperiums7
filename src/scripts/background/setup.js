@@ -20,6 +20,9 @@ chrome.runtime.onInstalled.addListener(function (details) {
 			external: {
 				isEnabled: false,
 				urlPattern: ''
+			},
+			notifications: {
+				periodInMinutes: 1
 			}
 		})});
 	});
