@@ -12,7 +12,8 @@
 			"classes/Hyperiums7.js",
 			"scripts/background/setup.js",
 			"scripts/background/events.js",
-			"scripts/background/messages.js"
+			"scripts/background/messages.js",
+			"scripts/background/ticks.js"
 		]
 	},
 
