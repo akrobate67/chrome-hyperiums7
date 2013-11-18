@@ -1,5 +1,8 @@
 function setBrowserAction(action) {
 	action = action || {};
+	chrome.storage.local.set({
+		browserActionId: action.id
+	});
 	chrome.browserAction.setTitle({title: action.title || ''});
 	if (action.badge && action.badge.text) {
 		chrome.browserAction.setBadgeText({text: action.badge.text});
@@ -10,7 +13,11 @@ function setBrowserAction(action) {
 }
 
 function clearNotification(notificationId) {
-	setBrowserAction();
+	chrome.storage.local.get('browserActionId', function (storage) {
+		if (storage.browserActionId == notificationId) {
+			setBrowserAction();
+		}
+	});
 	chrome.notifications.clear(notificationId, function (wasCleared) {
 	});
 }
@@ -33,13 +40,13 @@ function onButtonClicked(notificationId, buttonIndex) {
 		break;
 	}
 	if (viewUrl && buttonIndex == 0) {
-		window.open(viewUrl);
 		if (!acknowledgeUrl) { // no acknowledge url means events are acknowledged on view
 			clearNotification(notificationId);
 		}
+		window.open(viewUrl);
 	} else if (acknowledgeUrl && buttonIndex == 1) {
-		window.open(acknowledgeUrl);
 		clearNotification(notificationId);
+		window.open(acknowledgeUrl);
 	}
 }
 
@@ -69,32 +76,41 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 	var action, notifications = [], notification;
 	if (message.hasForumMessage) {
 		action = {
+			id: 'forums',
 			title: 'New post(s) in alliances forums',
 			badge: {text: 'COM', color: '#3c59aa'}
 		};
 		notifications.push({
-			id: 'forums',
+			id: action.id,
 			options: {
 				title: action.title,
 				buttons: [{title: 'Click to view last 20 messages from alliances forums'}]
 			}
 		});
+	} else {
+		clearNotification('forums');
 	}
+
 	if (message.hasPersonalMessage) {
 		action = {
+			id: 'pm',
 			title: 'New personal message(s)',
 			badge: {text: 'PM', color: '#5fd077'}
 		};
 		notifications.push({
-			id: 'pm',
+			id: action.id,
 			options: {
 				title: action.title,
 				buttons: [{title: 'Click to view message(s)'}]
 			}
 		});
+	} else {
+		clearNotification('pm');
 	}
+
 	if (message.hasEvents) {
 		action = {
+			id: 'events',
 			title: message.events.length + ' new event(s)',
 			badge: {
 				text: message.events.length.toString(),
@@ -102,7 +118,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			}
 		};
 		notification = {
-			id: 'events',
+			id: action.id,
 			options: {
 				title: action.title,
 				type: 'list',
@@ -120,19 +136,25 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			});
 		});
 		notifications.push(notification);
+	} else {
+		clearNotification('events');
 	}
+
 	if (message.hasBattleReport) {
 		action = {
+			id: 'battle',
 			title: 'New battle report(s)',
 			badge: {text: 'BT', color: '#ff4444'}
 		};
 		notifications.push({
-			id: 'battle',
+			id: action.id,
 			options: {
 				title: action.title,
 				buttons: [{title: 'Click to view battle report(s)'}]
 			}
 		});
+	} else {
+		clearNotification('battle');
 	}
 
 	setBrowserAction(action);

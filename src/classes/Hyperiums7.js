@@ -65,6 +65,17 @@ var Hyperiums7 = {
 			hasForumMessage: $('[rel="forumSubmenu"].warn', doc).length == 1,
 		};
 
+		$.each({
+			hasEvents: this.getServletUrl('Planet?newplanetevents='),
+			hasBattleReport: this.getServletUrl('Player?page=Reports'),
+			hasPersonalMessage: this.getServletUrl('Player?page=Inbox'),
+			hasForumMessage: this.getServletUrl('Forum?action=lastmsg&allforums=no')
+		}, function (propName, url) {
+			if (location.href == url) {
+				message[propName] = false;
+			}
+		});
+
 		if (message.hasEvents) {
 			if ($('[name="ackallpendingevents"]', doc).length == 0) {
 				this.getNewEvents().done(function (events) {

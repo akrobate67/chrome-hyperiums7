@@ -24,6 +24,15 @@
 		"default_popup": "pages/popup.html"
 	},
 
+	"content_scripts": [{
+		"matches": ["http://hyp2.hyperiums.com/servlet/*"],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"classes/Hyperiums7.js",
+			"scripts/contentscripts/global.js"
+		]
+	}],
+
 	"icons": {
 		"16": "assets/icon_16.png",
 		"48": "assets/icon_48.png",
