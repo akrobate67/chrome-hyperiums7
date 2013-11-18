@@ -7,6 +7,7 @@ function Tick(name, atMinute, everyNthHour, startHour) {
 
 Tick.prototype.getNextDate = function (serverDate) {
 	var nextDate = new Date(serverDate);
+	nextDate.setUTCMilliseconds(0);
 	nextDate.setUTCSeconds(0);
 	nextDate.setUTCMinutes(this.atMinute);
 
