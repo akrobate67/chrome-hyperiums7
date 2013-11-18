@@ -3,10 +3,7 @@ var Hyperiums7 = {
 	getSession: function () {
 		var hyperiums = this,
 			promise = $.Deferred();
-		chrome.cookies.get({
-			url: 'http://hyp2.hyperiums.com/',
-			name: 'HypII2'
-		}, function (cookie) {
+		chrome.runtime.sendMessage({request: 'getCookie'}, function (cookie) {
 			if (cookie) {
 				var chunks = cookie.value.split('Z');
 				promise.resolveWith(hyperiums, [{
@@ -58,6 +55,7 @@ var Hyperiums7 = {
 	},
 	checkHtmlForEvents: function (html) {
 		var doc = $(html), message = {
+			request: 'updateNotifications',
 			hasEvents: $('[href="/servlet/Planet?newplanetevents="].warn', doc).length == 1,
 			events: [],
 			hasBattleReport: $('[href="/servlet/Player?page=Reports"].warn', doc).length == 1,
@@ -69,7 +67,7 @@ var Hyperiums7 = {
 			hasEvents: this.getServletUrl('Planet?newplanetevents='),
 			hasBattleReport: this.getServletUrl('Player?page=Reports'),
 			hasPersonalMessage: this.getServletUrl('Player?page=Inbox'),
-			hasForumMessage: this.getServletUrl('Forum?action=lastmsg&allforums=no')
+			hasForumMessage: this.getServletUrl('Forums?action=lastmsg&allforums=no')
 		}, function (propName, url) {
 			if (location.href == url) {
 				message[propName] = false;
@@ -106,6 +104,122 @@ var Hyperiums7 = {
 			});
 		});
 		return events;
+	},
+	getFleetsInfo: function (args) {
+		var promise = $.Deferred();
+		args = args || {};
+		args.planet == args.planet || '*';
+		args.data = args.data || 'own_planets';
+		args.request = 'getfleetsinfo';
+		this.hapi(args).done(function (pairs) {
+			var planets = [];
+			$.each(pairs, function (key, value) {
+				var i, j, keys = /^([^\.]+?)(\d+)(\.(\d+))?$/.exec(key)
+				if (keys && keys.length) {
+					key = keys[1];
+					i = parseInt(keys[2]); // planet index
+					j = parseInt(keys[4]); // fleet index
+
+					if (!planets[i]) {
+						planets[i] = {fleets: []};
+					}
+
+					switch (key) {
+					case 'nrj':
+					case 'nrjmax':
+					case 'bomb':
+					case 'carmies':
+					case 'crui':
+					case 'delay':
+					case 'dest':
+					case 'fleetid':
+					case 'frace':
+					case 'scou':
+					case 'sellprice':
+					case 'starb':
+						value = parseFloat(value);
+						break;
+					case 'stasis':
+					case 'vacation':
+					case 'autodrop':
+					case 'bombing':
+					case 'camouf':
+					case 'defend':
+						value = value == '1';
+						break;
+					}
+
+					switch (key) {
+					case 'planet': key = 'name'; break;
+					case 'bomb': key = 'numBombers'; break;
+					case 'crui': key = 'numCruisers'; break;
+					case 'dest': key = 'numDestroyers'; break;
+					case 'scou': key = 'numScouts'; break;
+					case 'starb': key = 'numStarbases'; break;
+					case 'camouf': key = 'camouflage'; break;
+					case 'carmies': key = 'numCarriedArmies'; break;
+					case 'fleetid': key = 'id'; break;
+					case 'fname': key = 'name'; break;
+					case 'frace': key = 'raceId'; break;
+					}
+
+					if (isNaN(j)) {
+						planets[i][key] = value;
+					} else {
+						if (!planets[i].fleets[j]) {
+							planets[i].fleets[j] = {};
+						}
+						planets[i].fleets[j][key] = value;
+					}
+				} else {
+					planets[key] = value;
+				}
+			});
+			promise.resolveWith(this, [planets]);
+		});
+		return promise;
+	},
+	hapi: function (args) {
+		var promise = $.Deferred();
+		this.getSession().done(function (session) {
+			args.gameid = args.gameid || session.gameId;
+			args.playerid = args.playerid || session.playerId;
+			args.authkey = args.authkey || session.authKey;
+			$.ajax({
+				url: this.getServletUrl('HAPI'),
+				data: args
+			}).done(function (data, textStatus, jqXHR) {
+				var pairs = {};
+				$.each(data.split('&'), function (_, pair) {
+					var split = pair.split('=');
+					pairs[split[0]] = split[1];
+				});
+				promise.resolveWith(this, [pairs]);
+			});
+		});
+		return promise;
+	},
+	getBattleReports: function () {
+		var promise = $.Deferred(),
+			hyperiums = this;
+		$.ajax(this.getServletUrl('Player?page=Reports')).
+			done(function (data, textStatus, jqXHR) {
+				var reports = [];
+				$('input[type=checkbox]', data).each(function (i, element) {
+					var matches;
+					element = $(element);
+					if (/^r\d+$/.test(element.attr('name'))) {
+						matches = /^(\d\d\d\d\-\d\d-\d\d \d\d:\d\d:\d\d)Planet (.+)$/.exec(element.closest('td').next().text());
+						reports.push({
+							id: parseInt(element.val()),
+							date: new Date(matches[1] + ' +00:00'),
+							planetName: matches[2]
+						});
+					}
+				});
+				promise.resolveWith(hyperiums, [reports]);
+			});
+		return promise;
 	}
 };
 

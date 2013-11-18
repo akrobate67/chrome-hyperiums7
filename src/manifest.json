@@ -6,13 +6,13 @@
 	"version": "0.0.0",
 
 	"background": {
-		"persistent": false,
 		"scripts": [
 			"extlibs/jquery/jquery.js",
 			"extlibs/momentjs/moment.js",
 			"classes/Hyperiums7.js",
 			"scripts/background/setup.js",
-			"scripts/background/events.js"
+			"scripts/background/events.js",
+			"scripts/background/messages.js"
 		]
 	},
 
@@ -30,6 +30,19 @@
 			"extlibs/jquery/jquery.js",
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/global.js"
+		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Player",
+			"http://hyp2.hyperiums.com/servlet/Player*",
+			"http://hyp2.hyperiums.com/servlet/Forums",
+			"http://hyp2.hyperiums.com/servlet/Forums*"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"extlibs/momentjs/moment.js",
+			"classes/Hyperiums7.js",
+			"scripts/contentscripts/messages.js"
 		]
 	}],
 

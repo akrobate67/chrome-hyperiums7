@@ -73,101 +73,103 @@ chrome.storage.sync.get('cfg', function (storage) {
 });
 
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-	var action, notifications = [], notification;
-	if (message.hasForumMessage) {
-		action = {
-			id: 'forums',
-			title: 'New post(s) in alliances forums',
-			badge: {text: 'COM', color: '#3c59aa'}
-		};
-		notifications.push({
-			id: action.id,
-			options: {
-				title: action.title,
-				buttons: [{title: 'Click to view last 20 messages from alliances forums'}]
-			}
-		});
-	} else {
-		clearNotification('forums');
-	}
-
-	if (message.hasPersonalMessage) {
-		action = {
-			id: 'pm',
-			title: 'New personal message(s)',
-			badge: {text: 'PM', color: '#5fd077'}
-		};
-		notifications.push({
-			id: action.id,
-			options: {
-				title: action.title,
-				buttons: [{title: 'Click to view message(s)'}]
-			}
-		});
-	} else {
-		clearNotification('pm');
-	}
-
-	if (message.hasEvents) {
-		action = {
-			id: 'events',
-			title: message.events.length + ' new event(s)',
-			badge: {
-				text: message.events.length.toString(),
-				color: '#ff4444'
-			}
-		};
-		notification = {
-			id: action.id,
-			options: {
-				title: action.title,
-				type: 'list',
-				items: [],
-				buttons: [
-					{title: 'Click to view events'},
-					{title: 'Click to acknowledge events'}
-				]
-			}
-		};
-		$.each(message.events, function (_, event) {
-			notification.options.items.push({
-				title: moment(event.date).utc().format('D/MM HH:mm'),
-				message: event.message
+	if (message.request == 'updateNotifications') {
+		var action, notifications = [], notification;
+		if (message.hasForumMessage) {
+			action = {
+				id: 'forums',
+				title: 'New post(s) in alliances forums',
+				badge: {text: 'COM', color: '#3c59aa'}
+			};
+			notifications.push({
+				id: action.id,
+				options: {
+					title: action.title,
+					buttons: [{title: 'Click to view last 20 messages from alliances forums'}]
+				}
 			});
-		});
-		notifications.push(notification);
-	} else {
-		clearNotification('events');
-	}
+		} else {
+			clearNotification('forums');
+		}
 
-	if (message.hasBattleReport) {
-		action = {
-			id: 'battle',
-			title: 'New battle report(s)',
-			badge: {text: 'BT', color: '#ff4444'}
-		};
-		notifications.push({
-			id: action.id,
-			options: {
-				title: action.title,
-				buttons: [{title: 'Click to view battle report(s)'}]
-			}
-		});
-	} else {
-		clearNotification('battle');
-	}
+		if (message.hasPersonalMessage) {
+			action = {
+				id: 'pm',
+				title: 'New personal message(s)',
+				badge: {text: 'PM', color: '#5fd077'}
+			};
+			notifications.push({
+				id: action.id,
+				options: {
+					title: action.title,
+					buttons: [{title: 'Click to view message(s)'}]
+				}
+			});
+		} else {
+			clearNotification('pm');
+		}
 
-	setBrowserAction(action);
-	$.each(notifications, function (_, notification) {
-		notification.options.type = notification.options.type || 'basic';
-		notification.options.iconUrl = '/assets/icon_48.png';
-		notification.options.message = notification.options.message || notification.options.title;
-		chrome.notifications.create(
-			notification.id,
-			notification.options,
-			function (notificationId) {
-			}
-		);
-	});
+		if (message.hasEvents) {
+			action = {
+				id: 'events',
+				title: message.events.length + ' new event(s)',
+				badge: {
+					text: message.events.length.toString(),
+					color: '#ff4444'
+				}
+			};
+			notification = {
+				id: action.id,
+				options: {
+					title: action.title,
+					type: 'list',
+					items: [],
+					buttons: [
+						{title: 'Click to view events'},
+						{title: 'Click to acknowledge events'}
+					]
+				}
+			};
+			$.each(message.events, function (_, event) {
+				notification.options.items.push({
+					title: moment(event.date).utc().format('D/MM HH:mm'),
+					message: event.message
+				});
+			});
+			notifications.push(notification);
+		} else {
+			clearNotification('events');
+		}
+
+		if (message.hasBattleReport) {
+			action = {
+				id: 'battle',
+				title: 'New battle report(s)',
+				badge: {text: 'BT', color: '#ff4444'}
+			};
+			notifications.push({
+				id: action.id,
+				options: {
+					title: action.title,
+					buttons: [{title: 'Click to view battle report(s)'}]
+				}
+			});
+		} else {
+			clearNotification('battle');
+		}
+
+		setBrowserAction(action);
+		$.each(notifications, function (_, notification) {
+			notification.options.type = notification.options.type || 'basic';
+			notification.options.iconUrl = '/assets/icon_48.png';
+			notification.options.message = notification.options.message || notification.options.title;
+			chrome.notifications.create(
+				notification.id,
+				notification.options,
+				function (notificationId) {
+				}
+			);
+		});
+	}
 });
 
