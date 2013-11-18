@@ -53,6 +53,24 @@
 					Click on extension icon opens event page when there is a new event
 				</label>
 			</fieldset>
+			<fieldset>
+				<legend>Text-to-speech</legend>
+				<label>
+					<input name="tts.isEnabled" type="checkbox">
+					Enable TTS
+					<br>
+					<small>If this is disabled there will be no TTS at all. Even if you have enabled it for e.g. ticks.</small>
+				</label>
+				<br>
+				<label>
+					Voice: <select name="tts.voiceName"></select>
+				</label>
+				<button type="button" id="test-tts">Test TTS</button>
+				<p><small>You can find additional voices in the
+				<a href="https://chrome.google.com/webstore/category/extensions" target="_blank">Chrome Web Store</a>. For example install the
+				<a href="https://chrome.google.com/webstore/detail/us-english-female-text-to/pkidpnnapnfgjhfhkpmjpbckkbaodldb" target="_blank">US English Female Test-to-speech</a>
+				voice.</small></p>
+			</fieldset>
 			<p>
 				<button type="submit">Save options</button>
 				<button type="submit" id="save-and-close">and close window afterwards</button>

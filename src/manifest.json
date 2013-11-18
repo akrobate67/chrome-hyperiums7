@@ -76,7 +76,8 @@
 		"alarms",
 		"cookies",
 		"notifications",
-		"storage"
+		"storage",
+		"tts"
 	]
 }
 

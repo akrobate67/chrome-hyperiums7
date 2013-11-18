@@ -24,6 +24,10 @@ chrome.runtime.onInstalled.addListener(function (details) {
 			notifications: {
 				periodInMinutes: 1,
 				isBadgeOnClickEnabled: false
+			},
+			tts: {
+				isEnabled: false,
+				voiceName: 'native'
 			}
 		})});
 	});

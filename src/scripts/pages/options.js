@@ -31,6 +31,35 @@ chrome.storage.sync.get('cfg', function(storage) {
 	$('[name="notifications.periodInMinutes"]').val(cfg.notifications.periodInMinutes);
 	$('[name="notifications.isBadgeOnClickEnabled"]').prop('checked', cfg.notifications.isBadgeOnClickEnabled);
 
+	var voiceNameSelect = $('[name="tts.voiceName"]');
+	chrome.tts.getVoices(function (voices) {
+		voices.sort(function (a, b) {
+			return a.voiceName.localeCompare(b.voiceName);
+		});
+		$.each(voices, function (_, voice) {
+			voiceNameSelect.append($('<option>').text(voice.voiceName));
+		});
+		voiceNameSelect.val(cfg.tts.voiceName);
+	});
+
+	$('[name="tts.isEnabled"]').
+		prop('checked', cfg.tts.isEnabled).
+		change(function () {
+			var isChecked = $(this).is(':checked');
+			voiceNameSelect.prop({
+				disabled: !isChecked,
+				required: isChecked
+			});
+			$('#test-tts').prop({
+				disabled: !isChecked
+			});
+		}).change();
+
+	$('#test-tts').click(function (event) {
+		var voiceName = voiceNameSelect.val();
+		chrome.tts.speak(voiceName, {voiceName: voiceName});
+	});
+
 	$('#save-and-close').click(function () {
 		$('form').data('close', true);
 	});
@@ -44,6 +73,8 @@ chrome.storage.sync.get('cfg', function(storage) {
 		cfg.external.urlPattern = $('[name="external.urlPattern"]').val();
 		cfg.notifications.periodInMinutes = parseFloat($('[name="notifications.periodInMinutes"]').val());
 		cfg.notifications.isBadgeOnClickEnabled = $('[name="notifications.isBadgeOnClickEnabled"]').is(':checked');
+		cfg.tts.isEnabled = $('[name="tts.isEnabled"]').is(':checked');
+		cfg.tts.voiceName = $('[name="tts.voiceName"]').val();
 		chrome.storage.sync.set({cfg: cfg}, function () {
 			alert('Options have been saved.');
 			// reload background page because of alarm setting
