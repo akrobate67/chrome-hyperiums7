@@ -2,34 +2,25 @@ chrome.storage.sync.get('cfg', function(storage) {
 	var cfg = storage.cfg;
 
 	var nicknameInput = $('[name="auth.nickname"]');
-	$('[name="auth.remember"]').
-		prop('checked', cfg.auth.remember).
-		change(function () {
-			var isChecked = $(this).is(':checked');
-			nicknameInput.prop({
-				disabled: !isChecked,
-				required: isChecked
-			});
-			if (!isChecked) {
-				nicknameInput.val('');
-			}
-		}).change();
-	nicknameInput.val(cfg.auth.nickname);
+	$('[name="auth.remember"]').change(function () {
+		var isChecked = $(this).is(':checked');
+		nicknameInput.prop({
+			disabled: !isChecked,
+			required: isChecked
+		});
+		if (!isChecked) {
+			nicknameInput.val('');
+		}
+	});
 
 	var urlPatternInput = $('[name="external.urlPattern"]');
-	$('[name="external.isEnabled"]').
-		prop('checked', cfg.external.isEnabled).
-		change(function () {
-			var isChecked = $(this).is(':checked');
-			urlPatternInput.prop({
-				disabled: !isChecked,
-				required: isChecked
-			});
-		}).change();
-	urlPatternInput.val(cfg.external.urlPattern);
-
-	$('[name="notifications.periodInMinutes"]').val(cfg.notifications.periodInMinutes);
-	$('[name="notifications.isBadgeOnClickEnabled"]').prop('checked', cfg.notifications.isBadgeOnClickEnabled);
+	$('[name="external.isEnabled"]').change(function () {
+		var isChecked = $(this).is(':checked');
+		urlPatternInput.prop({
+			disabled: !isChecked,
+			required: isChecked
+		});
+	});
 
 	var voiceNameSelect = $('[name="tts.voiceName"]');
 	chrome.tts.getVoices(function (voices) {
@@ -42,18 +33,16 @@ chrome.storage.sync.get('cfg', function(storage) {
 		voiceNameSelect.val(cfg.tts.voiceName);
 	});
 
-	$('[name="tts.isEnabled"]').
-		prop('checked', cfg.tts.isEnabled).
-		change(function () {
-			var isChecked = $(this).is(':checked');
-			voiceNameSelect.prop({
-				disabled: !isChecked,
-				required: isChecked
-			});
-			$('#test-tts').prop({
-				disabled: !isChecked
-			});
-		}).change();
+	$('[name="tts.isEnabled"]').change(function () {
+		var isChecked = $(this).is(':checked');
+		voiceNameSelect.prop({
+			disabled: !isChecked,
+			required: isChecked
+		});
+		$('#test-tts').prop({
+			disabled: !isChecked
+		});
+	});
 
 	var ticksTBody = $('#ticks tbody');
 	$.each(Hyperiums7.ticks, function (_, tick) {
@@ -100,21 +89,76 @@ chrome.storage.sync.get('cfg', function(storage) {
 		chrome.tts.speak(voiceName, {voiceName: voiceName});
 	});
 
+	$('#test-tick-tts').click(function (event) {
+		var voiceName = voiceNameSelect.val();
+		var text = $('[name="notifications.ticks.ttsPattern"]').val().
+			replace('%TICK_NAME%', 'Battle').
+			replace('%MINUTES_BEFORE%', 5);
+		chrome.tts.speak(text, {voiceName: voiceName});
+	});
+
 	$('#save-and-close').click(function () {
 		$('form').data('close', true);
 	});
 
+	function setElementValues(values, parentKey) {
+		$.each(values, function (key, value) {
+			if (parentKey) {
+				key = parentKey + '.' + key;
+			}
+			if (typeof value == 'object') {
+				setElementValues(value, key);
+			} else {
+				var element = $('[name="' + key + '"]');
+				if (typeof value == 'boolean') {
+					element.prop('checked', value).change();
+				} else {
+					element.val(value);
+				}
+			}
+		});
+	}
+	setElementValues(cfg);
+
+	function setConfigValue(key, value) {
+		var parentCfg = cfg,
+			keys = key.split('.'),
+			lastKeyIndex = keys.length - 1;
+
+		$.each(keys, function (i, key) {
+			if (lastKeyIndex == i) {
+				if (typeof parentCfg[key] == 'boolean') {
+					parentCfg[key] = value;
+				} else if (typeof parentCfg[key] == 'number') {
+					parentCfg[key] = parseFloat(value);
+				} else if (typeof parentCfg[key] == 'string') {
+					parentCfg[key] = '' + value;
+				}
+				return;
+			}
+
+			if (parentCfg[key] === undefined) {
+				parentCfg[key] = {};
+			}
+			parentCfg = parentCfg[key];
+		});
+	}
+
 	$('form').submit(function (event) {
 		event.preventDefault();
 		var form = $(this);
-		cfg.auth.remember = $('[name="auth.remember"]').is(':checked');
-		cfg.auth.nickname = $('[name="auth.nickname"]').val();
-		cfg.external.isEnabled = $('[name="external.isEnabled"]').is(':checked');
-		cfg.external.urlPattern = $('[name="external.urlPattern"]').val();
-		cfg.notifications.periodInMinutes = parseFloat($('[name="notifications.periodInMinutes"]').val());
-		cfg.notifications.isBadgeOnClickEnabled = $('[name="notifications.isBadgeOnClickEnabled"]').is(':checked');
-		cfg.tts.isEnabled = $('[name="tts.isEnabled"]').is(':checked');
-		cfg.tts.voiceName = $('[name="tts.voiceName"]').val();
+
+		$('input[name], select[name], textarea[name]').each(function (_, element) {
+			element = $(element);
+			var value;
+			if (element.attr('type') == 'checkbox') {
+				value = element.is(':checked');
+			} else {
+				value = element.val();
+			}
+			setConfigValue(element.attr('name'), value);
+		});
+
 		chrome.storage.sync.set({cfg: cfg}, function () {
 			alert('Options have been saved.');
 			// reload background page because of alarm setting

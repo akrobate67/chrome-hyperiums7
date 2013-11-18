@@ -5,7 +5,7 @@ chrome.runtime.onInstalled.addListener(function (details) {
 			for (k in b) {
 				if (typeof a[k] == 'undefined') {
 					a[k] = b[k];
-				} else {
+				} else if (typeof b[k] == 'object') {
 					mergeObjects(a[k], b[k]);
 				}
 			}
@@ -23,7 +23,53 @@ chrome.runtime.onInstalled.addListener(function (details) {
 			},
 			notifications: {
 				periodInMinutes: 1,
-				isBadgeOnClickEnabled: false
+				isBadgeOnClickEnabled: false,
+				isTtsEnabled: {
+					battle: false,
+					events: false,
+					forums: false,
+					pm: false
+				},
+				tick: {
+					Build: {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					},
+					Battle: {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					},
+					Cash: {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					},
+					Energy: {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					},
+					'Move/Control': {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					},
+					'N/A': {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					},
+					Tech: {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					}
+				},
+				ticks: {
+					ttsPattern: '%TICK_NAME% tick in %MINUTES_BEFORE% minutes.'
+				}
 			},
 			tts: {
 				isEnabled: false,
