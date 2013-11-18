@@ -33,7 +33,7 @@ ticks.sort(function (a, b) {
 		} else if (msUntilNextDate < 600000) { // 10 minutes
 			li.addClass('hlight');
 		}
-		ul.append(li);
+		ul.append([' ', li]);
 	});
 	div.append(ul);
 
