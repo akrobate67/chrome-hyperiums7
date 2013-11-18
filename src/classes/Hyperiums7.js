@@ -1,3 +1,26 @@
+function Tick(name, atMinute, everyNthHour, startHour) {
+	this.name = name;
+	this.atMinute = atMinute;
+	this.everyNthHour = everyNthHour || 1;
+	this.startHour = startHour || 0;
+}
+
+Tick.prototype.getNextDate = function (serverDate) {
+	var nextDate = new Date(serverDate);
+	nextDate.setUTCSeconds(0);
+	nextDate.setUTCMinutes(this.atMinute);
+
+	if (serverDate.getUTCMinutes() >= this.atMinute) {
+		nextDate.setUTCHours(nextDate.getUTCHours() + 1);
+	}
+
+	var h = (nextDate.getUTCHours() + 24 - this.startHour) % this.everyNthHour;
+	if (this.everyNthHour > 1 && h) {
+		nextDate.setUTCHours(nextDate.getUTCHours() + this.everyNthHour - h);
+	}
+	return nextDate;
+};
+
 var Hyperiums7 = {
 	NAME: 'Hyperiums7',
 	getSession: function () {
@@ -220,6 +243,17 @@ var Hyperiums7 = {
 				promise.resolveWith(hyperiums, [reports]);
 			});
 		return promise;
-	}
+	},
+	ticks: [
+		new Tick('Build', 23),
+		new Tick('Cash', 31, 8, 6),
+		new Tick('Move/Control', 26),
+		new Tick('Tech', 18),
+		new Tick('N/A', 6),
+		new Tick('Battle', 6, 2),
+		new Tick('Energy', 18)
+	].sort(function (a, b) {
+		return a.name.localeCompare(b.name);
+	})
 };
 
