@@ -26,13 +26,13 @@ define(function (require) {
 			return 'http://hyp2.hyperiums.com/servlet/' + servlet;
 		},
 		getLogoutUrl: function () {
-			return this.getServletUrl('Logout') + '?logout_mode=&logout=Logout';
+			return this.getServletUrl('Logout?logout_mode=&logout=Logout');
 		},
 		getRegisterUrl: function () {
-			return this.getServletUrl('Login') + '?creationform&defaultgame=3';
+			return this.getServletUrl('Login?creationform&defaultgame=3');
 		},
 		getLostPasswordUrl: function () {
-			return this.getServletUrl('Login') + '?lostpassword';
+			return this.getServletUrl('Login?lostpassword');
 		},
 		login: function (login, password) {
 			var hyperiums = this,
@@ -46,43 +46,57 @@ define(function (require) {
 					lang: 0
 				},
 				type: 'post'
-			}).
+			}).done(function (data, textStatus, jqXHR) {
+				var errorMessage = $(data).find('.alert').text();
+				if (errorMessage == '') {
+					hyperiums.getSession().done(function (session) {
+						promise.resolveWith(hyperiums, [session]);
+					});
+				} else {
+					promise.rejectWith(hyperiums, [errorMessage]);
+				}
+			});
+			return promise;
+		},
+		checkHtmlForEvents: function (html) {
+			var doc = $(html), message = {
+				hasEvents: $('[href="/servlet/Planet?newplanetevents="].warn', doc).length == 1,
+				events: [],
+				hasBattleReport: $('[href="/servlet/Player?page=Reports"].warn', doc).length == 1,
+				hasPersonalMessage: $('[rel="playerSubmenu"].warn', doc).length == 1,
+				hasForumMessage: $('[rel="forumSubmenu"].warn', doc).length == 1,
+			};
+
+			if (message.hasEvents) {
+				if ($('[name="ackallpendingevents"]', doc).length == 0) {
+					this.getNewEvents().done(function (events) {
+						message.events = events;
+						chrome.runtime.sendMessage(message);
+					});
+					return;
+				}
+				message.events = this.getEventsFromHtml(html);
+			}
+			chrome.runtime.sendMessage(message);
+		},
+		getNewEvents: function () {
+			var hyperiums = this,
+				promise = $.Deferred();
+			$.ajax(this.getServletUrl('Planet?newplanetevents=')).
 				done(function (data, textStatus, jqXHR) {
-					var errorMessage = $(data).find('.alert').text();
-					if (errorMessage == '') {
-						hyperiums.getSession().done(function (session) {
-							promise.resolveWith(this, [session]);
-						});
-					} else {
-						promise.rejectWith(this, [errorMessage]);
-					}
+					promise.resolveWith(hyperiums, [hyperiums.getEventsFromHtml(data)]);
 				});
 			return promise;
 		},
-		getNewEvents: function () {
-			var promise = $.Deferred();
-			$.ajax({
-				url: this.getServletUrl('Planet'),
-				data: {
-					newplanetevents: ''
-				}
-			}).
-				done(function (data, textStatus, jqXHR) {
-					var doc = $(data), events = [];
-					$('.tinytext', doc).each(function () {
-						events.push({
-							date: new Date($(this).text() + ' +00:00'),
-							message: $(this).next().text().replace(/^System message: /, '')
-						});
-					});
-					promise.resolveWith(this, [{
-						events: events,
-						hasBattleReport: $('[href="/servlet/Player?page=Reports"].warn', doc).length == 1,
-						hasPersonalMessage: $('[rel="playerSubmenu"].warn', doc).length == 1,
-						hasForumMessage: $('[rel="forumSubmenu"].warn', doc).length == 1,
-					}]);
+		getEventsFromHtml: function (html) {
+			var doc = $(html), events = [];
+			$('.tinytext', doc).each(function () {
+				events.push({
+				date: new Date($(this).text() + ' +00:00'),
+				message: $(this).next().text().replace(/^System message: /, '')
 				});
-			return promise;
+			});
+			return events;
 		}
 	};
 });
