@@ -62,6 +62,16 @@
 			"extlibs/jquery/jquery.js",
 			"scripts/contentscripts/fleets.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Maps",
+			"http://hyp2.hyperiums.com/servlet/Maps?*"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"extlibs/momentjs/moment.js",
+			"scripts/contentscripts/maps.js"
+		]
 	}],
 
 	"icons": {
