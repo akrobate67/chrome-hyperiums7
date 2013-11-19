@@ -94,7 +94,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		if (message.hasForumMessage) {
 			action = {
 				id: 'forums',
-				title: 'New post(s) in alliances forums',
+				title: 'New post in alliances forums',
 				badge: {text: 'COM', color: '#3c59aa'}
 			};
 			notifications.push({
@@ -111,14 +111,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		if (message.hasPersonalMessage) {
 			action = {
 				id: 'pm',
-				title: 'New personal message(s)',
+				title: 'New personal message',
 				badge: {text: 'PM', color: '#5fd077'}
 			};
 			notifications.push({
 				id: action.id,
 				options: {
 					title: action.title,
-					buttons: [{title: 'Click to view message(s)'}]
+					buttons: [{title: 'Click to view message'}]
 				}
 			});
 		} else {
@@ -128,7 +128,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		if (message.hasEvents) {
 			action = {
 				id: 'events',
-				title: message.events.length + ' new event(s)',
+				title: message.events.length + ' new events',
 				badge: {
 					text: message.events.length.toString(),
 					color: '#ff4444'
@@ -160,14 +160,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		if (message.hasBattleReport) {
 			action = {
 				id: 'battle',
-				title: 'New battle report(s)',
+				title: 'New battle report',
 				badge: {text: 'BT', color: '#ff4444'}
 			};
 			notifications.push({
 				id: action.id,
 				options: {
 					title: action.title,
-					buttons: [{title: 'Click to view battle report(s)'}]
+					buttons: [{title: 'Click to view battle report'}]
 				}
 			});
 		} else {
