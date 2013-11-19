@@ -114,7 +114,7 @@
 			$('<td class="hr">').append([
 				stats['Agro'], ' A<br>',
 				stats['Minero'], ' M<br>',
-				stats['Techno'], 'T'
+				stats['Techno'], ' T'
 			]),
 			$('<td class="hr">').append([
 				numeral(stats.activity.min).format('0,0'), '<br>',
@@ -127,7 +127,11 @@
 				numeral(stats.freeCapacity.total).format('0,0'), '<br>',
 				numeral(stats.freeCapacity.max).format('0,0')
 			])
-		]);
+		]).mouseover(function () {
+			$(this).addClass('lineCenteredOn');
+		}).mouseout(function () {
+			$(this).removeClass('lineCenteredOn');
+		});
 	}
 
 	$.each([
