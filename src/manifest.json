@@ -70,6 +70,7 @@
 		"js": [
 			"extlibs/jquery/jquery.js",
 			"extlibs/momentjs/moment.js",
+			"extlibs/numeraljs/numeral.js",
 			"scripts/contentscripts/maps.js"
 		]
 	}],
