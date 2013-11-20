@@ -47,7 +47,7 @@
 				productName: tds.eq(7).text(),
 				activity: parseInt(tds.eq(8).text().replace(',', '')) || 0,
 				freeCapacity: parseInt(tds.eq(9).text().replace(',', '')) || 0,
-				isBlackholed: tr.hasClass('alertLight')
+				blackholed: tr.hasClass('alertLight')
 			};
 
 		if (planet.raceName == '') {

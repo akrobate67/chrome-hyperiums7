@@ -56,10 +56,14 @@
 			"http://hyp2.hyperiums.com/servlet/Planetfloats",
 			"http://hyp2.hyperiums.com/servlet/Planetfloats?*",
 			"http://hyp2.hyperiums.com/servlet/Floatorders",
-			"http://hyp2.hyperiums.com/servlet/Floatorders?*"
+			"http://hyp2.hyperiums.com/servlet/Floatorders?*",
+			"http://hyp2.hyperiums.com/servlet/Fleets",
+			"http://hyp2.hyperiums.com/servlet/Fleets?*"
 		],
 		"js": [
 			"extlibs/jquery/jquery.js",
+			"extlibs/momentjs/moment.js",
+			"extlibs/numeraljs/numeral.js",
 			"scripts/contentscripts/fleets.js"
 		]
 	}, {

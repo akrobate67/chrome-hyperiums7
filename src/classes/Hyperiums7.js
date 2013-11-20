@@ -132,7 +132,7 @@ var Hyperiums7 = {
 	getFleetsInfo: function (args) {
 		var promise = $.Deferred();
 		args = args || {};
-		args.planet == args.planet || '*';
+		args.planet = args.planet || '*';
 		args.data = args.data || 'own_planets';
 		args.request = 'getfleetsinfo';
 		this.hapi(args).done(function (pairs) {
@@ -158,11 +158,13 @@ var Hyperiums7 = {
 					case 'dest':
 					case 'fleetid':
 					case 'frace':
+					case 'garmies':
 					case 'scou':
 					case 'sellprice':
 					case 'starb':
 						value = parseFloat(value);
 						break;
+					case 'isneutral':
 					case 'stasis':
 					case 'vacation':
 					case 'autodrop':
@@ -171,10 +173,17 @@ var Hyperiums7 = {
 					case 'defend':
 						value = value == '1';
 						break;
+					case 'planet':
+					case 'fname':
+					case 'owner':
+						break;
+					default:
+						throw 'unkown key ' + key + ' (' + value + ')';
 					}
 
 					switch (key) {
 					case 'planet': key = 'name'; break;
+					case 'isneutral': key = 'neutral'; break;
 					case 'bomb': key = 'numBombers'; break;
 					case 'crui': key = 'numCruisers'; break;
 					case 'dest': key = 'numDestroyers'; break;
@@ -185,6 +194,7 @@ var Hyperiums7 = {
 					case 'fleetid': key = 'id'; break;
 					case 'fname': key = 'name'; break;
 					case 'frace': key = 'raceId'; break;
+					case 'garmies': key = 'numGroundArmies'; break;
 					}
 
 					if (isNaN(j)) {
@@ -255,6 +265,180 @@ var Hyperiums7 = {
 		new Tick('Energy', 18)
 	].sort(function (a, b) {
 		return a.name.localeCompare(b.name);
-	})
+	}),
+	races: ['Human', 'Azterk', 'Xillor'],
+	products: ['Agro', 'Minero', 'Techno'],
+	governments: ['Dictatorial', 'Authoritarian', 'Democratic', 'Hyperiums Protectorate'],
+	govs: ['Dict.', 'Auth.', 'Demo.', 'Hyp.'],
+	units: ['Factories', 'Destroyers', 'Cruisers', 'Scouts', 'Bombers', 'Starbases'],
+	spaceAveragePower: [
+		// [Human, Azterk, Xillor]
+		[0, 0, 0], // Factories
+		[56, 73, 67], // Destroyers
+		[319, 393, 475], // Cruisers
+		[8, 6, 7], // Scouts
+		[66, 85, 105], // Bombers
+		[2583, 2583, 2583] // Starbases
+	],
+	// [Human, Azterk, Xillor]
+	groundAveragePower: [300, 360, 240],
+	upkeepCosts: [
+		// [Human, Azterk, Xillor]
+		[1800, 1900, 2100], // Factories
+		[1000, 1000, 1000], // Destroyers
+		[7200, 7200, 7200], // Cruisers
+		[150, 150, 150], // Scouts
+		[1000, 1000, 1000], // Bombers
+		[100000, 100000, 100000], // Starbases
+		[2000, 2000, 2000], // Ground Armies
+		[3000, 3000, 3000] // Carries Armies
+	],
+	buildCosts: [
+		// [Agro, Minero, Techno]
+		[40000, 40000, 40000], // Factories
+		[10000, 8500, 7500], // Destroyers
+		[60000, 51000, 45000], // Cruisers
+		[1500, 1275, 1125], // Scouts
+		[25000, 21250, 18750], // Bombers
+		[2000000, 1700000, 1500000] // Starbases
+	],
+	timeToBuild: [ // ticks with 1 factorie, no stasis
+		// [Human, Azterk, Xillor]
+		[11, 12, 13], // Factories
+		[4, 8.08, 13], // Destroyers
+		[25, 50, 85], // Cruiseres
+		[1, 1, 2], // Scouts
+		[5, 7, 10], // Bombers
+		[0, 0, 0] // Starbases
+	],
+	timeToBuildMultiplier: {
+		// [Dict., Auth., Demo.]
+		governments: [0.8, 1, 1],
+		// [Agro, Minero, Techno
+		products: [1, 1, 0.85],
+		// [off, on]
+		stasis: [1, 3]
+	},
+	getPlanetInfo: function (args) {
+		var promise = $.Deferred();
+		args = args || {};
+		args.planet = args.planet || '*';
+		args.data = args.data || 'general';
+		args.request = 'getplanetinfo';
+		this.hapi(args).done(function (pairs) {
+			var planets = []
+			planets.ids = [];
+			$.each(pairs, function (key, value) {
+				var i, keys = /^(.+?)_?(\d+)$/.exec(key);
+				if (keys && keys.length) {
+					key = keys[1];
+					i = parseInt(keys[2]);
+
+					if (!planets[i]) {
+						planets[i] = {};
+					}
+
+					switch (key) {
+					case 'activity':
+					case 'block':
+					case 'civlevel':
+					case 'defbonus':
+					case 'ecomark':
+					case 'expinpipe':
+					case 'exploits':
+					case 'factories':
+					case 'gov':
+					case 'govd':
+					case 'nexus':
+					case 'nrj':
+					case 'nrjmax':
+					case 'nxbuild':
+					case 'nxbtot':
+					case 'orbit':
+					case 'planetid':
+					case 'pop':
+					case 'ptype':
+					case 'purif':
+					case 'race':
+					case 'sc':
+					case 'size':
+					case 'tax':
+					case 'x':
+					case 'y':
+						value = parseFloat(value);
+						break;
+					case 'bhole':
+					case 'stasis':
+					case 'parano':
+						value = value == '1';
+						break;
+					case 'planet':
+					case 'publictag':
+					case 'tag1':
+					case 'tag2':
+						break;
+					default:
+						throw 'unkown key ' + key + ' (' + value + ')';
+					}
+
+					switch (key) {
+					case 'bhole': key = 'blackholed'; break;
+					case 'civlevel': key = 'civ'; break;
+					case 'ecomark': key = 'eco'; break;
+					case 'expinpipe': key = 'numExploitsInPipe'; break;
+					case 'exploits': key = 'numExploits'; break;
+					case 'factories': key = 'numFactories'; break;
+					case 'gov': key = 'governmentId'; break;
+					case 'govd': key = 'governmentDaysLeft'; break;
+					case 'planet': key = 'name'; break;
+					case 'planetid': key = 'id'; break;
+					case 'ptype': key = 'productId'; break;
+					case 'publictag': key = 'tag'; break;
+					case 'purif': key = 'purificationHoursLeft'; break;
+					case 'race': key = 'raceId'; break;
+					}
+
+					planets[i][key] = value;
+					if (key == 'id') {
+						planets.ids[value] = planets[i];
+					}
+				} else {
+					planets[key] = value;
+				}
+			});
+			promise.resolveWith(this, [planets]);
+		});
+		return promise;
+	},
+	getBuildPipeTotals: function (pipe, planet) {
+		var totals = {
+			timeToBuild: 0,
+			upkeepCosts: 0,
+			buildCosts: 0,
+			spaceAveragePower: 0
+		},
+			multiplier =
+				this.timeToBuildMultiplier.governments[planet.governmentId] *
+				this.timeToBuildMultiplier.products[planet.productId] *
+				this.timeToBuildMultiplier.stasis[planet.stasis ? 1 : 0],
+			numFactories = planet.numFactories,
+			raceId = planet.raceId,
+			productId = planet.productId,
+			hyperiums = this;
+		$.each(pipe, function (_, order) {
+			totals.timeToBuild += order.count * multiplier / numFactories *
+				hyperiums.timeToBuild[order.unitId][raceId];
+			totals.upkeepCosts += order.count *
+				hyperiums.upkeepCosts[order.unitId][raceId];
+			totals.buildCosts += order.count *
+				hyperiums.buildCosts[order.unitId][productId];
+			totals.spaceAveragePower += order.count *
+				hyperiums.spaceAveragePower[order.unitId][productId];
+			if (order.unitId == hyperiums.units.indexOf('Factories')) {
+				numFactories += order.count;
+			}
+		});
+		return totals;
+	}
 };
 
