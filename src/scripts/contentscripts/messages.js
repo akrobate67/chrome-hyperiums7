@@ -31,7 +31,7 @@ $('input[name="subject"]').keydown(function (event) {
 });
 
 var ownOptGroup, foreignOptGroup, brSelect;
-$('textarea').each(function (i, element) {
+$('textarea[name="msg"], textarea[name="message"]').each(function (i, element) {
 	var textarea = $(element);
 	textarea.before([
 		$('<button tabindex="100" type="button" style="text-weight:bold" title="Bold">B</button>').click(function () {
