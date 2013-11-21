@@ -32,7 +32,8 @@
 			"extlibs/momentjs/moment.js",
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/events.js",
-			"scripts/contentscripts/ticks.js"
+			"scripts/contentscripts/ticks.js",
+			"scripts/contentscripts/menu.js"
 		],
 		"css": [
 			"styles/ticks.css",
@@ -64,6 +65,7 @@
 			"extlibs/jquery/jquery.js",
 			"extlibs/momentjs/moment.js",
 			"extlibs/numeraljs/numeral.js",
+			"classes/moment.js",
 			"scripts/contentscripts/fleets.js"
 		]
 	}, {
@@ -94,6 +96,10 @@
 		"notifications",
 		"storage",
 		"tts"
+	],
+
+	"web_accessible_resources": [
+		"pages/fleetcalc.html"
 	]
 }
 
