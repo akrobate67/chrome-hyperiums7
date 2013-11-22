@@ -79,6 +79,14 @@
 			"extlibs/numeraljs/numeral.js",
 			"scripts/contentscripts/maps.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Trading?globalexploit="
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"scripts/contentscripts/explomgr.js"
+		]
 	}],
 
 	"icons": {
