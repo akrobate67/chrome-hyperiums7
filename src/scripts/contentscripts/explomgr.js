@@ -1,4 +1,4 @@
-$('#stdArray td:nth-child(4)').append(
+$('form #stdArray td:nth-child(4)').append(
 	$('<input maxlength="4" size="4">').
 		keydown(function (event) {
 			if (event.which == 13) {
