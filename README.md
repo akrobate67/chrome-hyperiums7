@@ -23,6 +23,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 ## Installation
 
 There are two methods to install the extension:
+
 1. Install unpacked version
 2. Install packaged version
 
