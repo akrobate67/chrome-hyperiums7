@@ -53,6 +53,7 @@
 
 	chrome.storage.sync.get('cfg', function (storage) {
 		chrome.alarms.create(alarmName, {
+			delayInMinutes: 0,
 			periodInMinutes: storage.cfg.notifications.periodInMinutes
 		});
 	});
