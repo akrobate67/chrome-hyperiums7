@@ -125,6 +125,8 @@
 		"128": "assets/icon_128.png"
 	},
 
+	"homepage_url": "https://github.com/resident-uhlig/chrome-hyperiums7",
+
 	"options_page": "pages/options.html",
 
 	"permissions": [
