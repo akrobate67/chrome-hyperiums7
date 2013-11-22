@@ -18,17 +18,17 @@
 						localStorageName = 'tick.' + tick.name + '.nextDate',
 						notificationId = 'tick.' + tick.name;
 
-					chrome.storage.local.get(localStorageName, function (storage) {
-						if (nextDate.getTime() == storage[localStorageName]) {
-							return;
-						} else {
-							storage[localStorageName] = nextDate.getTime();
-							chrome.storage.local.set(storage);
-							chrome.notifications.clear(notificationId, function (wasCleared) {
-							});
-						}
+					if (minutesBefore < tickCfg.minutesBefore) {
+						chrome.storage.local.get(localStorageName, function (storage) {
+							if (nextDate.getTime() == storage[localStorageName]) {
+								return;
+							} else {
+								storage[localStorageName] = nextDate.getTime();
+								chrome.storage.local.set(storage);
+								chrome.notifications.clear(notificationId, function (wasCleared) {
+								});
+							}
 
-						if (minutesBefore < tickCfg.minutesBefore) {
 							if (tickCfg.isEnabled) {
 								chrome.notifications.create(notificationId, {
 									title: text,
@@ -44,8 +44,8 @@
 									enqueue: true
 								});
 							}
-						}
-					});
+						});
+					}
 				});
 			});
 		}
