@@ -424,19 +424,26 @@ var Hyperiums7 = {
 			numFactories = planet.numFactories,
 			raceId = planet.raceId,
 			productId = planet.productId,
+			factoryUnitId = this.units.indexOf('Factories'),
 			hyperiums = this;
+
 		$.each(pipe, function (_, order) {
-			totals.timeToBuild += order.count * multiplier / numFactories *
-				hyperiums.timeToBuild[order.unitId][raceId];
+			if (order.unitId == factoryUnitId) {
+				totals.timeToBuild += multiplier *
+					Math.log((order.count + numFactories) / numFactories) /
+					Math.log(1 + 1 / hyperiums.timeToBuild[order.unitId][raceId]);
+				numFactories += order.count;
+			} else {
+				totals.timeToBuild += order.count * multiplier / numFactories *
+					hyperiums.timeToBuild[order.unitId][raceId];
+			}
+
 			totals.upkeepCosts += order.count *
 				hyperiums.upkeepCosts[order.unitId][raceId];
 			totals.buildCosts += order.count *
 				hyperiums.buildCosts[order.unitId][productId];
 			totals.spaceAveragePower += order.count *
 				hyperiums.spaceAveragePower[order.unitId][productId];
-			if (order.unitId == hyperiums.units.indexOf('Factories')) {
-				numFactories += order.count;
-			}
 		});
 		return totals;
 	}
