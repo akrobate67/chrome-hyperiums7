@@ -15,6 +15,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Buttons for \<b>, \<i>, [\*FL=] and [\*BR=] for personal messages and forum messages
 - Live ticks at the bottom of each page
 - "Merge All" and "Load All" buttons on planet's military page
+- Auto Complete for planet names in fleet movement forms
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)

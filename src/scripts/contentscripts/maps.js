@@ -30,37 +30,10 @@
 	}
 
 	var stats = createEmptyStats('Total'),
-		tagIndex = {},
-		table = $('table.stdArray');
+		tagIndex = {};
 
 	stats.tags = [];
-	table.find('tr:not(.stdArray)').each(function (_, element) {
-		var tr = $(element),
-			tds = tr.find('td'),
-			planet = {
-				name: $.trim(tds.eq(0).text().replace(/^@/, '')),
-				tag: tds.eq(1).text(),
-				civ: parseInt(tds.eq(3).text()),
-				govName: tds.eq(4).text(),
-				raceName: tds.eq(5).text(),
-				distance: parseInt(tds.eq(6).text()),
-				productName: tds.eq(7).text(),
-				activity: parseInt(tds.eq(8).text().replace(',', '')) || 0,
-				freeCapacity: parseInt(tds.eq(9).text().replace(',', '')) || 0,
-				blackholed: tr.hasClass('alertLight')
-			};
-
-		if (planet.raceName == '') {
-			planet.raceName = tds.eq(5).find('img').attr('src').
-				replace(/^.*_(.*)\.gif$/, '$1');
-		}
-
-		var coords = /^(SC\d+)?\((-?\d+),(-?\d+)\)$/i.exec(tds.eq(2).text());
-		if (coords.length) {
-			planet.x = parseInt(coords[2]);
-			planet.y = parseInt(coords[3]);
-		}
-
+	$.each(Hyperiums7.getPlanetsFromTradingMap(document), function (_, planet) {
 		if (!tagIndex[planet.tag]) {
 			tagIndex[planet.tag] = stats.tags.push(createEmptyStats(planet.tag)) - 1;
 		}
@@ -147,6 +120,6 @@
 		}
 	});
 
-	table.append(tfoot);
+	$('table.stdArray').append(tfoot);
 })();
 

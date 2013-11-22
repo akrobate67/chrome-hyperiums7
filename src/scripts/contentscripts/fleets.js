@@ -73,3 +73,20 @@ $('.movingFleetGroupTitle + tr img[src$="fleetarmy_icon.gif"]').
 		]);
 	});
 
+$('[name="destplanetname"], [name="toplanet"], [name="destname"]').
+	autocomplete({
+		source: function (request, sendResponse) {
+			Hyperiums7.searchPlanet(request.term).
+				done(function (planets) {
+					var names = [];
+					$.each(planets, function (_, planet) {
+						names.push(planet.name);
+					});
+					sendResponse(names);
+				}).
+				fail(function () {
+					sendResponse([]);
+				});
+		}
+	});
+

@@ -64,10 +64,15 @@
 		],
 		"js": [
 			"extlibs/jquery/jquery.js",
+			"extlibs/jquery-ui/jquery-ui.js",
 			"extlibs/momentjs/moment.js",
 			"extlibs/numeraljs/numeral.js",
 			"classes/moment.js",
 			"scripts/contentscripts/fleets.js"
+		],
+		"css": [
+			"extlibs/jquery-ui/jquery-ui.css",
+			"styles/jquery-ui.css"
 		]
 	}, {
 		"matches": [
