@@ -268,7 +268,7 @@ var Hyperiums7 = {
 	}),
 	races: ['Human', 'Azterk', 'Xillor'],
 	products: ['Agro', 'Minero', 'Techno'],
-	governments: ['Dictatorial', 'Authoritarian', 'Democratic', 'Hyperiums Protectorate'],
+	governments: ['Dictatorial', 'Authoritarian', 'Democratic', 'Hyp.protect.'],
 	govs: ['Dict.', 'Auth.', 'Demo.', 'Hyp.'],
 	units: ['Factories', 'Destroyers', 'Cruisers', 'Scouts', 'Bombers', 'Starbases'],
 	spaceAveragePower: [
