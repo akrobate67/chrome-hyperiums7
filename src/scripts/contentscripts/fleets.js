@@ -55,3 +55,21 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 		});
 });
 
+$('.movingFleetGroupTitle + tr img[src$="fleetarmy_icon.gif"]').
+	each(function (_, element) {
+		var numCarriedArmies = parseFloat(
+				element.previousSibling.nodeValue.replace(/[^\d]+/g, '')
+			),
+			raceName = element.parentNode.firstChild.getAttribute('src').
+				replace(/^.*?([a-z]+)\.gif$/i, '$1'),
+			raceId = Hyperiums7.races.indexOf(raceName),
+			averagePower = Hyperiums7.groundAveragePower[raceId] * numCarriedArmies;
+
+		$(element).closest('tr').prev().find('td:first-child').append([
+			' - Ground AvgP: ',
+			$('<b>').text(
+				numeral(averagePower).format('0[.]0a')
+			)
+		]);
+	});
+
