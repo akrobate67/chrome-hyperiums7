@@ -87,6 +87,15 @@
 			"extlibs/jquery/jquery.js",
 			"scripts/contentscripts/explomgr.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Home"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"extlibs/numeraljs/numeral.js",
+			"scripts/contentscripts/home.js"
+		]
 	}],
 
 	"icons": {
