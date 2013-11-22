@@ -24,7 +24,7 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 			}
 		}).
 		add('[name="unittype"]').
-		on('input', function () {
+		on('input change keyup', function () {
 			var form = $(this).closest('form'),
 				planetId = parseInt(form.find('[name="planetid"]').val()) || 0,
 				totals = Hyperiums7.getBuildPipeTotals([{
