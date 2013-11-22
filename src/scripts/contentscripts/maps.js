@@ -55,10 +55,10 @@
 				replace(/^.*_(.*)\.gif$/, '$1');
 		}
 
-		var coords = /^\((-?\d+),(-?\d+)\)$/.exec(tds.eq(2).text());
+		var coords = /^(SC\d+)?\((-?\d+),(-?\d+)\)$/i.exec(tds.eq(2).text());
 		if (coords.length) {
-			planet.x = parseInt(coords[1]);
-			planet.y = parseInt(coords[2]);
+			planet.x = parseInt(coords[2]);
+			planet.y = parseInt(coords[3]);
 		}
 
 		if (!tagIndex[planet.tag]) {
