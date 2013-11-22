@@ -512,6 +512,40 @@ var Hyperiums7 = {
 		return planets.sort(function (a, b) {
 			return a.name.localeCompare(b.name);
 		});
+	},
+	getContacts: function () {
+		var promise = $.Deferred(), hyperiums = this;
+		$.ajax(this.getServletUrl('Player?page=Contacts')).
+			done(function (data, textStatus, jqXHR) {
+				var players = [];
+
+				$('table.stdArray > tbody', data).eq(0).children('tr:not(#stdArray)').
+					each(function (_, element) {
+						var tr = $(element),
+							tds = $(element).children('td'),
+							type = 'neutral';
+
+						$.each(['buddy', 'friendly', 'hostile'], function (_, className) {
+							if (tr.hasClass(className)) {
+								type = className;
+							}
+						});
+
+						players.push({
+							id: parseInt(tds.eq(0).find('a').eq(0).attr('href').replace(/[^\d]+/g, '')),
+							name: $.trim(tds.eq(0).find('a').eq(1).text()),
+							type: type
+						});
+					});
+
+				promise.resolveWith(hyperiums, [players.sort(function (a, b) {
+					return a.name.localeCompare(b.name);
+				})]);
+			}).
+			fail(function () {
+				promise.rejectWith(hyperiums);
+			});
+		return promise;
 	}
 };
 

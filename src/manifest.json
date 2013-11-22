@@ -102,6 +102,21 @@
 			"extlibs/numeraljs/numeral.js",
 			"scripts/contentscripts/home.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Player",
+			"http://hyp2.hyperiums.com/servlet/Player*"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"extlibs/jquery-ui/jquery-ui.js",
+			"classes/Hyperiums7.js",
+			"scripts/contentscripts/sendmessage.js"
+		],
+		"css": [
+			"extlibs/jquery-ui/jquery-ui.css",
+			"styles/jquery-ui.css"
+		]
 	}],
 
 	"icons": {
