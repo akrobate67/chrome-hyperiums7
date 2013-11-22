@@ -75,6 +75,7 @@ $('.movingFleetGroupTitle + tr img[src$="fleetarmy_icon.gif"]').
 
 $('[name="destplanetname"], [name="toplanet"], [name="destname"]').
 	autocomplete({
+		autoFocus: true,
 		source: function (request, sendResponse) {
 			Hyperiums7.searchPlanet(request.term).
 				done(function (planets) {
