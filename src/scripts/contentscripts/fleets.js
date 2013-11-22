@@ -9,6 +9,11 @@ $('td > input[name="merge"]:not(:disabled)').after([
 		})
 ]);
 
+$('td > input[name="loadarmies"]:not(:disabled)').after([
+	' ',
+	$('<input type="submit" class="button" name="randomLoadAll" value="Load All">')
+]);
+
 Hyperiums7.getPlanetInfo().done(function (planets) {
 	var cash = parseFloat($('#cashTab').text().replace(/,/g, '')) || 0;
 	$('[name="build"]').after($('<p class="totals">'));
