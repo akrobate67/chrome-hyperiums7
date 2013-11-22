@@ -33,7 +33,8 @@
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/events.js",
 			"scripts/contentscripts/ticks.js",
-			"scripts/contentscripts/menu.js"
+			"scripts/contentscripts/menu.js",
+			"scripts/contentscripts/addlinks.js"
 		],
 		"css": [
 			"styles/ticks.css",
