@@ -7,6 +7,9 @@ var walker = document.createTreeWalker(
 
 var node, replacements = [];
 while (node = walker.nextNode()) {
+	if (node.parentNode.nodeName == 'TEXTAREA') {
+		continue;
+	}
 	var re = /\b(https?:\/\/\S+[a-z0-9_\?\-#&=]|[a-z0-9\._%+\-]+@[a-z0-9\.\-]+\.[a-z]{2,6})/ig,
 		reHttp = /https?:\/\//i,
 		index = 0, match, span, a, url,
