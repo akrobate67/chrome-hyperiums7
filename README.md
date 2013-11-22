@@ -10,6 +10,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Preview of Space AvgP, Build Costs, Upkeep Costs and Time for Build on Military Build Center
 - Accumulate Ground AvgP when grouping moving fleets by destination
 - Planet statistics on Controlled planets page
+- Influence value on Controlled planets page
 - Planet/Tag statistics on Map/Trading page
 - Buttons for \<b>, \<i>, [\*FL=] and [\*BR=] for personal messages and forum messages
 - Live ticks at the bottom of each page

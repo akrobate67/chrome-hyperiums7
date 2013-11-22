@@ -446,6 +446,21 @@ var Hyperiums7 = {
 				hyperiums.spaceAveragePower[order.unitId][productId];
 		});
 		return totals;
+	},
+	getPlanetIdInfluence: function (planetId) {
+		var promise = $.Deferred(), hyperiums = this;
+		$.ajax({
+			url: this.getServletUrl('Planet'),
+			data: {
+				cancelabandon: '',
+				planetid: planetId
+			}
+		}).done(function (data, textStatus, jqXHR) {
+			promise.resolveWith(hyperiums, [
+				parseFloat($('.planetName', $(data)).siblings('b').text().replace(/,/g, ''))
+			]);
+		});
+		return promise;
 	}
 };
 

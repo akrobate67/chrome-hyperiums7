@@ -9,7 +9,10 @@ $('.planet').
 	each(function (_, element) {
 		stats.numPlanets++;
 		element = $(element);
-		var details = element.closest('tr').next().find('.highlight, .civ b');
+		var detailsTr = element.closest('tr').next(),
+			details = detailsTr.find('.highlight, .civ b'),
+			planetId = parseFloat(element.attr('href').replace(/[^\d]+/g, ''));
+
 		$.each({
 			governments: details.eq(0).text(),
 			products: details.eq(1).text(),
@@ -21,6 +24,7 @@ $('.planet').
 				stats[key][value] = 1;
 			}
 		});
+
 		$.each({
 			pop: parseFloat(details.eq(3).text()),
 			civ: parseInt(details.eq(4).text())
@@ -31,6 +35,15 @@ $('.planet').
 			stats[key].min = Math.min(stats[key].min, value);
 			stats[key].max = Math.max(stats[key].max, value);
 			stats[key].total += value;
+		});
+
+		Hyperiums7.getPlanetIdInfluence(planetId).done(function (influence) {
+			detailsTr.find('.civ').append($('<tr>').append(
+				$('<td colspan="4">').append([
+					'Influence value: ',
+					$('<span class="highlight">').text(numeral(influence).format('0,0'))
+				])
+			));
 		});
 	}).
 	closest('table.hl').closest('td').append(container = $('<center>').append([
