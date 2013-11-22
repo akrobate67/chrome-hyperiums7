@@ -3,7 +3,7 @@
 
 	"name": "Hyperiums 7",
 	"description": "Tools and improvements for Hyperiums 7 (unofficial)",
-	"version": "0.0.0",
+	"version": "0.0.1",
 
 	"background": {
 		"scripts": [
@@ -115,6 +115,8 @@
 		"storage",
 		"tts"
 	],
+
+	"update_url": "http://www.resident-uhlig.de/hyperiums/chrome.xml",
 
 	"web_accessible_resources": [
 		"pages/fleetcalc.html"
