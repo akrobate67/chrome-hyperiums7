@@ -12,6 +12,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Planet/Tag statistics on Map/Trading page
 - Buttons for \<b>, \<i>, [\*FL=] and [\*BR=] for personal messages and forum messages
 - Live ticks at the bottom of each page
+- "Merge All" and "Load All" buttons on planet's military page
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)
