@@ -740,6 +740,14 @@ var Hyperiums7 = {
 			});
 		}
 
+		stats.tags.sort(function (a, b) {
+			var diff = b.count - a.count;
+			if (diff == 0) {
+				return a.name.localeCompare(b.name);
+			}
+			return diff;
+		});
+
 		var trs = [];
 		$.each([
 			stats,
