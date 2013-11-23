@@ -77,7 +77,7 @@ $('[name="destplanetname"], [name="toplanet"], [name="destname"]').
 	autocomplete({
 		autoFocus: true,
 		source: function (request, sendResponse) {
-			Hyperiums7.searchPlanet(request.term).
+			Hyperiums7.searchPlanets(request.term).
 				done(function (planets) {
 					var names = [];
 					$.each(planets, function (_, planet) {

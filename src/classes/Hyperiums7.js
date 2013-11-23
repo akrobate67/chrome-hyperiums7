@@ -462,7 +462,7 @@ var Hyperiums7 = {
 		});
 		return promise;
 	},
-	searchPlanet: function (pattern) {
+	searchPlanets: function (pattern) {
 		var promise = $.Deferred(), hyperiums = this;
 		$.ajax({
 			url: this.getServletUrl('Maps'),
@@ -485,6 +485,7 @@ var Hyperiums7 = {
 			var tr = $(element),
 				tds = tr.find('td'),
 				planet = {
+					id: parseFloat(tds.eq(0).find('a[href^="Maps"]').attr('href').replace(/[^\d]+/g, '')),
 					name: $.trim(tds.eq(0).text().replace(/^@/, '')),
 					tag: tds.eq(1).text(),
 					civ: parseInt(tds.eq(3).text()),

@@ -3,7 +3,7 @@ $('input[name="receiverid"]').autocomplete({
 	source: function (request, sendResponse) {
 		switch ($('input[name="totype"]:checked').val() || 'Player') {
 		case 'Planet':
-			Hyperiums7.searchPlanet(request.term).
+			Hyperiums7.searchPlanets(request.term).
 				done(function (planets) {
 					var names = [];
 					$.each(planets, function (_, planet) {
