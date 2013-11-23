@@ -98,13 +98,18 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 	Hyperiums7.getMovingFleets().done(function (fleets) {
 		$('.planetName').each(function (_, element) {
 			element = $(element);
-			var planet = { name: element.text() }, table;
+			var planet = { name: element.text() },
+				total = {spaceAvgP: 0, groundAvgP: 0},
+				table;
 			if (fleets.toNames[planet.name]) {
 				table = $('<table class="stdArray" style="width:100%">').append(
+					'<caption>Incoming</caption>',
 					'<thead><tr class="stdArray"><th class="hr">ETA</th><th class="hr">Space AvgP</th><th class="hr">Ground AvgP</th></tr></thead>'
 				);
 				$.each(fleets.toNames[planet.name], function (i, fleet) {
 					Hyperiums7.updateFleetAvgP(fleet);
+					total.spaceAvgP += fleet.spaceAvgP;
+					total.groundAvgP += fleet.groundAvgP;
 					table.append(
 						$('<tr>').
 							addClass('line' + (++i % 2)).
@@ -121,6 +126,15 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 							})
 					);
 				});
+				if (fleets.toNames[planet.name].length > 1) {
+					table.append(
+						$('<tr class="stdArray">').append([
+							'<td>Total</td>',
+							$('<td class="hr">').text(numeral(total.spaceAvgP).format('0[.]0a')),
+							$('<td class="hr">').text(numeral(total.groundAvgP).format('0[.]0a'))
+						])
+					);
+				}
 				element.closest('table').parent().append(table);
 			}
 		});
