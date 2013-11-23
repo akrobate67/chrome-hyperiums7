@@ -71,12 +71,12 @@ function appendPlanets(planets, optGroup) {
 };
 
 if (ownOptGroup) {
-	Hyperiums7.getFleetsInfo().done(function (planets) {
+	Hyperiums7.getControlledPlanets().done(function (planets) {
 		appendPlanets(planets, ownOptGroup);
 	});
 }
 if (foreignOptGroup) {
-	Hyperiums7.getFleetsInfo({data: 'foreign_planets'}).done(function (planets) {
+	Hyperiums7.getForeignPlanets().done(function (planets) {
 		appendPlanets(planets, foreignOptGroup);
 	});
 }

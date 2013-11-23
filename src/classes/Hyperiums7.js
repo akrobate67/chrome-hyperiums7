@@ -550,80 +550,49 @@ var Hyperiums7 = {
 	},
 	getMovingFleets: function () {
 		var promise = $.Deferred(), hyperiums = this;
-		this.hapi({request: 'getmovingfleets'}).done(function (pairs) {
+		$.ajax(this.getServletUrl('Fleets?pagetype=moving_fleets')).done(function (data) {
 			var fleets = [];
 			fleets.toNames = {};
-			$.each(pairs, function (key, value) {
-				var i, keys = /^(.+?)(\d+)$/.exec(key);
-				if (keys && keys.length) {
-					key = keys[1];
-					i = parseInt(keys[2]);
-
-					if (!fleets[i]) {
-						fleets[i] = {eta: 0};
-					}
-
-					if (key == 'to') {
-						if (!fleets.toNames[value]) {
-							fleets.toNames[value] = [];
-						}
-						fleets.toNames[value].push(fleets[i]);
-					}
-
+			$('td[width="430"]', data).each(function (_, element) {
+				element = $(element);
+				var bold = element.find('b'),
+					fleet = {
+						eta: parseFloat(bold.eq(-1).text()),
+						numDestroyers: 0,
+						numCruisers: 0,
+						numScouts: 0,
+						numBombers: 0,
+						numStarbases: 0,
+						numCarriedArmies: 0,
+						raceId: hyperiums.races.indexOf(element.find('img').eq(0).
+							attr('src').replace(/.*_([a-z]+?)\.gif$/i, '$1')),
+						to: { name: bold.eq(-3).text().replace(/ \[.+\]$/,'') }
+					};
+				element.find('[src$="_icon.gif"]').each(function (_, element) {
+					var key = $(element).attr('src').replace(/.*\/([a-z]+?)_icon\.gif$/i, '$1');
 					switch (key) {
-					case 'delay':
-					case 'dist':
-					case 'fleetid':
-					case 'nbarm':
-					case 'nbbomb':
-					case 'nbcrui':
-					case 'nbdest':
-					case 'nbsb':
-					case 'nbscou':
-					case 'race':
-					case 'viax':
-					case 'viay':
-						value = parseFloat(value);
-						break;
-					case 'autodrop':
-					case 'bombing':
-					case 'camouf':
-					case 'defend':
-						value = value == '1';
-						break;
-					case 'from':
-					case 'to':
-						value = { name: value };
-						break;
-					case 'fname':
-						break;
-					default:
-						throw 'unkown key ' + key + ' (' + value + ')';
+					case 'destroyer': key = 'numDestroyers'; break;
+					case 'cruiser': key = 'numCruisers'; break;
+					case 'scout': key = 'numScouts'; break;
+					case 'bomber': key = 'numBombers'; break;
+					case 'starbase': key = 'numStarbases'; break;
+					case 'fleetarmy': key = 'numCarriedArmies'; break;
 					}
 
-					if (key == 'dist' || key == 'delay') {
-						fleets[i].eta += value;
+					if (key) {
+						fleet[key] = parseFloat(element.previousSibling.nodeValue.
+							replace(/[^\d]+/g, '')
+						);
 					}
+				});
 
-					switch (key) {
-					case 'dist': key = 'distance'; break;
-					case 'fleetid': key = 'id'; break;
-					case 'fname': key = 'name'; break;
-					case 'nbarm': key = 'numCarriedArmies'; break;
-					case 'nbbomb': key = 'numBombers'; break;
-					case 'nbcrui': key = 'numCruisers'; break;
-					case 'nbdest': key = 'numDestroyers'; break;
-					case 'nbsb': key = 'numStarbases'; break;
-					case 'nbscou': key = 'numScouts'; break;
-					case 'race': key = 'raceId'; break;
-					}
-
-					fleets[i][key] = value;
-				} else {
-					fleets[key] = value;
+				fleets.push(fleet);
+				if (!fleets.toNames[fleet.to.name]) {
+					fleets.toNames[fleet.to.name] = [];
 				}
+				fleets.toNames[fleet.to.name].push(fleet);
 			});
-			promise.resolveWith(this, [fleets]);
+			promise.resolveWith(hyperiums, [fleets]);
 		});
 		return promise;
 	},
@@ -637,6 +606,40 @@ var Hyperiums7 = {
 		fleet.groundAvgP =
 			fleet.numCarriedArmies * this.groundAveragePower[fleet.raceId];
 		
+	},
+	getControlledPlanets: function () {
+		var promise = $.Deferred(), hyperiums = this;
+		$.ajax(this.getServletUrl('Home')).done(function (data) {
+			var planets = [];
+			$('.planet', data).each(function (_, element) {
+				element = $(element);
+				var highlights = element.closest('table').find('.highlight'),
+					planet = {
+						governmentId: hyperiums.governments.indexOf(highlights.eq(0).text()),
+						id: parseFloat(element.attr('href').replace(/[^\d]+/, '')),
+						name: element.text(),
+						raceId: hyperiums.races.indexOf(highlights.eq(2).text()),
+						productId: hyperiums.products.indexOf(highlights.eq(1).text()),
+						stasis: element.closest('table').find('[src$="stasis_icon.png"]').length == 1
+					};
+					planets[planet.id] = planet;
+			});
+			promise.resolveWith(hyperiums, [planets]);
+		});
+		return promise;
+	},
+	getForeignPlanets: function () {
+		var promise = $.Deferred(), hyperiums = this;
+		$.ajax(this.getServletUrl('Fleets?pagetype=foreign_fleets')).done(function (data) {
+			var planets = [];
+			$('.planetName', data).each(function (_, element) {
+				planets.push({
+					name: $(element).text()
+				});
+			});
+			promise.resolveWith(hyperiums, [planets]);
+		});
+		return promise;
 	}
 };
 

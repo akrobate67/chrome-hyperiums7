@@ -14,7 +14,7 @@ $('td > input[name="loadarmies"]:not(:disabled)').after([
 	$('<input type="submit" class="button" name="randomLoadAll" value="Load All">')
 ]);
 
-Hyperiums7.getPlanetInfo().done(function (planets) {
+Hyperiums7.getControlledPlanets().done(function (planets) {
 	var cash = parseFloat($('#cashTab').text().replace(/,/g, '')) || 0;
 	$('[name="build"]').after($('<p class="totals">'));
 	$('[name="buildunits"]').
@@ -32,11 +32,14 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 		on('input change keyup', function () {
 			var form = $(this).closest('form'),
 				planetId = parseInt(form.find('[name="planetid"]').val()) || 0,
-				totals = Hyperiums7.getBuildPipeTotals([{
-					count: parseFloat(form.find('[name="buildunits"]').val()) || 0,
-					unitId: parseInt(form.find('[name="unittype"]').val()) || 0
-				}], planets.ids[planetId]),
+				planet = planets[planetId],
 				buildCostSpan;
+
+			planet.numFactories = parseFloat(form.find('b').eq(0).text());
+			var totals = Hyperiums7.getBuildPipeTotals([{
+				count: parseFloat(form.find('[name="buildunits"]').val()) || 0,
+				unitId: parseInt(form.find('[name="unittype"]').val()) || 0
+			}], planet);
 
 			form.find('.totals').empty().append([
 				'<strong>Space AvgP:</strong> ',
@@ -91,30 +94,32 @@ $('[name="destplanetname"], [name="toplanet"], [name="destname"]').
 		}
 	});
 
-Hyperiums7.getMovingFleets().done(function (fleets) {
-	$('.planetName').each(function (_, element) {
-		element = $(element);
-		var planet = { name: element.text() }, table;
-		if (fleets.toNames[planet.name]) {
-			table = $('<table class="stdArray" style="width:100%">').append(
-				'<thead><tr class="stdArray"><th class="hr">ETA</th><th class="hr">Space AvgP</th><th class="hr">Ground AvgP</th></tr></thead>'
-			);
-			$.each(fleets.toNames[planet.name], function (_, fleet) {
-				Hyperiums7.updateFleetAvgP(fleet);
-				table.append(
-					$('<tr>').append([
-						$('<td class="hr">').text(fleet.eta + 'h'),
-						$('<td class="hr">').text(numeral(fleet.spaceAvgP).format('0[.]0a')),
-						$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a'))
-					]).mouseover(function () {
-						$(this).addClass('lineCenteredOn');
-					}).mouseout(function () {
-						$(this).removeClass('lineCenteredOn');
-					})
+if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0) {
+	Hyperiums7.getMovingFleets().done(function (fleets) {
+		$('.planetName').each(function (_, element) {
+			element = $(element);
+			var planet = { name: element.text() }, table;
+			if (fleets.toNames[planet.name]) {
+				table = $('<table class="stdArray" style="width:100%">').append(
+					'<thead><tr class="stdArray"><th class="hr">ETA</th><th class="hr">Space AvgP</th><th class="hr">Ground AvgP</th></tr></thead>'
 				);
-			});
-			element.closest('table').parent().append(table);
-		}
+				$.each(fleets.toNames[planet.name], function (_, fleet) {
+					Hyperiums7.updateFleetAvgP(fleet);
+					table.append(
+						$('<tr>').append([
+							$('<td class="hr">').text(fleet.eta + 'h'),
+							$('<td class="hr">').text(numeral(fleet.spaceAvgP).format('0[.]0a')),
+							$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a'))
+						]).mouseover(function () {
+							$(this).addClass('lineCenteredOn');
+						}).mouseout(function () {
+							$(this).removeClass('lineCenteredOn');
+						})
+					);
+				});
+				element.closest('table').parent().append(table);
+			}
+		});
 	});
-});
+}
 
