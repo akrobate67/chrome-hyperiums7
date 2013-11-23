@@ -484,8 +484,9 @@ var Hyperiums7 = {
 		$('table.stdArray tr:not(.stdArray)', html).each(function (_, element) {
 			var tr = $(element),
 				tds = tr.find('td'),
+				msgUrl = tds.eq(0).find('a[href^="Maps"]').attr('href'),
 				planet = {
-					id: parseFloat(tds.eq(0).find('a[href^="Maps"]').attr('href').replace(/[^\d]+/g, '')),
+					id: msgUrl ? parseFloat(msgUrl.replace(/[^\d]+/g, '')) : undefined,
 					name: $.trim(tds.eq(0).text().replace(/^@/, '')),
 					tag: tds.eq(1).text(),
 					civ: parseInt(tds.eq(3).text()),
