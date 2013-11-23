@@ -443,7 +443,7 @@ var Hyperiums7 = {
 			totals.buildCosts += order.count *
 				hyperiums.buildCosts[order.unitId][productId];
 			totals.spaceAveragePower += order.count *
-				hyperiums.spaceAveragePower[order.unitId][productId];
+				hyperiums.spaceAveragePower[order.unitId][raceId];
 		});
 		return totals;
 	},
@@ -547,6 +547,96 @@ var Hyperiums7 = {
 				promise.rejectWith(hyperiums);
 			});
 		return promise;
+	},
+	getMovingFleets: function () {
+		var promise = $.Deferred(), hyperiums = this;
+		this.hapi({request: 'getmovingfleets'}).done(function (pairs) {
+			var fleets = [];
+			fleets.toNames = {};
+			$.each(pairs, function (key, value) {
+				var i, keys = /^(.+?)(\d+)$/.exec(key);
+				if (keys && keys.length) {
+					key = keys[1];
+					i = parseInt(keys[2]);
+
+					if (!fleets[i]) {
+						fleets[i] = {eta: 0};
+					}
+
+					if (key == 'to') {
+						if (!fleets.toNames[value]) {
+							fleets.toNames[value] = [];
+						}
+						fleets.toNames[value].push(fleets[i]);
+					}
+
+					switch (key) {
+					case 'delay':
+					case 'dist':
+					case 'fleetid':
+					case 'nbarm':
+					case 'nbbomb':
+					case 'nbcrui':
+					case 'nbdest':
+					case 'nbsb':
+					case 'nbscou':
+					case 'race':
+					case 'viax':
+					case 'viay':
+						value = parseFloat(value);
+						break;
+					case 'autodrop':
+					case 'bombing':
+					case 'camouf':
+					case 'defend':
+						value = value == '1';
+						break;
+					case 'from':
+					case 'to':
+						value = { name: value };
+						break;
+					case 'fname':
+						break;
+					default:
+						throw 'unkown key ' + key + ' (' + value + ')';
+					}
+
+					if (key == 'dist' || key == 'delay') {
+						fleets[i].eta += value;
+					}
+
+					switch (key) {
+					case 'dist': key = 'distance'; break;
+					case 'fleetid': key = 'id'; break;
+					case 'fname': key = 'name'; break;
+					case 'nbarm': key = 'numCarriedArmies'; break;
+					case 'nbbomb': key = 'numBombers'; break;
+					case 'nbcrui': key = 'numCruisers'; break;
+					case 'nbdest': key = 'numDestroyers'; break;
+					case 'nbsb': key = 'numStarbases'; break;
+					case 'nbscou': key = 'numScouts'; break;
+					case 'race': key = 'raceId'; break;
+					}
+
+					fleets[i][key] = value;
+				} else {
+					fleets[key] = value;
+				}
+			});
+			promise.resolveWith(this, [fleets]);
+		});
+		return promise;
+	},
+	updateFleetAvgP: function (fleet) {
+		fleet.spaceAvgP =
+			fleet.numDestroyers * this.spaceAveragePower[1][fleet.raceId] +
+			fleet.numCruisers * this.spaceAveragePower[2][fleet.raceId] +
+			fleet.numScouts * this.spaceAveragePower[3][fleet.raceId] +
+			fleet.numBombers * this.spaceAveragePower[4][fleet.raceId] +
+			fleet.numStarbases * this.spaceAveragePower[5][fleet.raceId];
+		fleet.groundAvgP =
+			fleet.numCarriedArmies * this.groundAveragePower[fleet.raceId];
+		
 	}
 };
 

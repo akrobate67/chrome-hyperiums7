@@ -10,6 +10,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - One input for all planets in Global exploitations manager
 - Preview of Space AvgP, Build Costs, Upkeep Costs and Time for Build on Military Build Center
 - Accumulate Ground AvgP when grouping moving fleets by destination
+- Show moving fleets on overview of own and foreign planets
 - Planet statistics on Controlled planets page
 - Influence value on Controlled planets page
 - Planet/Tag statistics on Map/Trading page
