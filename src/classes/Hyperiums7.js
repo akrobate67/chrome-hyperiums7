@@ -668,7 +668,7 @@ var Hyperiums7 = {
 
 		stats.tags = [];
 		$.each(planets, function (_, planet) {
-			if (!tagIndex[planet.tag]) {
+			if (tagIndex[planet.tag] === undefined) {
 				tagIndex[planet.tag] = stats.tags.push(createEmptyStats(planet.tag)) - 1;
 			}
 
