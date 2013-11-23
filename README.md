@@ -6,6 +6,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 
 ### In Game
 - Make URLs and e-mail addresses clickable
+- Try to format tables in forum messages
 - One input for all planets in Global exploitations manager
 - Preview of Space AvgP, Build Costs, Upkeep Costs and Time for Build on Military Build Center
 - Accumulate Ground AvgP when grouping moving fleets by destination

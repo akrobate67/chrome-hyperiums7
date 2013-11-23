@@ -30,6 +30,7 @@
 		"js": [
 			"extlibs/jquery/jquery.js",
 			"extlibs/momentjs/moment.js",
+			"extlibs/numeraljs/numeral.js",
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/events.js",
 			"scripts/contentscripts/ticks.js",
