@@ -3,7 +3,7 @@
 
 	"name": "Hyperiums 7",
 	"description": "Tools and improvements for Hyperiums 7 (unofficial)",
-	"version": "0.0.2",
+	"version": "0.0.3",
 
 	"background": {
 		"scripts": [
