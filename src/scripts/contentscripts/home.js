@@ -75,8 +75,9 @@ container.append($('<table>').append(
 			pop: 'Population&nbsp;size',
 			civ: 'Civilization&nbsp;level'
 		}, function (key, caption) {
+			var table;
 			tr.append($('<td style="padding-right:1em">').append(
-				$('<table>').append([
+				table = $('<table>').append([
 					$('<caption>').html(caption),
 					$('<tr class="line1"><th>Min.</th>').append($('<td class="hr">').text(
 						numeral(stats[key].min).format('0,0[.]0')
@@ -89,6 +90,13 @@ container.append($('<table>').append(
 					))
 				])
 			));
+			if (key == 'pop') {
+				table.append(
+					$('<tr class="line0"><th>Total</th>').append($('<td class="hr">').text(
+						numeral(stats[key].total).format('0,0[.]0')
+					))
+				);
+			}
 		});
 
 		return tr;
