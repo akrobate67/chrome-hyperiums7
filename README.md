@@ -17,6 +17,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - "Merge All" and "Load All" buttons on planet's military page
 - Auto Complete for planet names in fleet movement forms
 - Auto Complete for contacts and planet names in send message forms
+- Link to spy report for captive planets on cash page
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)
