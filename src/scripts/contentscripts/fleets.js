@@ -103,18 +103,22 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 				table = $('<table class="stdArray" style="width:100%">').append(
 					'<thead><tr class="stdArray"><th class="hr">ETA</th><th class="hr">Space AvgP</th><th class="hr">Ground AvgP</th></tr></thead>'
 				);
-				$.each(fleets.toNames[planet.name], function (_, fleet) {
+				$.each(fleets.toNames[planet.name], function (i, fleet) {
 					Hyperiums7.updateFleetAvgP(fleet);
 					table.append(
-						$('<tr>').append([
-							$('<td class="hr">').text(fleet.eta + 'h'),
-							$('<td class="hr">').text(numeral(fleet.spaceAvgP).format('0[.]0a')),
-							$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a'))
-						]).mouseover(function () {
-							$(this).addClass('lineCenteredOn');
-						}).mouseout(function () {
-							$(this).removeClass('lineCenteredOn');
-						})
+						$('<tr>').
+							addClass('line' + (++i % 2)).
+							append([
+								$('<td class="hr">').text(fleet.eta + 'h'),
+								$('<td class="hr">').text(numeral(fleet.spaceAvgP).format('0[.]0a')),
+								$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a'))
+							]).
+							mouseover(function () {
+								$(this).addClass('lineCenteredOn');
+							}).
+							mouseout(function () {
+								$(this).removeClass('lineCenteredOn');
+							})
 					);
 				});
 				element.closest('table').parent().append(table);
