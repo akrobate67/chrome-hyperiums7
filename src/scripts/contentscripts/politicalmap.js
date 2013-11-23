@@ -1,12 +1,13 @@
 $.getScript('/js/overlibmws.js').done(function () {
-	var cache = {};
+	var cache = {}, jqXHR;
 	$('.polMapZone').
 		mouseover(function() {
 			var url = $(this).find('a').attr('href');
 			if (cache[url]) {
 				overlib(cache[url]);
 			} else {
-				$.ajax(url).done(function (data) {
+				overlib('Loading...');
+				jqXHR = $.ajax(url).done(function (data) {
 					var planets = Hyperiums7.getPlanetsFromTradingMap(data),
 						rows = Hyperiums7.getStatisticsRowsFromPlanets(planets);
 
@@ -33,7 +34,8 @@ $.getScript('/js/overlibmws.js').done(function () {
 				});
 			}
 		}).
-		mouseout(function () { 
+		mouseout(function () {
+			jqXHR.abort();
 			nd();
 		});
 });
