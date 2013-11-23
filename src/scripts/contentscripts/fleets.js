@@ -100,23 +100,51 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 			element = $(element);
 			var planet = { name: element.text() },
 				total = {spaceAvgP: 0, groundAvgP: 0},
-				table;
+				table, numFleets;
+
 			if (fleets.toNames[planet.name]) {
-				table = $('<table class="stdArray" style="width:100%">').append(
+				numFleets = fleets.toNames[planet.name].length;
+				table = $('<table class="stdArray" style="width:100%">').append([
 					'<caption>Incoming</caption>',
-					'<thead><tr class="stdArray"><th class="hr">ETA</th><th class="hr">Space AvgP</th><th class="hr">Ground AvgP</th></tr></thead>'
-				);
+					$('<thead>').append(
+						$('<tr class="stdArray">').append([
+							'<th class="hr">ETA</th>',
+							'<th class="hr">Space AvgP</th>',
+							'<th class="hr">Ground AvgP</th>',
+							'<th class="hc">Change</th>',
+							$('<th class="hr">').append(
+								$('<input type="checkbox">').change(function () {
+									var element = $(this);
+									element.closest('table').
+										find('tr:not(.stdArray) input').
+										prop('checked', element.is(':checked'));
+								})
+							)
+						])
+					)
+				]);
+
 				$.each(fleets.toNames[planet.name], function (i, fleet) {
 					Hyperiums7.updateFleetAvgP(fleet);
 					total.spaceAvgP += fleet.spaceAvgP;
 					total.groundAvgP += fleet.groundAvgP;
 					table.append(
 						$('<tr>').
-							addClass('line' + (++i % 2)).
+							addClass('line' + ((i+1) % 2)).
 							append([
 								$('<td class="hr">').text(fleet.eta + 'h'),
 								$('<td class="hr">').text(numeral(fleet.spaceAvgP).format('0[.]0a')),
-								$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a'))
+								$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a')),
+								$('<td class="hc">').append(
+									$('<a>Change</a>').attr('href',
+										Hyperiums7.getServletUrl('Fleets?changefleet=&floatid=' + fleet.id)
+									)
+								),
+								$('<td class="hr">').append(
+									$('<input type="checkbox">').
+										attr('name', 'reroute' + i).
+										val(fleet.id)
+								)
 							]).
 							mouseover(function () {
 								$(this).addClass('lineCenteredOn');
@@ -126,16 +154,31 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 							})
 					);
 				});
-				if (fleets.toNames[planet.name].length > 1) {
+
+				if (numFleets > 1) {
 					table.append(
 						$('<tr class="stdArray">').append([
-							'<td>Total</td>',
+							'<td class="hr">Total</td>',
 							$('<td class="hr">').text(numeral(total.spaceAvgP).format('0[.]0a')),
-							$('<td class="hr">').text(numeral(total.groundAvgP).format('0[.]0a'))
+							$('<td class="hr">').text(numeral(total.groundAvgP).format('0[.]0a')),
+							$('<td colspan="2">')
 						])
 					);
 				}
-				element.closest('table').parent().append(table);
+
+				table.append(
+					'<tr><td class="hr" colspan="5">' +
+					'<input type="submit" class="button" name="reroute" value="Reroute"> ' +
+					'<input type="submit" class="button" name="delayfleets" value="Delay"> ' +
+					'selected fleets</td></tr>'
+				);
+
+				element.closest('table').parent().append(
+					$('<form action="Fleets" method="post">').append(
+						table,
+						$('<input type="hidden" name="nbfleets">').val(numFleets)
+					)
+				);
 			}
 		});
 	});

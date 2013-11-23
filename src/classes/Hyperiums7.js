@@ -566,7 +566,8 @@ var Hyperiums7 = {
 						numCarriedArmies: 0,
 						raceId: hyperiums.races.indexOf(element.find('img').eq(0).
 							attr('src').replace(/.*_([a-z]+?)\.gif$/i, '$1')),
-						to: { name: bold.eq(-3).text().replace(/ \[.+\]$/,'') }
+						to: { name: bold.eq(-3).text().replace(/ \[.+\]$/,'') },
+						id: parseFloat(element.next().find('input[type="checkbox"]').val())
 					};
 				element.find('[src$="_icon.gif"]').each(function (_, element) {
 					var key = $(element).attr('src').replace(/.*\/([a-z]+?)_icon\.gif$/i, '$1');
