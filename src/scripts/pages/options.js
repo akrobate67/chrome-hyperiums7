@@ -44,6 +44,28 @@ chrome.storage.sync.get('cfg', function(storage) {
 		});
 	});
 
+	var notificationsTBody = $('#notifications tbody');
+	$.each({
+		battle: 'Battle Report',
+		events: 'Event',
+		forums: 'Forum post',
+		pm: 'Personal message'
+	}, function (name, label) {
+		notificationsTBody.append($('<tr>').append([
+			$('<th>').text(label),
+			$('<td class="fixed-width">').append(
+				$('<input type="checkbox">').attr('name',
+					'notifications.isEnabled.' + name
+				)
+			),
+			$('<td class="fixed-width">').append(
+				$('<input type="checkbox">').attr('name',
+					'notifications.isTtsEnabled.' + name
+				)
+			)
+		]));
+	});
+
 	var ticksTBody = $('#ticks tbody');
 	$.each(Hyperiums7.ticks, function (_, tick) {
 		ticksTBody.append($('<tr>').append([

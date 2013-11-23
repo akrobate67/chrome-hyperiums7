@@ -26,6 +26,12 @@ chrome.runtime.onInstalled.addListener(function (details) {
 			notifications: {
 				periodInMinutes: 1,
 				isBadgeOnClickEnabled: false,
+				isEnabled: {
+					battle: true,
+					events: true,
+					forums: true,
+					pm: true
+				},
 				isTtsEnabled: {
 					battle: false,
 					events: false,

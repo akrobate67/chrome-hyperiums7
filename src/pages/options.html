@@ -52,21 +52,18 @@
 					<input name="notifications.isBadgeOnClickEnabled" type="checkbox">
 					Click on extension icon opens event page when there is a new event
 				</label>
-				<p>Use TTS for following notification types:</p>
-				<ul class="checkbox-list">
-					<li><label>
-						<input name="notifications.isTtsEnabled.forums" type="checkbox">
-						Forum Messages</label></li>
-					<li><label>
-						<input name="notifications.isTtsEnabled.pm" type="checkbox">
-						Personal Messages</label></li>
-					<li><label>
-						<input name="notifications.isTtsEnabled.events" type="checkbox">
-						Events</label></li>
-					<li><label>
-						<input name="notifications.isTtsEnabled.battle" type="checkbox">
-						Battle Reports</label></li>
-				</ul>
+				<table id="notifications">
+					<caption>Notification types</caption>
+					<thead>
+						<tr>
+							<th>Type</th>
+							<th class="fixed-width">Enable Notification</th>
+							<th class="fixed-width">Enable TTS</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
 				<table id="ticks">
 					<caption>Ticks</caption>
 					<thead>

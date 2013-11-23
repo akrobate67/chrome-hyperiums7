@@ -191,16 +191,20 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 		}
 
 		setBrowserAction(action);
-		$.each(notifications, function (_, notification) {
-			notification.options.type = notification.options.type || 'basic';
-			notification.options.iconUrl = '/assets/icon_48.png';
-			notification.options.message = notification.options.message || notification.options.title;
-			chrome.notifications.create(
-				notification.id,
-				notification.options,
-				function (notificationId) {
+		chrome.storage.sync.get('cfg', function (storage) {
+			$.each(notifications, function (_, notification) {
+				if (storage.cfg.notifications.isEnabled[notification.id]) {
+					notification.options.type = notification.options.type || 'basic';
+					notification.options.iconUrl = '/assets/icon_48.png';
+					notification.options.message = notification.options.message || notification.options.title;
+					chrome.notifications.create(
+						notification.id,
+						notification.options,
+						function (notificationId) {
+						}
+					);
 				}
-			);
+			});
 		});
 	}
 });
