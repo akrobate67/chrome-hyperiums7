@@ -14,7 +14,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Planet statistics on Controlled planets page
 - Influence value on Controlled planets page
 - Planet/Tag statistics on Map/Trading page and Political Maps
-- Buttons for \<b>, \<i>, [\*FL=] and [\*BR=] for personal messages and forum messages
+- Buttons for \<b>, \<i>, \<pre>, [\*FL=] and [\*BR=] for personal messages and forum messages
 - Live ticks at the bottom of each page
 - "Merge All" and "Load All" buttons on planet's military page
 - Auto Complete for planet names in fleet movement forms

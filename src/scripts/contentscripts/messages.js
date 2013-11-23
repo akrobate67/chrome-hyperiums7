@@ -37,9 +37,15 @@ $('textarea[name="msg"], textarea[name="message"]').each(function (i, element) {
 		$('<button tabindex="100" type="button" style="text-weight:bold" title="Bold">B</button>').click(function () {
 			markup('b', textarea);
 		}),
+		' ',
 		$('<button tabindex="100" type="button" style="font-style:italic" title="Italic">I</button>').click(function () {
 			markup('i', textarea);
 		}),
+		' ',
+		$('<button tabindex="100" type="button" style="font-family:monospace" title="Pre-formated">pre</button>').click(function () {
+			markup('pre', textarea);
+		}),
+		' ',
 		$('<label>Fleets:</label>').append(
 			$('<select tabindex="100">').
 				append([
