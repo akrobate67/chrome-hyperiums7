@@ -30,12 +30,17 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 		}).
 		add('[name="unittype"]').
 		on('input change keyup', function () {
-			var form = $(this).closest('form'),
+			var element = $(this),
+				form =element.closest('form'),
 				planetId = parseInt(form.find('[name="planetid"]').val()) || 0,
 				planet = planets[planetId],
 				buildCostSpan;
 
-			planet.numFactories = parseFloat(form.find('b').eq(0).text());
+			planet.numFactories = parseFloat(element.
+				closest('tbody').
+				children('tr').eq(1).
+				find('b').eq(0).text());
+
 			var totals = Hyperiums7.getBuildPipeTotals([{
 				count: parseFloat(form.find('[name="buildunits"]').val()) || 0,
 				unitId: parseInt(form.find('[name="unittype"]').val()) || 0
