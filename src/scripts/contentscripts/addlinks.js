@@ -58,7 +58,8 @@ while (node = walker.nextNode()) {
 		text = node.nodeValue,
 		lineIsTable = reColumns.test(text);
 
-	if (node.parentNode.nodeName != 'PRE' && (
+	if (node.parentNode.nodeName != 'PRE' &&
+		node.parentNode.nodeName != 'B' && (
 		lineIsTable || mode == MODE_TABLE
 	)) {
 		if (lineIsTable) {
