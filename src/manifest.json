@@ -129,7 +129,8 @@
 		]
 	}, {
 		"matches": [
-			"http://hyp2.hyperiums.com/servlet/Maps?maptype=political"
+			"http://hyp2.hyperiums.com/servlet/Maps?maptype=political",
+			"http://hyp2.hyperiums.com/servlet/Maps?maptype=political&*"
 		],
 		"js": [
 			"extlibs/jquery/jquery.js",
