@@ -58,7 +58,9 @@ while (node = walker.nextNode()) {
 		text = node.nodeValue,
 		lineIsTable = reColumns.test(text);
 
-	if (lineIsTable || mode == MODE_TABLE) {
+	if (node.parentNode.nodeName != 'PRE' && (
+		lineIsTable || mode == MODE_TABLE
+	)) {
 		if (lineIsTable) {
 			if (mode == MODE_TABLE) {
 				addRemoval(node);
