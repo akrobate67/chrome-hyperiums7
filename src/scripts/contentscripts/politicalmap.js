@@ -1,6 +1,6 @@
 $.getScript('/js/overlibmws.js').done(function () {
 	var cache = {}, jqXHR;
-	$('.polMapZone').
+	$('.polMapZone, .polMapCenter').
 		mouseover(function() {
 			var url = $(this).find('a').attr('href');
 			if (cache[url]) {
