@@ -20,6 +20,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Auto Complete for planet names in fleet movement forms
 - Auto Complete for contacts and planet names in send message forms
 - Link to spy report for captive planets on cash page
+- Search for planet name if no fleet around planet
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)

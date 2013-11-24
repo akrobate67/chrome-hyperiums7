@@ -137,6 +137,16 @@
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/politicalmap.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Planet?planetid=*",
+			"http://hyp2.hyperiums.com/servlet/Planetfloats?planetid=*"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"classes/Hyperiums7.js",
+			"scripts/contentscripts/nofleet.js"
+		]
 	}],
 
 	"icons": {
