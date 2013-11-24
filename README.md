@@ -31,18 +31,20 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 
 There are two methods to install the extension:
 
-1. Install unpacked version
-2. Install packaged version
+1. Install packaged version (recommended)
+2. Install unpacked version
 
-### 1. Install unpackaged version
-
-Get the source of this extension (e.g. from github) and load the src directory in your browser. For details see:
-http://developer.chrome.com/extensions/getstarted.html#unpacked
-
-### 2. Install packaged version
+### 1. Install packaged version (recommended)
 
 Get a .crx file from the packaged/ directory and drag&drop it into your browser. For details see:
 https://support.google.com/chrome_webstore/answer/2664769?p=crx_warning&rd=1
+
+The .crx file will automatically get updated if there is a new version available.
+
+### 2. Install unpackaged version
+
+Get the source of this extension (e.g. from github) and load the src directory in your browser. For details see:
+http://developer.chrome.com/extensions/getstarted.html#unpacked
 
 ## Contact
 
