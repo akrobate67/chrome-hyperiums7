@@ -35,7 +35,7 @@
 			"scripts/contentscripts/events.js",
 			"scripts/contentscripts/ticks.js",
 			"scripts/contentscripts/menu.js",
-			"scripts/contentscripts/addlinks.js"
+			"scripts/contentscripts/textmarkup.js"
 		],
 		"css": [
 			"styles/ticks.css",
