@@ -23,6 +23,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Search for planet name if no fleet around planet
 - Link to player search in system messages
 - Highlight names of contacts in system messages
+- Upkeep in relation to Total Income on cash page
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)

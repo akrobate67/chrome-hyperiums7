@@ -18,3 +18,10 @@ Hyperiums7.searchPlanets(planetNames.join(',')).done(function (planets) {
 	});
 });
 
+var totalIncome = parseFloat($('.line1 .hr').text().replace(/,/g, '')),
+	upkeep = Math.abs(parseFloat($('.line0 .hr').text().replace(/,/g, '')));
+
+$('.line0 td:first-child').append(
+	$('<small>').text(' (' + numeral(upkeep / totalIncome).format('0[.]0%') + ')')
+);
+
