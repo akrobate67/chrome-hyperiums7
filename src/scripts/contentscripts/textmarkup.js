@@ -30,7 +30,8 @@ Hyperiums7.getContacts().done(function (contacts) {
 		reColumns = /^([^\|]+ ?\| ?)+([^\|]+)$/i,
 		reHr = /^(\-\-+)|(==+)$/;
 		rePlayer = / player /g,
-		invalidParents = ['TEXTAREA', 'SCRIPT'];
+		invalidParents = ['TEXTAREA', 'SCRIPT'],
+		invalidTableParents = ['PRE', 'B'];
 
 	function textToValue(text) {
 		text = $.trim(text);
@@ -207,7 +208,10 @@ Hyperiums7.getContacts().done(function (contacts) {
 
 		(function (node) {
 			var text = node.nodeValue;
-			if (reColumns.test(text)) {
+			if (
+				reColumns.test(text) &&
+				$.inArray(node.parentNode.nodeName, invalidTableParents) == -1
+			) {
 				if (mode == MODE_TABLE) {
 					addRemoval(node);
 				} else {
