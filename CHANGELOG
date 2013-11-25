@@ -1,0 +1,46 @@
+Bugfixes are not included in this changelog. See github:
+https://github.com/resident-uhlig/chrome-hyperiums7/issues
+
+XXXX-XX-XX XX:XX:XX Version 0.0.5
+* Added changelog
+
+2013-11-25 00:32:57 Version 0.0.4
+* Added total pop to controlled planets summary
+* Added <pre> button
+* Added search for planet if no fleet around planet
+* Added links and highlights for player names
+
+2013-11-23 21:50:39 Version 0.0.3
+* Added homepage URL
+* Added link to spy report for captive planets on cash page
+* Added try to format text tables in forum messages
+* Added option to disable notifications
+* Added show incoming fleets on overview of own and foreign planets
+* Added tag statistics on political maps
+* Changed to order tag statistics by planet count
+
+2013-11-22 23:17:07 Version 0.0.2
+* Added "Load all" button
+* Added sum of Ground AvgP for grouped moving fleets
+* Added planet influence for controlled planets
+* Added auto complete for planet names when moving fleets
+* Added auto complete for contacts and planet names when sending messages
+
+2013-11-22 12:27:34 Version 0.0.1
+* First release
+* Login via Browser Action
+* Options
+* Export of session (playerid, authkey, gameid) to external website
+* Check for events and display notifications
+* Message tools (bold, italic, fleets, battles)
+* Live server time and ticks
+* "Merge all" button
+* Text-to-speech for events (TTS)
+* Contact link
+* Tag statistics for trading maps
+* Prediction for military build center
+* Simple fleet calculator
+* Global input for global exploitations manager
+* Statistics for controlled planets
+* Link for http:// URLs and e-mails
+
