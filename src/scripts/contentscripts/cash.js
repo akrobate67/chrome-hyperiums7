@@ -25,3 +25,41 @@ $('.line0 td:first-child').append(
 	$('<small>').text(' (' + numeral(upkeep / totalIncome).format('0[.]0%') + ')')
 );
 
+var totalExploitationsIncome = 0;
+$('table[width="340"] > tbody > tr:first-child > .hr').each(function (_, element) {
+	totalExploitationsIncome += parseFloat($(element).text().replace(/,/g, ''));
+});
+
+var totalCaptivityIncome = 0;
+$('table[width="340"] > tbody > tr > .hr.hlight').each(function (_, element) {
+	totalCaptivityIncome += parseFloat($(element).text().replace(/,/g, ''));
+});
+
+var totalGrossIncome = totalExploitationsIncome + totalCaptivityIncome;
+
+$('.line1').before([
+	$('<tr class="line1">').append([
+		'<td>Total gross income</td>',
+		$('<td class="hr">').text(numeral(totalGrossIncome).format('0,0'))
+	]), 
+	$('<tr>').append([
+		$('<td class="tinytext" style="padding-left:2em">').append([
+			'Total income from exploitations',
+			$('<small>').text(' (' +
+				numeral(totalExploitationsIncome / totalGrossIncome).format('0[.]0%') +
+			')')
+		]),
+		$('<td class="hr tinytext">').text(numeral(totalExploitationsIncome).format('0,0'))
+	]),
+	$('<tr>').append([
+		$('<td class="tinytext" style="padding-left:2em">').append([
+			'Total income from captive planets',
+			$('<small>').text(' (' +
+				numeral(totalCaptivityIncome / totalGrossIncome).format('0[.]0%') +
+			')')
+		]),
+		$('<td class="hr tinytext">').text(numeral(totalCaptivityIncome).format('0,0'))
+	]),
+]);
+
+

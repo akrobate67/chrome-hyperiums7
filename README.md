@@ -24,6 +24,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Link to player search in system messages
 - Highlight names of contacts in system messages
 - Upkeep in relation to Total Income on cash page
+- Total gross income, Total income from exploitations and Total income from captive planets on cash page
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)
