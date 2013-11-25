@@ -520,6 +520,7 @@ var Hyperiums7 = {
 		$.ajax(this.getServletUrl('Player?page=Contacts')).
 			done(function (data, textStatus, jqXHR) {
 				var players = [];
+				players.toNames = {};
 
 				$('table.stdArray > tbody', data).eq(0).children('tr:not(#stdArray)').
 					each(function (_, element) {
@@ -533,11 +534,13 @@ var Hyperiums7 = {
 							}
 						});
 
-						players.push({
+						var player = {
 							id: parseInt(tds.eq(0).find('a').eq(0).attr('href').replace(/[^\d]+/g, '')),
 							name: $.trim(tds.eq(0).find('a').eq(1).text()),
 							type: type
-						});
+						};
+						players.push(player);
+						players.toNames[player.name] = player;
 					});
 
 				promise.resolveWith(hyperiums, [players.sort(function (a, b) {

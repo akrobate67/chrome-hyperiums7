@@ -1,243 +1,253 @@
-var walker = document.createTreeWalker(
-	document.body,
-	NodeFilter.SHOW_TEXT,
-	null,
-	false
-);
+Hyperiums7.getContacts().done(function (contacts) {
+	var walker = document.createTreeWalker(
+		document.body,
+		NodeFilter.SHOW_TEXT,
+		null,
+		false
+	);
 
-var replacements = [], removals = [];
+	var replacements = [], removals = [];
 
-function addReplacement(original, substitute) {
-	replacements.push({
-		substitute: substitute,
-		original: original
-	});
-}
-
-function addRemoval(node) {
-	removals.push(node);
-	if (node.nextSibling && node.nextSibling.nodeName == 'BR') {
-		removals.push(node.nextSibling);
+	function addReplacement(original, substitute) {
+		replacements.push({
+			substitute: substitute,
+			original: original
+		});
 	}
-}
 
-var reAbsNumber = /^\d+([\.,]\d+)? *([tbmk])?$/i,
-	reDate = /^\d\d\d\d\-\d\d\-\d\d( \d\d:\d\d)?(:\d\d)?$/,
-	reOtherNumber = /\d+.*$/,
-	reUrl = /\bhttps?:\/\/\S+[a-z0-9_\?\-#&=%]/ig
-	reEmail = /[a-z0-9\._%+\-]+@[a-z0-9\.\-]+\.[a-z]{2,6}/ig,
-	reColumns = /^([^\|]+ ?\| ?)+([^\|]+)$/i,
-	reHr = /^(\-\-+)|(==+)$/;
-	rePlayer = / player /g,
-	invalidParents = ['TEXTAREA', 'SCRIPT'];
-
-function textToValue(text) {
-	text = $.trim(text);
-	if (reAbsNumber.test(text)) {
-		return numeral().unformat(text.replace(',', '.').toLocaleLowerCase());
-	} else if (reDate.test(text)) {
-		if (text.length < 11) {
-			text += ' 00:00:00';
+	function addRemoval(node) {
+		removals.push(node);
+		if (node.nextSibling && node.nextSibling.nodeName == 'BR') {
+			removals.push(node.nextSibling);
 		}
-		return new Date(text + ' +00:00');
-	} else if (reOtherNumber.test(text)) {
-		return 0;
 	}
-	return text;
-}
 
-function addNodes(nodes, re, callback) {
-	var createdNodes = [];
-	$.each(nodes, function (i, node) {
-		var matches, index = 0, string = node.nodeValue;
-		createdNodes[i] = [];
-		while (matches = re.exec(string)) {
-			index = callback(index, matches, createdNodes[i], string, node);
+	var reAbsNumber = /^\d+([\.,]\d+)? *([tbmk])?$/i,
+		reDate = /^\d\d\d\d\-\d\d\-\d\d( \d\d:\d\d)?(:\d\d)?$/,
+		reOtherNumber = /\d+.*$/,
+		reUrl = /\bhttps?:\/\/\S+[a-z0-9_\?\-#&=%]/ig
+		reEmail = /[a-z0-9\._%+\-]+@[a-z0-9\.\-]+\.[a-z]{2,6}/ig,
+		reColumns = /^([^\|]+ ?\| ?)+([^\|]+)$/i,
+		reHr = /^(\-\-+)|(==+)$/;
+		rePlayer = / player /g,
+		invalidParents = ['TEXTAREA', 'SCRIPT'];
+
+	function textToValue(text) {
+		text = $.trim(text);
+		if (reAbsNumber.test(text)) {
+			return numeral().unformat(text.replace(',', '.').toLocaleLowerCase());
+		} else if (reDate.test(text)) {
+			if (text.length < 11) {
+				text += ' 00:00:00';
+			}
+			return new Date(text + ' +00:00');
+		} else if (reOtherNumber.test(text)) {
+			return 0;
 		}
-		if (index) {
-			createdNodes[i].push(string.substring(index));
-		} else {
-			createdNodes[i] = node;
-		}
-	});
-	return createdNodes;
-}
+		return text;
+	}
 
-function addUrlLinks(nodes) {
-	return addNodes(nodes, reUrl, function (index, matches, createdNodes, string, node) {
-		var url = matches[0];
-
-		var a = document.createElement('a');
-		a.setAttribute('href', url);
-		a.setAttribute('target', 'blank');
-		a.appendChild(document.createTextNode(url));
-
-		createdNodes.push(string.substring(index, matches.index));
-		createdNodes.push(a);
-
-		return matches.index + url.length;
-	});
-}
-
-function addEMailLinks(nodes) {
-	return addNodes(nodes, reEmail, function (index, matches, createdNodes, string, node) {
-		var email = matches[0];
-
-		var a = document.createElement('a');
-		a.setAttribute('href', 'mailto:' + email);
-		a.appendChild(document.createTextNode(email));
-
-		createdNodes.push(string.substring(index, matches.index));
-		createdNodes.push(a);
-
-		return matches.index + email.length;
-	});
-}
-
-function addPlayerLinks(nodes) {
-	return addNodes(nodes, rePlayer, function (index, matches, createdNodes, string, node) {
-		var nextIndex = matches.index + matches[0].length, player = {};
-		if (nextIndex == string.length) {
-			player.name = $(node.nextSibling).text();
-			addRemoval(node.nextSibling);
-		} else {
-			player.name = string.substring(nextIndex, string.indexOf(' ', nextIndex));
-		}
-
-		var a = document.createElement('a');
-		a.setAttribute('href', Hyperiums7.getServletUrl('Player?page=Contacts&searchplayer=&playername=' + player.name));
-		a.appendChild(document.createTextNode(player.name));
-
-		createdNodes.push(string.substring(index, nextIndex));
-		createdNodes.push(a);
-
-		return nextIndex + player.name.length;
-	});
-}
-
-function addTextNodes(nodes) {
-	var span;
-	nodes = addUrlLinks(nodes);
-	nodes = addEMailLinks(nodes);
-	nodes = addPlayerLinks(nodes);
-	if (nodes[0] != node) {
-		span = document.createElement('span');
-		$.each(nodes, function (_, node) {
-			if (typeof node == 'string') {
-				span.appendChild(document.createTextNode(node));
-			} else if (node instanceof Array) {
-				$.each(node, arguments.callee);
+	function addNodes(nodes, re, callback) {
+		var createdNodes = [];
+		$.each(nodes, function (i, node) {
+			var matches, index = 0, string = node.nodeValue;
+			createdNodes[i] = [];
+			while (matches = re.exec(string)) {
+				index = callback(index, matches, createdNodes[i], string, node);
+			}
+			if (index) {
+				createdNodes[i].push(string.substring(index));
 			} else {
-				span.appendChild(node);
+				createdNodes[i] = node;
 			}
 		});
-		addReplacement(node, span);
-	}
-}
-
-function addTableRow(table, node, totals) {
-	var text = node.nodeValue,
-		tr = $('<tr>').
-			addClass('line' + (table.find('tr').length % 2)).
-			mouseover(function () { $(this).addClass('lineCenteredOn'); }).
-			mouseout(function () { $(this).removeClass('lineCenteredOn'); });
-
-	$.each($.trim(text).split(/ ?\| ?/), function (i, text) {
-		var value = textToValue(text),
-			td = $('<td>');
-
-		if (typeof value == 'number') {
-			if (!totals[i]) {
-				totals[i] = 0;
-			}
-			totals[i] += value;
-			td.addClass('hr');
-		} else if (value instanceof Date) {
-			td.addClass('hc');
-			text = moment(value).utc().format('YYYY-MM-DD HH:mm');
-		}
-
-		tr.append(td.text(text));
-	});
-
-	table.append(tr);
-}
-
-function addTableTotals(table, totals) {
-	var tr = $('<tr class="stdArray">');
-
-	$.each(totals, function (i, value) {
-		var td = $('<td>');
-		if (!value && !i) {
-			td.text('Total');
-		} else if (value) {
-			td.addClass('hr').text(numeral(value).format('0[.]0a'));
-		}
-		tr.append(td);
-	});
-
-	var numColumns = table.find('tr:first-child').children().length;
-	while (tr.children().length < numColumns) {
-		tr.append('<td></td>');
+		return createdNodes;
 	}
 
-	table.append(tr);
-}
+	function addUrlLinks(nodes) {
+		return addNodes(nodes, reUrl, function (index, matches, createdNodes, string, node) {
+			var url = matches[0];
 
-var MODE_TEXT = 0,
-	MODE_TABLE = 1,
-	mode = MODE_TEXT,
-	node, table, totals;
-while (node = walker.nextNode()) {
-	if (
-		-1 < $.inArray(node.parentNode.nodeName, invalidParents) ||
-		$(node).closest('table').parent().closest('table').prev('form').length // preview in forums
-	) {
-		continue;
+			var a = document.createElement('a');
+			a.setAttribute('href', url);
+			a.setAttribute('target', 'blank');
+			a.appendChild(document.createTextNode(url));
+
+			createdNodes.push(string.substring(index, matches.index));
+			createdNodes.push(a);
+
+			return matches.index + url.length;
+		});
 	}
 
-	(function (node) {
-		var text = node.nodeValue;
-		if (reColumns.test(text)) {
-			if (mode == MODE_TABLE) {
-				addRemoval(node);
+	function addEMailLinks(nodes) {
+		return addNodes(nodes, reEmail, function (index, matches, createdNodes, string, node) {
+			var email = matches[0];
+
+			var a = document.createElement('a');
+			a.setAttribute('href', 'mailto:' + email);
+			a.appendChild(document.createTextNode(email));
+
+			createdNodes.push(string.substring(index, matches.index));
+			createdNodes.push(a);
+
+			return matches.index + email.length;
+		});
+	}
+
+	function addPlayerLinks(nodes) {
+		return addNodes(nodes, rePlayer, function (index, matches, createdNodes, string, node) {
+			var nextIndex = matches.index + matches[0].length, player = {};
+			if (nextIndex == string.length) {
+				player.name = $(node.nextSibling).text();
+				addRemoval(node.nextSibling);
 			} else {
-				mode = MODE_TABLE;
-				table = $('<table class="stdArray" width="100%">');
-				totals = [];
-				addReplacement(node, table[0]);
+				player.name = string.substring(nextIndex, string.indexOf(' ', nextIndex));
 			}
-		} else if (mode == MODE_TABLE) {
-			if (reHr.test(text)) {
-				addRemoval(node);
-				table.find('tr').eq(0).addClass('stdArray');
-				return;
+
+			var a = document.createElement('a');
+			a.setAttribute('href', Hyperiums7.getServletUrl('Player?page=Contacts&searchplayer=&playername=' + player.name));
+			a.appendChild(document.createTextNode(player.name));
+
+			createdNodes.push(string.substring(index, nextIndex));
+			createdNodes.push(a);
+
+			if (contacts.toNames[player.name]) {
+				switch (contacts.toNames[player.name].type) {
+				case 'buddy': a.className = 'hlight'; break;
+				case 'friendly': a.className = 'ally'; break;
+				case 'hostile': a.className = 'enemy'; break;
+				}
 			}
-			if (totals.length) {
-				addTableTotals(table, totals);
+
+			return nextIndex + player.name.length;
+		});
+	}
+
+	function addTextNodes(nodes) {
+		var span;
+		nodes = addUrlLinks(nodes);
+		nodes = addEMailLinks(nodes);
+		nodes = addPlayerLinks(nodes);
+		if (nodes[0] != node) {
+			span = document.createElement('span');
+			$.each(nodes, function (_, node) {
+				if (typeof node == 'string') {
+					span.appendChild(document.createTextNode(node));
+				} else if (node instanceof Array) {
+					$.each(node, arguments.callee);
+				} else {
+					span.appendChild(node);
+				}
+			});
+			addReplacement(node, span);
+		}
+	}
+
+	function addTableRow(table, node, totals) {
+		var text = node.nodeValue,
+			tr = $('<tr>').
+				addClass('line' + (table.find('tr').length % 2)).
+				mouseover(function () { $(this).addClass('lineCenteredOn'); }).
+				mouseout(function () { $(this).removeClass('lineCenteredOn'); });
+
+		$.each($.trim(text).split(/ ?\| ?/), function (i, text) {
+			var value = textToValue(text),
+				td = $('<td>');
+
+			if (typeof value == 'number') {
+				if (!totals[i]) {
+					totals[i] = 0;
+				}
+				totals[i] += value;
+				td.addClass('hr');
+			} else if (value instanceof Date) {
+				td.addClass('hc');
+				text = moment(value).utc().format('YYYY-MM-DD HH:mm');
 			}
-			mode = MODE_TEXT;
+
+			tr.append(td.text(text));
+		});
+
+		table.append(tr);
+	}
+
+	function addTableTotals(table, totals) {
+		var tr = $('<tr class="stdArray">');
+
+		$.each(totals, function (i, value) {
+			var td = $('<td>');
+			if (!value && !i) {
+				td.text('Total');
+			} else if (value) {
+				td.addClass('hr').text(numeral(value).format('0[.]0a'));
+			}
+			tr.append(td);
+		});
+
+		var numColumns = table.find('tr:first-child').children().length;
+		while (tr.children().length < numColumns) {
+			tr.append('<td></td>');
 		}
 
-		switch (mode) {
-		case MODE_TABLE:
-			addTableRow(table, node, totals);
-			break;
-		case MODE_TEXT:
-			addTextNodes([node]);
-			break;
+		table.append(tr);
+	}
+
+	var MODE_TEXT = 0,
+		MODE_TABLE = 1,
+		mode = MODE_TEXT,
+		node, table, totals;
+	while (node = walker.nextNode()) {
+		if (
+			-1 < $.inArray(node.parentNode.nodeName, invalidParents) ||
+			$(node).closest('table').parent().closest('table').prev('form').length // preview in forums
+		) {
+			continue;
 		}
-	})(node);
-}
 
-replacements.map(function (replacement) {
-	replacement.original.parentNode.replaceChild(
-		replacement.substitute,
-		replacement.original
-	);
-});
+		(function (node) {
+			var text = node.nodeValue;
+			if (reColumns.test(text)) {
+				if (mode == MODE_TABLE) {
+					addRemoval(node);
+				} else {
+					mode = MODE_TABLE;
+					table = $('<table class="stdArray" width="100%">');
+					totals = [];
+					addReplacement(node, table[0]);
+				}
+			} else if (mode == MODE_TABLE) {
+				if (reHr.test(text)) {
+					addRemoval(node);
+					table.find('tr').eq(0).addClass('stdArray');
+					return;
+				}
+				if (totals.length) {
+					addTableTotals(table, totals);
+				}
+				mode = MODE_TEXT;
+			}
 
-removals.map(function (node) {
-	node.parentNode.removeChild(node);
+			switch (mode) {
+			case MODE_TABLE:
+				addTableRow(table, node, totals);
+				break;
+			case MODE_TEXT:
+				addTextNodes([node]);
+				break;
+			}
+		})(node);
+	}
+
+	replacements.map(function (replacement) {
+		replacement.original.parentNode.replaceChild(
+			replacement.substitute,
+			replacement.original
+		);
+	});
+
+	removals.map(function (node) {
+		node.parentNode.removeChild(node);
+	});
 });
 
