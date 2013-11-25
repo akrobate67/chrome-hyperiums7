@@ -71,7 +71,7 @@ Hyperiums7.getContacts().done(function (contacts) {
 
 			var a = document.createElement('a');
 			a.setAttribute('href', url);
-			a.setAttribute('target', 'blank');
+			a.setAttribute('target', '_blank');
 			a.appendChild(document.createTextNode(url));
 
 			createdNodes.push(string.substring(index, matches.index));
