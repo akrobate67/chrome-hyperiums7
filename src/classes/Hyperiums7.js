@@ -767,6 +767,24 @@ var Hyperiums7 = {
 		});
 
 		return trs;
+	},
+	getTradingOverview: function () {
+		var promise = $.Deferred(), hyperiums = this;
+		$.ajax(this.getServletUrl('Trading')).done(function (data) {
+			var planets = [];
+			$('.planetName', data).each(function (_, element) {
+				element = $(element);
+				var planet = {
+					id: parseFloat(element.attr('href').replace(/[^\d]+/g, '')),
+					name: element.text(),
+					wtr: parseInt(element.parent().
+						find('table table:not(.civ) b').text().replace('%', ''))
+				}
+				planets[planet.id] = planet;
+			});
+			promise.resolveWith(hyperiums, [planets]);
+		});
+		return promise;
 	}
 };
 
