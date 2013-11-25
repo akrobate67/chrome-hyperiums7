@@ -28,7 +28,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Simple Fleet Calculator (Accessible via Military menu in game)
 - Notifications and text-to-speech for ticks, battle reports, planet events, personal messages and forum messages
 - Login via browser action button
-- Send session information to external website
+- (optional) Send session information to external website
 
 ## Installation
 
