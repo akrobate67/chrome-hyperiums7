@@ -147,6 +147,16 @@
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/nofleet.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Forums",
+			"http://hyp2.hyperiums.com/servlet/Forums*"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"classes/Hyperiums7.js",
+			"scripts/contentscripts/forums.js"
+		]
 	}],
 
 	"icons": {
