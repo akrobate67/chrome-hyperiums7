@@ -72,7 +72,9 @@ function appendPlanets(planets, optGroup) {
 		return a.name.localeCompare(b.name);
 	});
 	$.each(planets, function (i, planet) {
-		optGroup.append($('<option>').text(planet.name));
+		if (planet) {
+			optGroup.append($('<option>').text(planet.name));
+		}
 	});
 };
 
