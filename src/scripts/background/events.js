@@ -74,6 +74,7 @@ chrome.browserAction.onClicked.addListener(function (tab) {
 (function (alarmName) {
 	chrome.alarms.onAlarm.addListener(function (alarm) {
 		if (alarm.name == alarmName) {
+			// direct request to avoid caching
 			$.ajax(Hyperiums7.getServletUrl('Planet?newplanetevents=')).
 				done(function (data, textStatus, jqXHR) {
 					Hyperiums7.checkHtmlForEvents(data);

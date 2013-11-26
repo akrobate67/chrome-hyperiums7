@@ -56,7 +56,7 @@ var Hyperiums7 = {
 	login: function (login, password) {
 		var hyperiums = this,
 			promise = $.Deferred();
-		$.ajax({
+		this.ajax({
 			url: this.getServletUrl('Login'),
 			data: {
 				login: login,
@@ -113,7 +113,7 @@ var Hyperiums7 = {
 	getNewEvents: function () {
 		var hyperiums = this,
 			promise = $.Deferred();
-		$.ajax(this.getServletUrl('Planet?newplanetevents=')).
+		this.ajax(this.getServletUrl('Planet?newplanetevents=')).
 			done(function (data, textStatus, jqXHR) {
 				promise.resolveWith(hyperiums, [hyperiums.getEventsFromHtml(data)]);
 			});
@@ -236,7 +236,7 @@ var Hyperiums7 = {
 	getBattleReports: function () {
 		var promise = $.Deferred(),
 			hyperiums = this;
-		$.ajax(this.getServletUrl('Player?page=Reports')).
+		this.ajax(this.getServletUrl('Player?page=Reports')).
 			done(function (data, textStatus, jqXHR) {
 				var reports = [];
 				$('input[type=checkbox]', data).each(function (i, element) {
@@ -449,7 +449,7 @@ var Hyperiums7 = {
 	},
 	getPlanetIdInfluence: function (planetId) {
 		var promise = $.Deferred(), hyperiums = this;
-		$.ajax({
+		this.ajax({
 			url: this.getServletUrl('Planet'),
 			data: {
 				cancelabandon: '',
@@ -464,7 +464,7 @@ var Hyperiums7 = {
 	},
 	searchPlanets: function (pattern) {
 		var promise = $.Deferred(), hyperiums = this;
-		$.ajax({
+		this.ajax({
 			url: this.getServletUrl('Maps'),
 			data: {
 				searchplanets: pattern,
@@ -517,7 +517,7 @@ var Hyperiums7 = {
 	},
 	getContacts: function () {
 		var promise = $.Deferred(), hyperiums = this;
-		$.ajax(this.getServletUrl('Player?page=Contacts')).
+		this.ajax(this.getServletUrl('Player?page=Contacts')).
 			done(function (data, textStatus, jqXHR) {
 				var players = [];
 				players.toNames = {};
@@ -554,7 +554,7 @@ var Hyperiums7 = {
 	},
 	getMovingFleets: function () {
 		var promise = $.Deferred(), hyperiums = this;
-		$.ajax(this.getServletUrl('Fleets?pagetype=moving_fleets')).done(function (data) {
+		this.ajax(this.getServletUrl('Fleets?pagetype=moving_fleets')).done(function (data) {
 			var fleets = [];
 			fleets.toNames = {};
 			$('td[width="430"]', data).each(function (_, element) {
@@ -614,7 +614,7 @@ var Hyperiums7 = {
 	},
 	getControlledPlanets: function () {
 		var promise = $.Deferred(), hyperiums = this;
-		$.ajax(this.getServletUrl('Home')).done(function (data) {
+		this.ajax(this.getServletUrl('Home')).done(function (data) {
 			var planets = [];
 			$('.planet', data).each(function (_, element) {
 				element = $(element);
@@ -635,7 +635,7 @@ var Hyperiums7 = {
 	},
 	getForeignPlanets: function () {
 		var promise = $.Deferred(), hyperiums = this;
-		$.ajax(this.getServletUrl('Fleets?pagetype=foreign_fleets')).done(function (data) {
+		this.ajax(this.getServletUrl('Fleets?pagetype=foreign_fleets')).done(function (data) {
 			var planets = [];
 			$('.planetName', data).each(function (_, element) {
 				planets.push({
@@ -770,7 +770,7 @@ var Hyperiums7 = {
 	},
 	getTradingOverview: function () {
 		var promise = $.Deferred(), hyperiums = this;
-		$.ajax(this.getServletUrl('Trading')).done(function (data) {
+		this.ajax(this.getServletUrl('Trading')).done(function (data) {
 			var planets = [];
 			$('.planetName', data).each(function (_, element) {
 				element = $(element);
@@ -783,6 +783,35 @@ var Hyperiums7 = {
 				planets[planet.id] = planet;
 			});
 			promise.resolveWith(hyperiums, [planets]);
+		});
+		return promise;
+	},
+	ajax: function (url, settings) {
+		settings = settings || url;
+
+		if (typeof settings == 'string') {
+			settings = {url: settings};
+		} else {
+			settings.url = settings.url || url;
+		}
+
+		settings.data = settings.data || '';
+		if (typeof settings.data != 'string') {
+			settings.data = $.param(settings.data, settings.traditional || false);
+		}
+
+		url = settings.url;
+		if (settings.data.length) {
+			url += '?' + settings.data;
+		}
+
+		var promise = $.Deferred(), hyperiums = this;
+		chrome.runtime.sendMessage({
+			request: 'getAjaxCache',
+			url: url,
+			settings: settings
+		}, function (data) {
+			promise.resolveWith(hyperiums, [data]);
 		});
 		return promise;
 	}

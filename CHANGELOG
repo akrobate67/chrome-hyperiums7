@@ -7,6 +7,7 @@ XXXX-XX-XX XX:XX:XX Version 0.0.5
 * Added Total gross income, Total income from exploitations and Total income from captive planets to cash page
 * Added Automatically go to last page of thread
 * Changed to display planet influence after WTR (with tooltip for value before WTR)
+* Added Caching of most AJAX requests (except event checking and stats for political map)
 
 2013-11-25 00:32:57 Version 0.0.4
 * Added total pop to controlled planets summary
