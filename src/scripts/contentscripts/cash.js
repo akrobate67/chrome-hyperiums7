@@ -27,12 +27,12 @@ $('.line0 td:first-child').append(
 
 var totalExploitationsIncome = 0;
 $('table[width="340"] > tbody > tr:first-child > .hr').each(function (_, element) {
-	totalExploitationsIncome += parseFloat($(element).text().replace(/,/g, ''));
+	totalExploitationsIncome += parseFloat($(element).text().replace(/,/g, '')) || 0;
 });
 
 var totalCaptivityIncome = 0;
 $('table[width="340"] > tbody > tr > .hr.hlight').each(function (_, element) {
-	totalCaptivityIncome += parseFloat($(element).text().replace(/,/g, ''));
+	totalCaptivityIncome += parseFloat($(element).text().replace(/,/g, '')) || 0;
 });
 
 var totalGrossIncome = totalExploitationsIncome + totalCaptivityIncome;
