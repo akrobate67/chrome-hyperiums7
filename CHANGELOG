@@ -1,7 +1,9 @@
 Bugfixes are not included in this changelog. See github:
 https://github.com/resident-uhlig/chrome-hyperiums7/issues
 
-XXXX-XX-XX XX:XX:XX Version 0.0.5
+XXXX-XX-XX XX:XX:XX Version 0.0.6
+
+2013-11-26 21:09:43 Version 0.0.5
 * Added changelog
 * Added Upkeep in relation to Total Income on cash page
 * Added Total gross income, Total income from exploitations and Total income from captive planets to cash page
