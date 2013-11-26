@@ -4,7 +4,11 @@ $.each(location.search.substr(1).split('&'), function (_, pair) {
 	params[split[0]] = split[1];
 });
 
+var url;
 if (params.action == 'fdispmsg' && params.limit === undefined) {
-	location.href = $('.hc.info:not(.avgtext) a').eq(-2).attr('href');
+	url = $('.hc.info:not(.avgtext) a').eq(-2).attr('href');
+	if (url) {
+		location.href = url;
+	}
 }
 
