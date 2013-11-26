@@ -98,6 +98,11 @@ Hyperiums7.getContacts().done(function (contacts) {
 
 	function addPlayerLinks(nodes) {
 		return addNodes(nodes, rePlayer, function (index, matches, createdNodes, string, node) {
+			// only system messages
+			if (string.substr(0, 1) != ':') {
+				return 0;
+			}
+
 			var nextIndex = matches.index + matches[0].length, player = {};
 			if (nextIndex == string.length) {
 				player.name = $(node.nextSibling).text();
