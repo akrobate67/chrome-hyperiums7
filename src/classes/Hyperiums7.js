@@ -56,7 +56,7 @@ var Hyperiums7 = {
 	login: function (login, password) {
 		var hyperiums = this,
 			promise = $.Deferred();
-		this.ajax({
+		$.ajax({
 			url: this.getServletUrl('Login'),
 			data: {
 				login: login,
