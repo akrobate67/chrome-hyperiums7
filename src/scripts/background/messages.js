@@ -24,6 +24,14 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
 			}
 		});
 		return true;
+	case 'updateAjaxCache':
+		var storage = {};
+		storage[message.url] = {
+			time: new Date().getTime(),
+			data: message.data
+		};
+		chrome.storage.local.set(storage);
+		return true;
 	}
 });
 

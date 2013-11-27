@@ -2,6 +2,8 @@ Bugfixes are not included in this changelog. See github:
 https://github.com/resident-uhlig/chrome-hyperiums7/issues
 
 XXXX-XX-XX XX:XX:XX Version 0.0.6
+* Added Cache Overview
+* Added Update cache with browsing content
 
 2013-11-26 21:09:43 Version 0.0.5
 * Added changelog

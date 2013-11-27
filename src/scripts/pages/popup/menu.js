@@ -30,6 +30,7 @@ chrome.storage.sync.get('cfg', function (storage) {
 			}
 			ul.append([
 				$('<li><a href="/pages/options.html" target="_blank">Options</a></li>'),
+				$('<li><a href="/pages/cache.html" target="_blank">Cache Overview</a></li>'),
 				$('<li>').append(
 					$('<a target="_blank">Contact</a>').
 						attr('href', Hyperiums7.getServletUrl('Player?playerid=72933&replysubj=Chrome extension'))
