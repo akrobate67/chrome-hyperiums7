@@ -6,9 +6,6 @@ var div = $('<div id="hyperiums7-ticks" class="servertime">');
 $('body').append(div);
 
 var ticks = Hyperiums7.ticks;
-ticks.sort(function (a, b) {
-	a.name.localeCompare(b.name);
-});
 
 (function () {
 	var serverDate = new Date(new Date().getTime() - offsetInMS);
