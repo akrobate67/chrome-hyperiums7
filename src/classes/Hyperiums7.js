@@ -589,6 +589,10 @@ var Hyperiums7 = {
 							replace(/[^\d]+/g, '')
 						);
 					}
+
+					if (key == 'numCarriedArmies') {
+						fleet.autodrop = element.nextSibling.nodeValue == ' (auto drop)';
+					}
 				});
 
 				fleets.push(fleet);

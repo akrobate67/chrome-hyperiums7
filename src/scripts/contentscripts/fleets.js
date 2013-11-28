@@ -126,6 +126,7 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 							'<th class="hc">ETA</th>',
 							'<th class="hr">Space AvgP</th>',
 							'<th class="hr">Ground AvgP</th>',
+							'<th class="hc">Drop</th>',
 							'<th class="hc">Change</th>',
 							$('<th class="hr">').append(
 								$('<input type="checkbox">').change(function () {
@@ -156,6 +157,7 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 								),
 								$('<td class="hr">').text(numeral(fleet.spaceAvgP).format('0[.]0a')),
 								$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a')),
+								$('<td class="hc">').text(fleet.autodrop ? 'auto drop' : 'on order'),
 								$('<td class="hc">').append(
 									$('<a>Change</a>').attr('href',
 										Hyperiums7.getServletUrl('Fleets?changefleet=&floatid=' + fleet.id)
@@ -182,13 +184,13 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 							'<td class="hr" colspan="2">Total</td>',
 							$('<td class="hr">').text(numeral(total.spaceAvgP).format('0[.]0a')),
 							$('<td class="hr">').text(numeral(total.groundAvgP).format('0[.]0a')),
-							$('<td colspan="2">')
+							$('<td colspan="3">')
 						])
 					);
 				}
 
 				table.append(
-					'<tr><td class="hr" colspan="6">' +
+					'<tr><td class="hr" colspan="7">' +
 					'<input type="submit" class="button" name="reroute" value="Reroute"> ' +
 					'<input type="submit" class="button" name="delayfleets" value="Delay"> ' +
 					'selected fleets</td></tr>'
