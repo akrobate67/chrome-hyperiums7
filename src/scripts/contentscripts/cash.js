@@ -37,7 +37,7 @@ $('table[width="340"] > tbody > tr > .hr.hlight').each(function (_, element) {
 
 var totalGrossIncome = totalExploitationsIncome + totalCaptivityIncome;
 
-$('.line1').before([
+$('.line1').eq(0).before([
 	$('<tr class="line1">').append([
 		'<td>Total gross income</td>',
 		$('<td class="hr">').text(numeral(totalGrossIncome).format('0,0'))
