@@ -74,7 +74,7 @@ $('.movingFleetGroupTitle + tr img[src$="fleetarmy_icon.gif"]').
 			averagePower = Hyperiums7.groundAveragePower[raceId] * numCarriedArmies;
 
 		$(element).closest('tr').prev().find('td:first-child').append([
-			' - Ground AvgP: ',
+			' - GAvgP: ',
 			$('<b>').text(
 				numeral(averagePower).format('0[.]0a')
 			)
