@@ -52,6 +52,11 @@ The .crx file will automatically get updated if there is a new version available
 Get the source of this extension (e.g. from github) and load the src directory in your browser. For details see:
 http://developer.chrome.com/extensions/getstarted.html#unpacked
 
+## Forks, ports and related projects
+
+- Hyperiums Userscripts by Nasga<br>
+  https://github.com/Nasga/hyperiums-userscripts
+
 ## Contact
 
 You can contact the original author in game via personal message to *natalie_g*. There is also a contact link in the extension.
