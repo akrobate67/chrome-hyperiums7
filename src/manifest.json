@@ -176,7 +176,8 @@
 		"cookies",
 		"notifications",
 		"storage",
-		"tts"
+		"tts",
+		"unlimitedStorage"
 	],
 
 	"update_url": "http://www.resident-uhlig.de/hyperiums/chrome.xml",
