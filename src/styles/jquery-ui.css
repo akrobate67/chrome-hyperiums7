@@ -7,6 +7,10 @@
 	border-color:#3a3a3a;
 }
 
+.ui-menu .ui-menu-item a {
+	color:#aa7;
+}
+
 .ui-menu .ui-menu-item a.ui-state-focus,
 .ui-menu .ui-menu-item a.ui-state-active {
 	border:1px solid #aaa;
