@@ -101,6 +101,15 @@ $('[name="destplanetname"], [name="toplanet"], [name="destname"]').
 
 if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0) {
 	Hyperiums7.getMovingFleets().done(function (fleets) {
+		var moveTick;
+		$.each(Hyperiums7.ticks, function (_, tick) {
+			if (tick.name == 'Move/Control') {
+				moveTick = tick;
+			}
+		});
+
+		var nextMoveTickDate = moveTick.getNextDate(new Date);
+
 		$('.planetName').each(function (_, element) {
 			element = $(element);
 			var planet = { name: element.text() },
@@ -114,6 +123,7 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 					$('<thead>').append(
 						$('<tr class="stdArray">').append([
 							'<th class="hr">ETA</th>',
+							'<th class="hc">ETA</th>',
 							'<th class="hr">Space AvgP</th>',
 							'<th class="hr">Ground AvgP</th>',
 							'<th class="hc">Change</th>',
@@ -138,6 +148,12 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 							addClass('line' + ((i+1) % 2)).
 							append([
 								$('<td class="hr">').text(fleet.eta + 'h'),
+								$('<td class="hc">').text(
+									moment(nextMoveTickDate).
+										add(fleet.eta - 1, 'h').
+										utc().
+										format('YYYY-MM-DD HH:mm')
+								),
 								$('<td class="hr">').text(numeral(fleet.spaceAvgP).format('0[.]0a')),
 								$('<td class="hr">').text(numeral(fleet.groundAvgP).format('0[.]0a')),
 								$('<td class="hc">').append(
@@ -163,7 +179,7 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 				if (numFleets > 1) {
 					table.append(
 						$('<tr class="stdArray">').append([
-							'<td class="hr">Total</td>',
+							'<td class="hr" colspan="2">Total</td>',
 							$('<td class="hr">').text(numeral(total.spaceAvgP).format('0[.]0a')),
 							$('<td class="hr">').text(numeral(total.groundAvgP).format('0[.]0a')),
 							$('<td colspan="2">')
@@ -172,7 +188,7 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 				}
 
 				table.append(
-					'<tr><td class="hr" colspan="5">' +
+					'<tr><td class="hr" colspan="6">' +
 					'<input type="submit" class="button" name="reroute" value="Reroute"> ' +
 					'<input type="submit" class="button" name="delayfleets" value="Delay"> ' +
 					'selected fleets</td></tr>'
