@@ -7,6 +7,7 @@ XXXX-XX-XX XX:XX:XX Version 0.0.6
 * Added landing date/time and auto-drop information to table of incoming fleets
 * Added Ground Armies and Carried Armies to Fleet Calculator
 * Added Show average Space AvgP and Ground AvgP for Battle Reports
+* Added target values (AvgP, Build Costs, Upkeep, TTB) to fleet build center
 
 2013-11-26 21:09:43 Version 0.0.5
 * Added changelog

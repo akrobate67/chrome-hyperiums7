@@ -416,6 +416,11 @@ var Hyperiums7 = {
 		});
 		return promise;
 	},
+	getTimeToBuildMultiplier: function (planet) {
+		return this.timeToBuildMultiplier.governments[planet.governmentId] *
+			this.timeToBuildMultiplier.products[planet.productId] *
+			this.timeToBuildMultiplier.stasis[planet.stasis ? 1 : 0];
+	},
 	getBuildPipeTotals: function (pipe, planet) {
 		var totals = {
 			timeToBuild: 0,
@@ -424,10 +429,7 @@ var Hyperiums7 = {
 			spaceAvgP: 0,
 			groundAvgP: 0
 		},
-			multiplier =
-				this.timeToBuildMultiplier.governments[planet.governmentId] *
-				this.timeToBuildMultiplier.products[planet.productId] *
-				this.timeToBuildMultiplier.stasis[planet.stasis ? 1 : 0],
+			multiplier = this.getTimeToBuildMultiplier(planet),
 			numFactories = planet.numFactories,
 			raceId = planet.raceId,
 			productId = planet.productId,
@@ -436,9 +438,8 @@ var Hyperiums7 = {
 
 		$.each(pipe, function (_, order) {
 			if (order.unitId == factoryUnitId) {
-				totals.timeToBuild += multiplier *
-					Math.log((order.count + numFactories) / numFactories) /
-					Math.log(1 + 1 / hyperiums.timeToBuild[order.unitId][raceId]);
+				totals.timeToBuild += Math.log((order.count + numFactories) / numFactories) /
+					Math.log(1 + 1 / hyperiums.timeToBuild[order.unitId][raceId] * multiplier);
 				numFactories += order.count;
 			} else {
 				totals.timeToBuild += order.count * multiplier / numFactories *

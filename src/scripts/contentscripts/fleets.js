@@ -15,25 +15,45 @@ $('td > input[name="loadarmies"]:not(:disabled)').after([
 ]);
 
 Hyperiums7.getControlledPlanets().done(function (planets) {
-	var cash = parseFloat($('#cashTab').text().replace(/,/g, '')) || 0;
-	$('[name="build"]').after($('<p class="totals">'));
+	var cash = parseFloat($('#cashTab').text().replace(/,/g, '')) || 0,
+		factoryUnitId = Hyperiums7.units.indexOf('Factories');
+
+	$('[name="build"]').
+		after($('<p class="totals">')).
+		click(function () {
+			var form = $(this).closest('form');
+			form.find('[name="buildunits"]').val(form.data('numUnits') || 0);
+		});
+
 	$('[name="buildunits"]').
 		attr({
 			type: 'number',
 			min: 0
 		}).
+		css('width', '7em').
 		keydown(function (event) {
 			if (event.which == 13) {
 				event.preventDefault();
 				$(this).siblings('[name="build"]').click();
 			}
 		}).
-		add('[name="unittype"]').
+		after([' ', $('<select name="xtype">').append([
+			'<option value="numUnits">Units</option>',
+			'<option value="spaceAvgP">Space AvgP</option>',
+			'<option value="buildCosts">Build Costs</option>',
+			'<option value="upkeepCosts">Upkeep Costs</option>',
+			'<option value="numHours">Hours</option>'
+		])]).
+		add('[name="unittype"], [name="xtype"]').
 		on('input change keyup', function () {
 			var element = $(this),
-				form =element.closest('form'),
+				form = element.closest('form'),
 				planetId = parseInt(form.find('[name="planetid"]').val()) || 0,
 				planet = planets[planetId],
+				unitId = parseInt(form.find('[name="unittype"]').val()) || 0,
+				numUnits = parseFloat(form.find('[name="buildunits"]').val()) || 0,
+				xtype = form.find('[name="xtype"]').val(),
+				ttbMultiplier = Hyperiums7.getTimeToBuildMultiplier(planet),
 				buildCostSpan;
 
 			planet.numFactories = parseFloat(element.
@@ -41,19 +61,45 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 				children('tr').eq(1).
 				find('b').eq(0).text());
 
+			switch (xtype) {
+			case 'numHours':
+				if (unitId == factoryUnitId) {
+					numUnits = planet.numFactories *
+						Math.pow(1 + 1 / Hyperiums7.timeToBuild[unitId][planet.raceId] * ttbMultiplier, numUnits) -
+						planet.numFactories;
+				} else {
+					numUnits *= planet.numFactories /
+						Hyperiums7.timeToBuild[unitId][planet.raceId] /
+						ttbMultiplier;
+				}
+				break;
+			case 'spaceAvgP':
+			case 'upkeepCosts':
+				numUnits /= Hyperiums7[xtype][unitId][planet.raceId];
+				break;
+			case 'buildCosts':
+				numUnits /= Hyperiums7[xtype][unitId][planet.productId];
+				break;
+			}
+
+			numUnits = Math.floor(numUnits) || 0;
+			form.data('numUnits', numUnits);
+
 			var totals = Hyperiums7.getBuildPipeTotals([{
-				count: parseFloat(form.find('[name="buildunits"]').val()) || 0,
-				unitId: parseInt(form.find('[name="unittype"]').val()) || 0
+				count: numUnits,
+				unitId: unitId
 			}], planet);
 
 			form.find('.totals').empty().append([
-				'<strong>Space AvgP:</strong> ',
+				'<strong>Units:</strong> ',
+				numeral(numUnits).format('0[.]0a'),
+				' - <strong>AvgP:</strong> ',
 				numeral(totals.spaceAvgP).format('0[.]0a'),
-				' - <strong>Build Costs:</strong> ',
+				' - <strong>Costs:</strong> ',
 				buildCostSpan = $('<span>').text(numeral(totals.buildCosts).format('0[.]0a')),
-				' - <strong>Upkeep Costs:</strong> ',
+				' - <strong>Upkeep:</strong> ',
 				numeral(totals.upkeepCosts).format('0[.]0a'),
-				' - <strong>Time to build:</strong> ',
+				' - <strong>TTB:</strong> ',
 				moment.duration(Math.ceil(totals.timeToBuild) * 3600000).format()
 			]);
 
