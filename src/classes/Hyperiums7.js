@@ -272,18 +272,18 @@ var Hyperiums7 = {
 	govs: ['Dict.', 'Auth.', 'Demo.', 'Hyp.'],
 	units: ['Factories', 'Destroyers', 'Cruisers', 'Scouts', 'Bombers', 'Starbases', 'Ground Armies', 'Carried Armies'],
 	spaceAvgP: [
-		// [Human, Azterk, Xillor]
-		[0, 0, 0], // Factories
-		[56, 73, 67], // Destroyers
-		[319, 393, 475], // Cruisers
-		[8, 6, 7], // Scouts
-		[66, 85, 105], // Bombers
-		[2583, 2583, 2583], // Starbases
-		[0, 0, 0], // Ground Armies
-		[0, 0, 0] // Carried Armies
+		// [Human, Azterk, Xillor, Hyperiums, Average]
+		[0, 0, 0, 0, 0], // Factories
+		[56, 73, 67, 0, 65], // Destroyers
+		[319, 393, 475, 0, 396], // Cruisers
+		[8, 6, 7, 0, 7], // Scouts
+		[66, 85, 105, 0, 85], // Bombers
+		[2583, 2583, 2583, 0, 2583], // Starbases
+		[0, 0, 0, 0, 0], // Ground Armies
+		[0, 0, 0, 0, 0] // Carried Armies
 	],
-	// [Human, Azterk, Xillor]
-	groundAvgP: [300, 360, 240],
+	// [Human, Azterk, Xillor, Hyp]
+	groundAvgP: [300, 360, 240, 0, 300],
 	upkeepCosts: [
 		// [Human, Azterk, Xillor]
 		[1800, 1900, 2100], // Factories

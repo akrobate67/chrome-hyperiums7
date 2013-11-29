@@ -36,7 +36,8 @@
 			"scripts/contentscripts/events.js",
 			"scripts/contentscripts/ticks.js",
 			"scripts/contentscripts/menu.js",
-			"scripts/contentscripts/textmarkup.js"
+			"scripts/contentscripts/textmarkup.js",
+			"scripts/contentscripts/battlereports.js"
 		],
 		"css": [
 			"styles/ticks.css",
