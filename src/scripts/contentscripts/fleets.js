@@ -48,7 +48,7 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 
 			form.find('.totals').empty().append([
 				'<strong>Space AvgP:</strong> ',
-				numeral(totals.spaceAveragePower).format('0[.]0a'),
+				numeral(totals.spaceAvgP).format('0[.]0a'),
 				' - <strong>Build Costs:</strong> ',
 				buildCostSpan = $('<span>').text(numeral(totals.buildCosts).format('0[.]0a')),
 				' - <strong>Upkeep Costs:</strong> ',
@@ -71,12 +71,12 @@ $('.movingFleetGroupTitle + tr img[src$="fleetarmy_icon.gif"]').
 			raceName = element.parentNode.firstChild.getAttribute('src').
 				replace(/^.*?([a-z]+)\.gif$/i, '$1'),
 			raceId = Hyperiums7.races.indexOf(raceName),
-			averagePower = Hyperiums7.groundAveragePower[raceId] * numCarriedArmies;
+			avgP = Hyperiums7.groundAvgP[raceId] * numCarriedArmies;
 
 		$(element).closest('tr').prev().find('td:first-child').append([
 			' - GAvgP: ',
 			$('<b>').text(
-				numeral(averagePower).format('0[.]0a')
+				numeral(avgP).format('0[.]0a')
 			)
 		]);
 	});

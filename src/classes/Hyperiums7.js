@@ -271,7 +271,7 @@ var Hyperiums7 = {
 	governments: ['Dictatorial', 'Authoritarian', 'Democratic', 'Hyp.protect.'],
 	govs: ['Dict.', 'Auth.', 'Demo.', 'Hyp.'],
 	units: ['Factories', 'Destroyers', 'Cruisers', 'Scouts', 'Bombers', 'Starbases', 'Ground Armies', 'Carried Armies'],
-	spaceAveragePower: [
+	spaceAvgP: [
 		// [Human, Azterk, Xillor]
 		[0, 0, 0], // Factories
 		[56, 73, 67], // Destroyers
@@ -283,7 +283,7 @@ var Hyperiums7 = {
 		[0, 0, 0] // Carried Armies
 	],
 	// [Human, Azterk, Xillor]
-	groundAveragePower: [300, 360, 240],
+	groundAvgP: [300, 360, 240],
 	upkeepCosts: [
 		// [Human, Azterk, Xillor]
 		[1800, 1900, 2100], // Factories
@@ -421,8 +421,8 @@ var Hyperiums7 = {
 			timeToBuild: 0,
 			upkeepCosts: 0,
 			buildCosts: 0,
-			spaceAveragePower: 0,
-			groundAveragePower: 0
+			spaceAvgP: 0,
+			groundAvgP: 0
 		},
 			multiplier =
 				this.timeToBuildMultiplier.governments[planet.governmentId] *
@@ -450,12 +450,12 @@ var Hyperiums7 = {
 			totals.buildCosts += order.count *
 				hyperiums.buildCosts[order.unitId][productId];
 			if (order.unitId != factoryUnitId) {
-				if (hyperiums.spaceAveragePower[order.unitId][raceId] == 0) {
-					totals.groundAveragePower += order.count *
-						hyperiums.groundAveragePower[raceId];
+				if (hyperiums.spaceAvgP[order.unitId][raceId] == 0) {
+					totals.groundAvgP += order.count *
+						hyperiums.groundAvgP[raceId];
 				} else {
-					totals.spaceAveragePower += order.count *
-						hyperiums.spaceAveragePower[order.unitId][raceId];
+					totals.spaceAvgP += order.count *
+						hyperiums.spaceAvgP[order.unitId][raceId];
 				}
 			}
 		});
@@ -621,13 +621,13 @@ var Hyperiums7 = {
 	},
 	updateFleetAvgP: function (fleet) {
 		fleet.spaceAvgP =
-			fleet.numDestroyers * this.spaceAveragePower[1][fleet.raceId] +
-			fleet.numCruisers * this.spaceAveragePower[2][fleet.raceId] +
-			fleet.numScouts * this.spaceAveragePower[3][fleet.raceId] +
-			fleet.numBombers * this.spaceAveragePower[4][fleet.raceId] +
-			fleet.numStarbases * this.spaceAveragePower[5][fleet.raceId];
+			fleet.numDestroyers * this.spaceAvgP[1][fleet.raceId] +
+			fleet.numCruisers * this.spaceAvgP[2][fleet.raceId] +
+			fleet.numScouts * this.spaceAvgP[3][fleet.raceId] +
+			fleet.numBombers * this.spaceAvgP[4][fleet.raceId] +
+			fleet.numStarbases * this.spaceAvgP[5][fleet.raceId];
 		fleet.groundAvgP =
-			fleet.numCarriedArmies * this.groundAveragePower[fleet.raceId];
+			fleet.numCarriedArmies * this.groundAvgP[fleet.raceId];
 		
 	},
 	getControlledPlanets: function () {
