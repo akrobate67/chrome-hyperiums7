@@ -214,6 +214,7 @@ Hyperiums7.getContacts().done(function (contacts) {
 		(function (node) {
 			var text = node.nodeValue;
 			if (
+				$(node).closest('.player').length > 0 &&
 				reColumns.test(text) &&
 				$.inArray(node.parentNode.nodeName, invalidTableParents) == -1
 			) {
