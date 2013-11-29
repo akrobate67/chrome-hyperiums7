@@ -63,7 +63,7 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 		});
 });
 
-$('.movingFleetGroupTitle + tr img[src$="fleetarmy_icon.gif"]').
+$('.movingFleetGroupTitle ~ tr img[src$="fleetarmy_icon.gif"]').
 	each(function (_, element) {
 		var numCarriedArmies = parseFloat(
 				element.previousSibling.nodeValue.replace(/[^\d]+/g, '')
@@ -73,12 +73,19 @@ $('.movingFleetGroupTitle + tr img[src$="fleetarmy_icon.gif"]').
 			raceId = Hyperiums7.races.indexOf(raceName),
 			avgP = Hyperiums7.groundAvgP[raceId] * numCarriedArmies;
 
-		$(element).closest('tr').prev().find('td:first-child').append([
-			' - GAvgP: ',
-			$('<b>').text(
-				numeral(avgP).format('0[.]0a')
-			)
-		]);
+		var td = $(element).
+			closest('tr').
+			prevAll('.movingFleetGroupTitle').last().
+			find('td:first-child');
+
+		var prevAvgP = td.data('groundAvgP') || 0;
+		if (prevAvgP == 0) {
+			td.append(' - GAvgP: <b></b>');
+		}
+		avgP += prevAvgP;
+		td.data('groundAvgP', avgP);
+
+		td.find('b').last().text(numeral(avgP).format('0[.]0a'))
 	});
 
 $('[name="destplanetname"], [name="toplanet"], [name="destname"]').
