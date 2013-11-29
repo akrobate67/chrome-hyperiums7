@@ -270,7 +270,7 @@ var Hyperiums7 = {
 	products: ['Agro', 'Minero', 'Techno'],
 	governments: ['Dictatorial', 'Authoritarian', 'Democratic', 'Hyp.protect.'],
 	govs: ['Dict.', 'Auth.', 'Demo.', 'Hyp.'],
-	units: ['Factories', 'Destroyers', 'Cruisers', 'Scouts', 'Bombers', 'Starbases'],
+	units: ['Factories', 'Destroyers', 'Cruisers', 'Scouts', 'Bombers', 'Starbases', 'Ground Armies', 'Carried Armies'],
 	spaceAveragePower: [
 		// [Human, Azterk, Xillor]
 		[0, 0, 0], // Factories
@@ -278,7 +278,9 @@ var Hyperiums7 = {
 		[319, 393, 475], // Cruisers
 		[8, 6, 7], // Scouts
 		[66, 85, 105], // Bombers
-		[2583, 2583, 2583] // Starbases
+		[2583, 2583, 2583], // Starbases
+		[0, 0, 0], // Ground Armies
+		[0, 0, 0] // Carried Armies
 	],
 	// [Human, Azterk, Xillor]
 	groundAveragePower: [300, 360, 240],
@@ -300,7 +302,9 @@ var Hyperiums7 = {
 		[60000, 51000, 45000], // Cruisers
 		[1500, 1275, 1125], // Scouts
 		[25000, 21250, 18750], // Bombers
-		[2000000, 1700000, 1500000] // Starbases
+		[2000000, 1700000, 1500000], // Starbases
+		[0, 0, 0], // Ground Armies
+		[0, 0, 0] // Carried Armies
 	],
 	timeToBuild: [ // ticks with 1 factorie, no stasis
 		// [Human, Azterk, Xillor]
@@ -309,7 +313,9 @@ var Hyperiums7 = {
 		[25, 50, 85], // Cruiseres
 		[1, 1, 2], // Scouts
 		[5, 7, 10], // Bombers
-		[0, 0, 0] // Starbases
+		[0, 0, 0], // Starbases
+		[0, 0, 0], // Ground Armies
+		[0, 0, 0] // Carried Armies
 	],
 	timeToBuildMultiplier: {
 		// [Dict., Auth., Demo.]
@@ -415,7 +421,8 @@ var Hyperiums7 = {
 			timeToBuild: 0,
 			upkeepCosts: 0,
 			buildCosts: 0,
-			spaceAveragePower: 0
+			spaceAveragePower: 0,
+			groundAveragePower: 0
 		},
 			multiplier =
 				this.timeToBuildMultiplier.governments[planet.governmentId] *
@@ -442,8 +449,15 @@ var Hyperiums7 = {
 				hyperiums.upkeepCosts[order.unitId][raceId];
 			totals.buildCosts += order.count *
 				hyperiums.buildCosts[order.unitId][productId];
-			totals.spaceAveragePower += order.count *
-				hyperiums.spaceAveragePower[order.unitId][raceId];
+			if (order.unitId != factoryUnitId) {
+				if (hyperiums.spaceAveragePower[order.unitId][raceId] == 0) {
+					totals.groundAveragePower += order.count *
+						hyperiums.groundAveragePower[raceId];
+				} else {
+					totals.spaceAveragePower += order.count *
+						hyperiums.spaceAveragePower[order.unitId][raceId];
+				}
+			}
 		});
 		return totals;
 	},
