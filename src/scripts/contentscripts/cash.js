@@ -19,9 +19,10 @@ Hyperiums7.searchPlanets(planetNames.join(',')).done(function (planets) {
 });
 
 var totalIncome = parseFloat($('.line1 .hr').text().replace(/,/g, '')),
-	upkeep = Math.abs(parseFloat($('.line0 .hr').text().replace(/,/g, '')));
+	upkeepRow = $('.line0, .line1').last(),
+	upkeep = Math.abs(parseFloat(upkeepRow.find('.hr').text().replace(/,/g, '')));
 
-$('.line0 td:first-child').append(
+upkeepRow.find('td:first-child').append(
 	$('<small>').text(' (' + numeral(upkeep / totalIncome).format('0[.]0%') + ')')
 );
 
