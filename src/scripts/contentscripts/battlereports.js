@@ -5,7 +5,7 @@ $('.br_own').closest('table').each(function (_, table) {
 		each(function (_, tr) {
 			tr = $(tr);
 			var tds = tr.find('td'),
-				unitName = tds.eq(0).text(),
+				unitName = $.trim(tds.eq(0).text()),
 				unitId = Hyperiums7.units.indexOf(unitName),
 				numbers = {
 					own: {
