@@ -214,12 +214,12 @@ var Hyperiums7 = {
 		return promise;
 	},
 	hapi: function (args) {
-		var promise = $.Deferred();
+		var promise = $.Deferred(), hyperiums = this;
 		this.getSession().done(function (session) {
 			args.gameid = args.gameid || session.gameId;
 			args.playerid = args.playerid || session.playerId;
 			args.authkey = args.authkey || session.authKey;
-			$.ajax({
+			hyperiums.ajax({
 				url: this.getServletUrl('HAPI'),
 				data: args
 			}).done(function (data, textStatus, jqXHR) {
@@ -635,6 +635,7 @@ var Hyperiums7 = {
 		var promise = $.Deferred(), hyperiums = this;
 		this.ajax(this.getServletUrl('Home')).done(function (data) {
 			var planets = [];
+			planets.numPlanets = 0;
 			$('.planet', data).each(function (_, element) {
 				element = $(element);
 				var highlights = element.closest('table').find('.highlight'),
@@ -647,6 +648,7 @@ var Hyperiums7 = {
 						stasis: element.closest('table').find('[src$="stasis_icon.png"]').length == 1
 					};
 					planets[planet.id] = planet;
+					planets.numPlanets++;
 			});
 			promise.resolveWith(hyperiums, [planets]);
 		});
@@ -822,6 +824,7 @@ var Hyperiums7 = {
 		url = settings.url;
 		if (settings.data.length) {
 			url += '?' + settings.data;
+			settings.data = '';
 		}
 
 		var promise = $.Deferred(), hyperiums = this;
@@ -833,6 +836,63 @@ var Hyperiums7 = {
 			promise.resolveWith(hyperiums, [data]);
 		});
 		return promise;
+	},
+	getFleetsUpkeep: function () {
+		var promise = $.Deferred(), hyperiums = this;
+
+		this.getPlayerInfo().done(function (player) {
+			var upkeep = {
+				unitCosts: 0,
+				numDeployed: 0
+			};
+
+			function addFleets(fleets, isDeployed) {
+				$.each(fleets, function (_, fleet) {
+					if (
+						fleet.owner === undefined ||
+						fleet.owner == player.name
+					) {
+						if (isDeployed) {
+							upkeep.numDeployed++;
+						}
+
+						$.each(hyperiums.units, function(unitId, unitName) {
+							var numUnits = fleet['num' + unitName.replace(' ', '')] || 0;
+							upkeep.unitCosts += numUnits * hyperiums.upkeepCosts[unitId][fleet.raceId];
+							if (unitName == 'Starbases') {
+								upkeep.numDeployed += numUnits * 10;
+							}
+						});
+					}
+				});
+			}
+
+			var numLoading = 3;
+			$.each({'own_planets': false, 'foreign_planets': true}, function (data, isDeployed) {
+				hyperiums.getFleetsInfo({data: data}).done(function (planets) {
+					$.each(planets, function (_, planet) {
+						addFleets(planet.fleets, isDeployed);
+					});
+					if (--numLoading == 0) {
+						promise.resolveWith(this, [upkeep]);
+					}
+				});
+			});
+
+			this.getMovingFleets().done(function (fleets) {
+				addFleets(fleets, true);
+				if (--numLoading == 0) {
+					promise.resolveWith(this, [upkeep]);
+				}
+			});
+		});
+
+		return promise;
+	},
+	getPlayerInfo: function () {
+		return this.hapi({
+			request: 'getplayerinfo'
+		});
 	}
 };
 

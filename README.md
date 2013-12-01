@@ -27,6 +27,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Total gross income, Total income from exploitations and Total income from captive planets on cash page
 - Automatically go to last page of thread
 - Show average Space AvgP and Ground AvgP for Battle Reports
+- Information about deployed fleets
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)

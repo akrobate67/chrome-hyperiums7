@@ -260,3 +260,16 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 	});
 }
 
+Hyperiums7.getControlledPlanets().done(function (planets) {
+	Hyperiums7.getFleetsUpkeep().done(function (upkeep) {
+		$('#htopmenu2').append($('<li>').append(
+			$('<a href="Cash" class="megaTextItem">').append([
+				'Deployed fleets: ',
+				numeral(upkeep.numDeployed).format('0,0'),
+				'/',
+			numeral(5 * planets.numPlanets).format('0,0')
+			])
+		));
+	});
+});
+
