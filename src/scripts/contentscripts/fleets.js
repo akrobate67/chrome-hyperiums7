@@ -121,8 +121,9 @@ $('.movingFleetGroupTitle ~ tr img[src$="fleetarmy_icon.gif"]').
 
 		var td = $(element).
 			closest('tr').
-			prevAll('.movingFleetGroupTitle').last().
-			find('td:first-child');
+			prevAll('.movingFleetGroupTitle').first().
+			find('b:last').
+			parent();
 
 		var prevAvgP = td.data('groundAvgP') || 0;
 		if (prevAvgP == 0) {
