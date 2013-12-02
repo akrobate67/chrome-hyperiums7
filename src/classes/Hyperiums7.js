@@ -570,54 +570,86 @@ var Hyperiums7 = {
 	getMovingFleets: function () {
 		var promise = $.Deferred(), hyperiums = this;
 		this.ajax(this.getServletUrl('Fleets?pagetype=moving_fleets')).done(function (data) {
-			var fleets = [];
-			fleets.toNames = {};
-			$('td[width="430"]', data).each(function (_, element) {
-				element = $(element);
-				var bold = element.find('b'),
-					fleet = {
-						eta: parseFloat(bold.eq(-1).text()),
-						numDestroyers: 0,
-						numCruisers: 0,
-						numScouts: 0,
-						numBombers: 0,
-						numStarbases: 0,
-						numCarriedArmies: 0,
-						raceId: hyperiums.races.indexOf(element.find('img').eq(0).
-							attr('src').replace(/.*_([a-z]+?)\.gif$/i, '$1')),
-						to: { name: bold.eq(-3).text().replace(/ \[.+\]$/,'') },
-						id: parseFloat(element.next().find('input[type="checkbox"]').val())
-					};
-				element.find('[src$="_icon.gif"]').each(function (_, element) {
-					var key = $(element).attr('src').replace(/.*\/([a-z]+?)_icon\.gif$/i, '$1');
-					switch (key) {
-					case 'destroyer': key = 'numDestroyers'; break;
-					case 'cruiser': key = 'numCruisers'; break;
-					case 'scout': key = 'numScouts'; break;
-					case 'bomber': key = 'numBombers'; break;
-					case 'starbase': key = 'numStarbases'; break;
-					case 'fleetarmy': key = 'numCarriedArmies'; break;
-					}
-
-					if (key) {
-						fleet[key] = parseFloat(element.previousSibling.nodeValue.
-							replace(/[^\d]+/g, '')
-						);
-					}
-
-					if (key == 'numCarriedArmies') {
-						fleet.autodrop = element.nextSibling.nodeValue == ' (auto drop)';
-					}
-				});
-
-				fleets.push(fleet);
-				if (!fleets.toNames[fleet.to.name]) {
-					fleets.toNames[fleet.to.name] = [];
-				}
-				fleets.toNames[fleet.to.name].push(fleet);
+			hyperiums.getMovingFleetsFromHtml(data).done(function (fleets) {
+				promise.resolveWith(hyperiums, [fleets]);
 			});
-			promise.resolveWith(hyperiums, [fleets]);
 		});
+		return promise;
+	},
+	getMovingFleetsFromHtml: function (html) {
+		var fleets = [], planetNames = [], promise = $.Deferred(), hyperiums = this;
+		fleets.toNames = {};
+		fleets.fromNames = {};
+		$('td[width="430"]', html).each(function (_, element) {
+			element = $(element);
+			var bold = element.find('b'),
+				fleet = {
+					eta: parseFloat(bold.eq(-1).text()),
+					delay: parseInt(element.find('.info b').text().replace(/ .+$/, '')) || 0,
+					numDestroyers: 0,
+					numCruisers: 0,
+					numScouts: 0,
+					numBombers: 0,
+					numStarbases: 0,
+					numCarriedArmies: 0,
+					raceId: hyperiums.races.indexOf(element.find('img').eq(0).
+						attr('src').replace(/.*_([a-z]+?)\.gif$/i, '$1')),
+					from: { name: bold.eq(-3)[0].previousSibling.nodeValue.replace(/^.+  ([^ ]+) .+$/, '$1') },
+					to: { name: bold.eq(-3).text().replace(/ \[.+\]$/,'') },
+					id: parseFloat(element.next().find('input[type="checkbox"]').val())
+				};
+
+			if (fleet.from.name.indexOf(' ') > -1) { // no valid from name
+				fleet.from = fleet.to;
+			}
+
+			element.find('[src$="_icon.gif"]').each(function (_, element) {
+				var key = $(element).attr('src').replace(/.*\/([a-z]+?)_icon\.gif$/i, '$1');
+				switch (key) {
+				case 'destroyer': key = 'numDestroyers'; break;
+				case 'cruiser': key = 'numCruisers'; break;
+				case 'scout': key = 'numScouts'; break;
+				case 'bomber': key = 'numBombers'; break;
+				case 'starbase': key = 'numStarbases'; break;
+				case 'fleetarmy': key = 'numCarriedArmies'; break;
+				}
+
+				if (key) {
+					fleet[key] = parseFloat(element.previousSibling.nodeValue.
+						replace(/[^\d]+/g, '')
+					);
+				}
+
+				if (key == 'numCarriedArmies') {
+					fleet.autodrop = element.nextSibling.nodeValue == ' (auto drop)';
+				}
+			});
+
+			fleets.push(fleet);
+			if (!fleets.toNames[fleet.to.name]) {
+				fleets.toNames[fleet.to.name] = [];
+			}
+			fleets.toNames[fleet.to.name].push(fleet);
+			if (!fleets.fromNames[fleet.from.name]) {
+				fleets.fromNames[fleet.from.name] = [];
+			}
+			fleets.fromNames[fleet.from.name].push(fleet);
+			planetNames.push(fleet.to.name);
+			planetNames.push(fleet.from.name);
+		});
+
+		this.searchPlanets($.unique(planetNames).join(', ')).
+			done(function (planets) {
+				$.each(planets, function (_, planet) {
+					$.each(fleets.toNames[planet.name] || [], function (_, fleet) {
+						fleet.to = planet;
+					});
+					$.each(fleets.fromNames[planet.name] || [], function (_, fleet) {
+						fleet.from = planet;
+					});
+				});
+				promise.resolveWith(hyperiums, [fleets]);
+			});
 		return promise;
 	},
 	updateFleetAvgP: function (fleet) {

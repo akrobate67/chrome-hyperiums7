@@ -274,3 +274,31 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 	});
 });
 
+if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=moving_fleets"]').length == 1) {
+	Hyperiums7.getMovingFleetsFromHtml(document).done(function (fleets) {
+		function formatPosition(position) {
+			return '(' + position.x + ',' + position.y + ')';
+		}
+
+		$.each(fleets, function (_, fleet) {
+			var distance = {
+					x: fleet.to.x - fleet.from.x,
+					y: fleet.to.y - fleet.from.y
+				},
+				eta = Math.max(Math.abs(distance.x), Math.abs(distance.y)) + 2,
+				progress = 1 - (fleet.eta - fleet.delay) / eta;
+				position = {
+					x: Math.round(fleet.from.x + progress * distance.x),
+					y: Math.round(fleet.from.y + progress * distance.y)
+				};
+
+			$('input[value="' + fleet.id + '"]').parent().prev().append(
+				'<br>From ', formatPosition(fleet.from),
+				' to ', formatPosition(fleet.to),
+				' @ ', formatPosition(position),
+				' (', numeral(progress).format('0[.]0%'), ')'
+			);
+		});
+	});
+}
+
