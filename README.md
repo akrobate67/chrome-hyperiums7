@@ -25,7 +25,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Highlight names of contacts in system messages
 - Upkeep in relation to Total Income on cash page
 - Total gross income, Total income from exploitations and Total income from captive planets on cash page
-- Automatically go to last page of thread
+- Link to go to last page of thread
 - Average Space AvgP and Ground AvgP for Battle Reports
 - Information about deployed fleets
 - Coordinates for moving fleets
