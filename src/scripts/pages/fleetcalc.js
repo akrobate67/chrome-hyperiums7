@@ -36,7 +36,7 @@ $(document).ready(function () {
 		tbody.append(tr);
 	});
 
-	$('input, select').on('input', function () {
+	$('input, select').on('input change', function () {
 		var pipes = Hyperiums7.races.map(function () { return []; }),
 			planet = {
 				governmentId: parseInt($('#governmentId').val()),
