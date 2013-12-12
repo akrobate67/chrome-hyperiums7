@@ -29,6 +29,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Average Space AvgP and Ground AvgP for Battle Reports
 - Information about deployed fleets
 - Coordinates for moving fleets
+- Count and display number of backup buddy logins
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)
