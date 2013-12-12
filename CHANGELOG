@@ -1,6 +1,9 @@
 Bugfixes are not included in this changelog. See github:
 https://github.com/resident-uhlig/chrome-hyperiums7/issues
 
+2013-12-12 20:25:00 Version 0.1.1
+* Bug fixes only
+
 2013-12-12 19:56:00 Version 0.1.0
 * Added information about deployed fleets
 * Added coordinates to moving fleets

@@ -1,5 +1,5 @@
 $.getScript('/js/overlibmws.js').done(function () {
-	var numLoading = 2, allPlanets;
+	var numLoading = 2, planets;
 
 	Hyperiums7.getTradingOverview().done(function (planets) {
 		numLoading--;
@@ -11,22 +11,22 @@ $.getScript('/js/overlibmws.js').done(function () {
 		showStatisticsIfComplete(planets);
 	});
 
-	function showStatisticsIfComplete(planets) {
-		if (allPlanets) {
-			$.each(planets, function (_, planet) {
+	function showStatisticsIfComplete(addPlanets) {
+		if (planets) {
+			$.each(addPlanets, function (_, planet) {
 				if (!planet) {
 					return;
 				}
-				if (allPlanets[planet.id]) {
+				if (planets[planet.id]) {
 					$.each(planet, function (key, value) {
-						allPlanets[planet.id][key] = value;
+						planets[planet.id][key] = value;
 					});
 				} else {
-					allPlanets[planet.id] = planet;
+					planets[planet.id] = planet;
 				}
 			});
 		} else {
-			allPlanets = planets;
+			planets = addPlanets;
 		}
 
 		if (numLoading > 0) {
@@ -74,10 +74,12 @@ $.getScript('/js/overlibmws.js').done(function () {
 					stats[key].total += value;
 				});
 
-				if (stats.gaRate[raceName]) {
-					stats.gaRate[raceName] += planets[planetId].gaRate;
-				} else {
-					stats.gaRate[raceName] = planets[planetId].gaRate;
+				if (planets[planetId]) {
+					if (stats.gaRate[raceName]) {
+						stats.gaRate[raceName] += planets[planetId].gaRate || 0;
+					} else {
+						stats.gaRate[raceName] = planets[planetId].gaRate || 0;
+					}
 				}
 
 				Hyperiums7.getPlanetIdInfluence(planetId).done(function (influence) {
@@ -132,7 +134,9 @@ $.getScript('/js/overlibmws.js').done(function () {
 				$.each(Hyperiums7.races, function (i, raceName) {
 					table.append($('<tr>').append([
 						$('<th>').text(raceName),
-						$('<td class="hr">').text(stats.gaRate[raceName] ? stats.gaRate[raceName] : '-')
+						$('<td class="hr">').text(stats.gaRate[raceName] ?
+							numeral(stats.gaRate[raceName]).format('0,0.0') :
+							'-')
 					]).addClass('line' + (++i % 2)));
 				});
 				tr.append($('<td style="padding-right:1em">').append(table));
