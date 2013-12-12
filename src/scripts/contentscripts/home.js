@@ -16,7 +16,7 @@ $.getScript('/js/overlibmws.js').done(function () {
 					planetId = parseFloat(element.attr('href').replace(/[^\d]+/g, ''));
 
 				$.each({
-					governments: details.eq(0).text(),
+					governments: details.eq(0).text().replace(/ \(\d\)$/, ''),
 					products: details.eq(1).text(),
 					races: details.eq(2).text()
 				}, function (key, value) {
