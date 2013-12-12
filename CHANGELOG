@@ -6,6 +6,7 @@ XXXX-XX-XX XX:XX:XX Version 0.1.0
 * Added coordinates to moving fleets
 * Added separate link for going to last page of thread
 * Added count and display number of backup buddy logins
+* Added sum of GA generation to controlled planets summary
 
 2013-11-29 15:44:00 Version 0.0.6
 * Added Cache Overview

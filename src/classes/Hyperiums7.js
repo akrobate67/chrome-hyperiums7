@@ -925,6 +925,23 @@ var Hyperiums7 = {
 		return this.hapi({
 			request: 'getplayerinfo'
 		});
+	},
+	getGaRates: function () {
+		var promise = new $.Deferred(), hyperiums = this;
+		this.ajax(this.getServletUrl('Fleets?pagetype=factories')).done(function (data) {
+			var planets = [];
+			$('.highlight', data).each(function (_, element) {
+				element = $(element);
+				var planetId = parseFloat(element.closest('form').find('input[name="planetid"]').val()),
+					planet = {
+						id: planetId,
+						gaRate: parseFloat(element.text().replace(/[^0-9\.]+/g, ''))
+					};
+				planets[planetId] = planet;
+			});
+			promise.resolveWith(hyperiums, [planets]);
+		});
+		return promise;
 	}
 };
 

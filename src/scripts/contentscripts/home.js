@@ -1,10 +1,44 @@
 $.getScript('/js/overlibmws.js').done(function () {
+	var numLoading = 2, allPlanets;
+
 	Hyperiums7.getTradingOverview().done(function (planets) {
+		numLoading--;
+		showStatisticsIfComplete(planets);
+	});
+
+	Hyperiums7.getGaRates().done(function (planets) {
+		numLoading--;
+		showStatisticsIfComplete(planets);
+	});
+
+	function showStatisticsIfComplete(planets) {
+		if (allPlanets) {
+			$.each(planets, function (_, planet) {
+				if (!planet) {
+					return;
+				}
+				if (allPlanets[planet.id]) {
+					$.each(planet, function (key, value) {
+						allPlanets[planet.id][key] = value;
+					});
+				} else {
+					allPlanets[planet.id] = planet;
+				}
+			});
+		} else {
+			allPlanets = planets;
+		}
+
+		if (numLoading > 0) {
+			return;
+		}
+
 		var container, stats = {
 			numPlanets: 0,
 			governments: {},
 			products: {},
-			races: {}
+			races: {},
+			gaRate: {}
 		};
 
 		$('.planet').
@@ -13,12 +47,13 @@ $.getScript('/js/overlibmws.js').done(function () {
 				element = $(element);
 				var detailsTr = element.closest('tr').next(),
 					details = detailsTr.find('.highlight, .civ b'),
-					planetId = parseFloat(element.attr('href').replace(/[^\d]+/g, ''));
+					planetId = parseFloat(element.attr('href').replace(/[^\d]+/g, '')),
+					raceName = details.eq(2).text();
 
 				$.each({
 					governments: details.eq(0).text().replace(/ \(\d\)$/, ''),
 					products: details.eq(1).text(),
-					races: details.eq(2).text()
+					races: raceName
 				}, function (key, value) {
 					if (stats[key][value]) {
 						stats[key][value]++;
@@ -38,6 +73,12 @@ $.getScript('/js/overlibmws.js').done(function () {
 					stats[key].max = Math.max(stats[key].max, value);
 					stats[key].total += value;
 				});
+
+				if (stats.gaRate[raceName]) {
+					stats.gaRate[raceName] += planets[planetId].gaRate;
+				} else {
+					stats.gaRate[raceName] = planets[planetId].gaRate;
+				}
 
 				Hyperiums7.getPlanetIdInfluence(planetId).done(function (influence) {
 					var wtr = planets[planetId].wtr,
@@ -87,6 +128,15 @@ $.getScript('/js/overlibmws.js').done(function () {
 					tr.append($('<td style="padding-right:1em">').append(table));
 				});
 
+				var table = $('<table>').append($('<caption>').html('GA&nbsp;Rates'));
+				$.each(Hyperiums7.races, function (i, raceName) {
+					table.append($('<tr>').append([
+						$('<th>').text(raceName),
+						$('<td class="hr">').text(stats.gaRate[raceName] ? stats.gaRate[raceName] : '-')
+					]).addClass('line' + (++i % 2)));
+				});
+				tr.append($('<td style="padding-right:1em">').append(table));
+
 				$.each({
 					pop: 'Population&nbsp;size',
 					civ: 'Civilization&nbsp;level'
@@ -118,6 +168,6 @@ $.getScript('/js/overlibmws.js').done(function () {
 				return tr;
 			})($('<tr class="vt">'))
 		));
+	}
 	});
-});
 
