@@ -85,5 +85,22 @@ chrome.runtime.onInstalled.addListener(function (details) {
 			}
 		})});
 	});
-});
 
+	var notification = {
+		type: 'basic',
+		title: 'Hyperiums7',
+		iconUrl: '/assets/icon_48.png'
+	};
+	switch (details.reason) {
+	case 'install':
+		notification.message = 'Hyperiums7 has been installed';
+		break;
+	case 'update':
+		notification.message = 'Hyperiums7 has been updated';
+		break;
+	case 'chrome_update': break;
+	}
+	if (notification.message) {
+		chrome.notifications.create('installed', notification, function () {});
+	}
+});
