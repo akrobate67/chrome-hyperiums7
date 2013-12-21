@@ -942,6 +942,34 @@ var Hyperiums7 = {
 			promise.resolveWith(hyperiums, [planets]);
 		});
 		return promise;
+	},
+	dropStasis: function (planetId) {
+		var promise = $.Deferred(), hyperiums = this;
+		$.ajax({
+			url: this.getServletUrl('Floatorders'),
+			data: {
+				cancelstasis: 'Drop stasis field',
+				planetid: planetId
+			},
+			type: 'post'
+		}).done(function () {
+			promise.resolveWith(hyperiums);
+		});
+		return promise;
+	},
+	enableStasis: function (planetId) {
+		var promise = $.Deferred(), hyperiums = this;
+		$.ajax({
+			url: this.getServletUrl('Floatorders'),
+			data: {
+				enablestasis: 'Enable stasis field',
+				planetid: planetId
+			},
+			type: 'post'
+		}).done(function () {
+			promise.resolveWith(hyperiums);
+		});
+		return promise;
 	}
 };
 

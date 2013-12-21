@@ -257,6 +257,49 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 					)
 				);
 			}
+
+			if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=local_fleets"]').length == 1) {
+				var planetId = parseFloat(element.attr('href').replace(/[^\d]+/g, '')),
+					stasisIndicator = element.closest('table').find('td[width="100"]').eq(2).addClass('hc'),
+					stasisButton = $('<input type="button" class="button">').
+						mouseover(function () {
+							var element = $(this);
+							if (element.hasClass('highlight')) {
+								element.val('Drop');
+							} else {
+								element.val('Enable');
+							}
+						}).
+						mouseout(function () {
+							var element = $(this);
+							if (element.hasClass('highlight')) {
+								element.val('Stasis');
+							} else {
+								element.val('No stasis');
+							}
+						}).
+						click(function () {
+							var element = $(this);
+							if (element.hasClass('highlight')) {
+								Hyperiums7.dropStasis(planetId).done(function () {
+									element.removeClass('highlight').addClass('alert').val('No Stasis');
+								});
+							} else {
+								Hyperiums7.enableStasis(planetId).done(function () {
+									element.removeClass('alert').addClass('highlight').val('Stasis');
+								});
+							}
+						});
+
+				if (stasisIndicator.hasClass('flagStasis')) {
+					stasisIndicator.removeClass('flagStasis');
+					stasisButton.val('Stasis').addClass('highlight');
+				} else {
+					stasisButton.val('No stasis').addClass('alert');
+				}
+
+				stasisIndicator.empty().append(stasisButton);
+			}
 		});
 	});
 }
