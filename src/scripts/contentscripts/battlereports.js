@@ -45,7 +45,7 @@ $('.br_own').closest('table').each(function (_, table) {
 		
 		var i = lastTr.hasClass('line1') ? 1 : 0;
 		lastTr.after([
-			$('<tr>').addClass('line' + (++i%2)).append([
+			$('<tr>').addClass('stdArray line' + (++i%2)).append([
 				'<td class="tinytext">Space AvgP ~</td>',
 				$('<td class="hr tinytext br_colStart">').text(numeral(spaceAvgP.own.initial).format('0[.]0a')),
 				$('<td class="hr tinytext">').text(numeral(spaceAvgP.own.lost).format('0[.]0a')),
@@ -54,7 +54,7 @@ $('.br_own').closest('table').each(function (_, table) {
 				$('<td class="hr tinytext br_colStart">').text(numeral(spaceAvgP.attacking.initial).format('0[.]0a')),
 				$('<td class="hr tinytext br_lastCol">').text(numeral(spaceAvgP.attacking.lost).format('0[.]0a')),
 			]),
-			$('<tr>').addClass('line' + (++i%2)).append([
+			$('<tr>').addClass('stdArray line' + (++i%2)).append([
 				'<td class="tinytext">Ground AvgP ~</td>',
 				$('<td class="hr tinytext br_colStart">').text(numeral(groundAvgP.own.initial).format('0[.]0a')),
 				$('<td class="hr tinytext">').text(numeral(groundAvgP.own.lost).format('0[.]0a')),
