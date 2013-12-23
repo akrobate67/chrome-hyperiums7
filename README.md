@@ -34,6 +34,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Count and display number of backup buddy logins
 - Link to forum on "last 20 messages" page (for alliances)
 - Button to drop/enable stasis on military page
+- Map on trading map page
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)

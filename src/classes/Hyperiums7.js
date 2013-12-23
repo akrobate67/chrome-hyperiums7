@@ -388,7 +388,7 @@ var Hyperiums7 = {
 					}
 
 					switch (key) {
-					case 'bhole': key = 'blackholed'; break;
+					case 'bhole': key = 'isBlackholed'; break;
 					case 'civlevel': key = 'civ'; break;
 					case 'ecomark': key = 'eco'; break;
 					case 'expinpipe': key = 'numExploitsInPipe'; break;
@@ -503,6 +503,7 @@ var Hyperiums7 = {
 				planet = {
 					id: msgUrl ? parseFloat(msgUrl.replace(/[^\d]+/g, '')) : undefined,
 					name: $.trim(tds.eq(0).text().replace(/^@/, '')),
+					isOwn: tds.eq(0).find('.grayed b, .std b').length == 1,
 					tag: tds.eq(1).text(),
 					civ: parseInt(tds.eq(3).text()),
 					govName: tds.eq(4).text(),
@@ -511,8 +512,14 @@ var Hyperiums7 = {
 					productName: tds.eq(7).text(),
 					activity: parseInt(tds.eq(8).text().replace(',', '')) || 0,
 					freeCapacity: parseInt(tds.eq(9).text().replace(',', '')) || 0,
-					blackholed: tr.hasClass('alertLight')
+					isBlackholed: tr.hasClass('alertLight'),
+					isDoomed: tr.find('img[src$="death1.gif"]').length == 1,
+					daysBeforeAnnihilation: 0
 				};
+
+			if (planet.isDoomed) {
+				planet.daysBeforeAnnihilation = parseFloat(tr.find('img[src$="death1.gif"]').attr('onmouseover').replace(/[^\d]+/g, ''));
+			}
 
 			if (planet.raceName == '') {
 				planet.raceName = tds.eq(5).find('img').attr('src').
