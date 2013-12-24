@@ -82,7 +82,7 @@ var Hyperiums7 = {
 			request: 'updateNotifications',
 			hasEvents: $('[href="/servlet/Planet?newplanetevents="].warn', doc).length == 1,
 			events: [],
-			hasBattleReport: $('[href="/servlet/Player?page=Reports"].warn', doc).length == 1,
+			hasBattleReport: $('[href="/servlet/Player?page=Reports"].alert', doc).length == 1,
 			hasPersonalMessage: $('[rel="playerSubmenu"].warn', doc).length == 1,
 			hasForumMessage: $('[rel="forumSubmenu"].warn', doc).length == 1,
 		};
