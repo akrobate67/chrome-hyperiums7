@@ -132,7 +132,7 @@ $.getScript('/js/overlibmws.js').done(function () {
 
 				var table = $('<table>').append([
 					$('<caption>').html('GA&nbsp;Rates'),
-					'<thead><tr class="stdArray"><th>Race</th><th class="hr">#</th><th class="hr">AvgP</th></tr></thead>'
+					'<thead><tr class="stdArray"><th>Race</th><th class="hr">#</th><th></th><th class="hr">AvgP</th></tr></thead>'
 				]);
 				$.each(Hyperiums7.races, function (raceId, raceName) {
 					table.append($('<tr>').append([
@@ -140,6 +140,7 @@ $.getScript('/js/overlibmws.js').done(function () {
 						$('<td class="hr">').text(stats.gaRate[raceName] ?
 							numeral(stats.gaRate[raceName]).format('0,0.0') :
 							'-'),
+						'<td>/</td>',
 						$('<td class="hr">').text(stats.gaRate[raceName] ?
 							numeral(stats.gaRate[raceName] * Hyperiums7.groundAvgP[raceId]).format('0,0.0a') :
 							'-')
