@@ -1,6 +1,6 @@
 $('.br_own').closest('table').each(function (_, table) {
 	table = $(table);
-	var spaceAvgP = {}, groundAvgP = {}, avgRaceId = 4;
+	var spaceAvgP = {}, groundAvgP = {}, avgRaceId = Hyperiums7.races.length + 1;
 	var lastTr = table.find('tr.line0, tr.line1').
 		each(function (_, tr) {
 			tr = $(tr);

@@ -30,6 +30,7 @@ Hyperiums7.getContacts().done(function (contacts) {
 		reColumns = /^([^\|]+ ?\| ?)+([^\|]+)$/i,
 		reHr = /^(\-\-+)|(==+)$/;
 		rePlayer = / player /g,
+		reComposition = /Composition:( Destroyers:(\d+))?( Cruisers:(\d+))?( Scouts:(\d+))?( Bombers:(\d+))?( Starbases:(\d+))? $/g,
 		invalidParents = ['TEXTAREA', 'SCRIPT'],
 		invalidTableParents = ['PRE', 'B'];
 
@@ -130,11 +131,31 @@ Hyperiums7.getContacts().done(function (contacts) {
 		});
 	}
 
+	function addLeavingAvgP(nodes) {
+		return addNodes(nodes, reComposition, function (index, matches, createdNodes, string, node) {
+			var avgRaceId = Hyperiums7.races.length + 1,
+				avgP = (parseFloat(matches[2]) || 0) * Hyperiums7.spaceAvgP[1][avgRaceId] + // Destroyers
+					(parseFloat(matches[4]) || 0) * Hyperiums7.spaceAvgP[2][avgRaceId] + // Cruisers
+					(parseFloat(matches[6]) || 0) * Hyperiums7.spaceAvgP[3][avgRaceId] + // Scouts
+					(parseFloat(matches[8]) || 0) * Hyperiums7.spaceAvgP[4][avgRaceId] + // Bombers
+					(parseFloat(matches[10]) || 0) * Hyperiums7.spaceAvgP[5][avgRaceId]; // Starbases
+			
+			createdNodes.push(document.createTextNode(
+				string +
+				'AvgP: ~' +
+				numeral(avgP).format('0.0a')
+			));
+			
+			return matches.index + matches[0].length;
+		});
+	}
+
 	function addTextNodes(nodes) {
 		var span;
 		nodes = addUrlLinks(nodes);
 		nodes = addEMailLinks(nodes);
 		nodes = addPlayerLinks(nodes);
+		nodes = addLeavingAvgP(nodes);
 		if (nodes[0] != node) {
 			span = document.createElement('span');
 			$.each(nodes, function (_, node) {

@@ -35,6 +35,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Link to forum on "last 20 messages" page (for alliances)
 - Button to drop/enable stasis on military page
 - Map on trading map page
+- AvgP for leaving fleet messages
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)
