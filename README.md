@@ -7,35 +7,48 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 ## Features
 
 ### In Game
+#### Global
 - Make URLs and e-mail addresses clickable
-- Try to format tables in forum messages
-- One input for all planets in Global exploitations manager
+- Live ticks at the bottom of each page
+- Link to player search in system messages
+- Highlight names of contacts in system messages
+- AvgP for leaving fleet messages
+
+#### Controlled planets
+- Planet statistics on Controlled planets page
+- Influence value on Controlled planets page
+
+#### Military
 - Preview of Space AvgP, Build Costs, Upkeep Costs and Time for Build on Military Build Center
 - Accumulate Ground AvgP when grouping moving fleets by destination
 - Show incoming fleets on overview of own and foreign planets
-- Planet statistics on Controlled planets page
-- Influence value on Controlled planets page
-- Planet/Tag statistics on Map/Trading page and Political Maps
-- Buttons for \<b>, \<i>, \<pre>, [\*FL=] and [\*BR=] for personal messages and forum messages
-- Live ticks at the bottom of each page
 - "Merge All" and "Load All" buttons on planet's military page
 - Auto Complete for planet names in fleet movement forms
-- Auto Complete for contacts and planet names in send message forms
-- Link to spy report for captive planets on cash page
 - Search for planet name if no fleet around planet
-- Link to player search in system messages
-- Highlight names of contacts in system messages
-- Upkeep in relation to Total Income on cash page
-- Total gross income, Total income from exploitations and Total income from captive planets on cash page
-- Link to go to last page of thread
-- Average Space AvgP and Ground AvgP for Battle Reports
 - Information about deployed fleets
 - Coordinates for moving fleets
+- Button to drop/enable stasis on military page
+
+#### Trading
+- One input for all planets in Global exploitations manager
+
+#### Cash
+- Link to spy report for captive planets on cash page
+- Upkeep in relation to Total Income on cash page
+- Total gross income, Total income from exploitations and Total income from captive planets on cash page
+
+#### Messages & Forums
+- Try to format tables in forum messages
+- Buttons for \<b>, \<i>, \<pre>, [\*FL=] and [\*BR=] for personal messages and forum messages
+- Auto Complete for contacts and planet names in send message forms
+- Link to go to last page of thread
+- Average Space AvgP and Ground AvgP for Battle Reports
 - Count and display number of backup buddy logins
 - Link to forum on "last 20 messages" page (for alliances)
-- Button to drop/enable stasis on military page
+
+#### Maps
+- Planet/Tag statistics on Map/Trading page and Political Maps
 - Map on trading map page
-- AvgP for leaving fleet messages
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)
