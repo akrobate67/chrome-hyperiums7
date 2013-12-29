@@ -137,6 +137,7 @@ var Hyperiums7 = {
 		args.request = 'getfleetsinfo';
 		this.hapi(args).done(function (pairs) {
 			var planets = [];
+			planets.toNames = {};
 			$.each(pairs, function (key, value) {
 				var i, j, keys = /^([^\.]+?)(\d+)(\.(\d+))?$/.exec(key)
 				if (keys && keys.length) {
@@ -199,11 +200,17 @@ var Hyperiums7 = {
 
 					if (isNaN(j)) {
 						planets[i][key] = value;
+						if (key == 'name') {
+							planets.toNames[value] = planets[i];
+						}
 					} else {
 						if (!planets[i].fleets[j]) {
-							planets[i].fleets[j] = {};
+							planets[i].fleets[j] = {isForeign: true};
 						}
 						planets[i].fleets[j][key] = value;
+						if (key == 'name') {
+							planets[i].fleets[j].isForeign = false;
+						}
 					}
 				} else {
 					planets[key] = value;
@@ -284,6 +291,16 @@ var Hyperiums7 = {
 	],
 	// [Human, Azterk, Xillor, Hyp]
 	groundAvgP: [300, 360, 240, 0, 300],
+	armyCapacity: [
+		0, // Factories
+		1, // Destroyerss
+		1, // Cruisers
+		0, // Scouts
+		3, // Bombers
+		2000, // Starbases
+		0, // Ground Armies
+		0 // Carried Armies
+	],
 	upkeepCosts: [
 		// [Human, Azterk, Xillor]
 		[1800, 1900, 2100], // Factories

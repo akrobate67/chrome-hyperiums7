@@ -315,6 +315,96 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=factories"]').length == 0
 	});
 }
 
+var fleetInfoData;
+if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=local_fleets"]').length == 1) {
+	fleetInfoData = 'own_planets';
+} else if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=foreign_fleets"]').length == 1) {
+	fleetInfoData = 'foreign_planets';
+}
+
+if (fleetInfoData) {
+	Hyperiums7.getFleetsInfo({data: fleetInfoData}).done(function (planets) {
+		$('.planetName').each(function (_, element) {
+			element = $(element);
+			var planetName = element.text(),
+				raceStats = [];
+
+			if (planets.toNames[planetName]) {
+				$.each(planets.toNames[planetName].fleets, function (_, fleet) {
+					if (fleet.isForeign) {
+						return;
+					}
+
+					if (!raceStats[fleet.raceId]) {
+						raceStats[fleet.raceId] = {
+							numCarriedArmies: 0,
+							numGroundArmies: 0,
+							numArmyCapacity: 0
+						};
+					}
+					
+					raceStats[fleet.raceId].numCarriedArmies += fleet.numCarriedArmies || 0;
+					raceStats[fleet.raceId].numGroundArmies += fleet.numGroundArmies || 0;
+					raceStats[fleet.raceId].numArmyCapacity +=
+						(fleet.numDestroyers || 0) * Hyperiums7.armyCapacity[1] +
+						(fleet.numCruisers || 0) * Hyperiums7.armyCapacity[2] +
+						(fleet.numScouts || 0) * Hyperiums7.armyCapacity[3] +
+						(fleet.numBombers || 0) * Hyperiums7.armyCapacity[4] +
+						(fleet.numStarbases || 0) * Hyperiums7.armyCapacity[5];
+				});
+
+				element.closest('table').
+					closest('td').
+					find('.bars').
+					wrapAll('<td class="vt">').
+					parent().
+					wrap('<tr>').
+					parent().
+					append($('<td class="vt">').append(
+						$('<table style="float:right">').append([
+							$('<thead>').append(
+								$('<tr class="stdArray">').append(function () {
+									var cells = ['<td>Armies</td>'];
+									$.each(Hyperiums7.races, function (_, raceName) {
+										cells.push($('<th>').text(raceName));
+									});
+									return cells;
+								})
+							),
+							$('<tbody>').append(function () {
+								var rows = [], i = 0;
+								$.each({
+									numArmyCapacity: 'Capacity',
+									numCarriedArmies: 'Carried',
+									numGroundArmies: 'Ground'
+								}, function (statKey, statName) {
+									rows.push($('<tr>').
+										addClass('line' + (++i % 2)).
+										append(function () {
+											var cells = [$('<th class="hl">').text(statName)];
+											$.each(Hyperiums7.races, function (raceId, _) {
+												if (raceStats[raceId] && raceStats[raceId][statKey]) {
+													cells.push($('<td class="hr">').text(
+														numeral(raceStats[raceId][statKey]).format('0[.]0a')
+													))
+												} else {
+													cells.push('<td class="hr">-</td>');
+												}
+											});
+											return cells;
+										})
+									);
+								});
+								return rows;
+							})
+						])
+					)).
+					wrap('<table style="width:100%">');
+			}
+		});
+	});
+}
+
 if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=moving_fleets"]').length == 1) {
 	Hyperiums7.getMovingFleetsFromHtml(document).done(function (fleets) {
 		function formatPosition(position) {
