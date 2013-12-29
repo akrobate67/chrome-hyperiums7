@@ -143,7 +143,7 @@ Hyperiums7.getContacts().done(function (contacts) {
 			createdNodes.push(document.createTextNode(
 				string +
 				'AvgP: ~' +
-				numeral(avgP).format('0.0a')
+				numeral(avgP).format('0[.]0a')
 			));
 			
 			return matches.index + matches[0].length;
