@@ -456,7 +456,7 @@ var Hyperiums7 = {
 		$.each(pipe, function (_, order) {
 			if (order.unitId == factoryUnitId) {
 				totals.timeToBuild += Math.log((order.count + numFactories) / numFactories) /
-					Math.log(1 + 1 / hyperiums.timeToBuild[order.unitId][raceId] * multiplier);
+					Math.log(1 + 1 / hyperiums.timeToBuild[order.unitId][raceId] / multiplier);
 				numFactories += order.count;
 			} else {
 				totals.timeToBuild += order.count * multiplier / numFactories *

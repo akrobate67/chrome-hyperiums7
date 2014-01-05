@@ -65,7 +65,7 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 			case 'numHours':
 				if (unitId == factoryUnitId) {
 					numUnits = planet.numFactories *
-						Math.pow(1 + 1 / Hyperiums7.timeToBuild[unitId][planet.raceId] * ttbMultiplier, numUnits) -
+						Math.pow(1 + 1 / Hyperiums7.timeToBuild[unitId][planet.raceId] / ttbMultiplier, numUnits) -
 						planet.numFactories;
 				} else {
 					numUnits *= planet.numFactories /
@@ -92,7 +92,7 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 
 			form.find('.totals').empty().append([
 				'<strong>Units:</strong> ',
-				numeral(numUnits).format('0[.]0a'),
+				numeral(numUnits).format('0,0'),
 				' - <strong>AvgP:</strong> ',
 				numeral(totals.spaceAvgP).format('0[.]0a'),
 				' - <strong>Costs:</strong> ',
