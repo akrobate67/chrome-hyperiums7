@@ -36,7 +36,9 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 #### Cash
 - Link to spy report for captive planets on cash page
 - Upkeep in relation to Total Income on cash page
-- Total gross income, Total income from exploitations and Total income from captive planets on cash page
+- Total gross income
+- Total income from exploitations and captive planets
+- Total upkeep for trading relations, factories, infiltrations and counter-infiltrations
 
 #### Messages & Forums
 - Try to format tables in forum messages

@@ -76,41 +76,52 @@ Hyperiums7.getFleetsUpkeep().done(function (upkeep) {
 		]);
 });
 
-var totalExploitationsIncome = 0;
-$('table[width="340"] > tbody > tr:first-child > .hr').each(function (_, element) {
-	totalExploitationsIncome += parseFloat($(element).text().replace(/,/g, '')) || 0;
-});
 
-var totalCaptivityIncome = 0;
-$('table[width="340"] > tbody > tr > .hr.hlight').each(function (_, element) {
-	totalCaptivityIncome += parseFloat($(element).text().replace(/,/g, '')) || 0;
-});
+$('.line0').eq(0).before(function () {
+	var totals = {}, totalGrossIncome = 0, rows = [];
+	$('table[width="340"] > tbody > tr').each(function (_, row) {
+		var tds = $(row).children('td'),
+			type = tds.eq(0).text(),
+			value = numeral().unformat(tds.eq(1).text()) || 0;
 
-var totalGrossIncome = totalExploitationsIncome + totalCaptivityIncome;
+		if (type == '') {
+			return;
+		}
 
-$('.line0').eq(0).before([
-	$('<tr class="line0">').append([
+		if (type.indexOf('%') != -1) {
+			type = 'Captivity income';
+		}
+
+		if (totals[type]) {
+			totals[type] += value;
+		} else {
+			totals[type] = value;
+		}
+
+		if (value > 0) {
+			totalGrossIncome += value;
+		}
+	});
+
+	rows.push($('<tr class="line0">').append([
 		'<td>Total gross income</td>',
 		$('<td class="hr">').text(numeral(totalGrossIncome).format('0,0'))
-	]), 
-	$('<tr class="line1">').append([
-		$('<td class="tinytext" style="padding-left:2em">').append([
-			'Total income from exploitations',
-			$('<small>').text(' (' +
-				numeral(totalExploitationsIncome / totalGrossIncome).format('0[.]0%') +
-			')')
-		]),
-		$('<td class="hr tinytext">').text(numeral(totalExploitationsIncome).format('0,0'))
-	]),
-	$('<tr class="line1">').append([
-		$('<td class="tinytext" style="padding-left:2em">').append([
-			'Total income from captive planets',
-			$('<small>').text(' (' +
-				numeral(totalCaptivityIncome / totalGrossIncome).format('0[.]0%') +
-			')')
-		]),
-		$('<td class="hr tinytext">').text(numeral(totalCaptivityIncome).format('0,0'))
-	]),
-]);
+	]));
 
+	$.each(totals, function (label, value) {
+		if (value) {
+			rows.push($('<tr class="line1">').append([
+				$('<td class="tinytext" style="padding-left:2em">').
+					text(label).
+					append($('<small>').text(' (' +
+						numeral(Math.abs(value) / totalGrossIncome).format('0[.]0%') +
+					')')),
+				$('<td class="hr tinytext">').text(numeral(value).format('0,0'))
+			]));
+		}
+	});
+
+
+	return rows;
+});
 
