@@ -269,7 +269,8 @@ var Hyperiums7 = {
 		new Tick('Tech', 18),
 		new Tick('N/A', 6),
 		new Tick('Battle', 6, 2),
-		new Tick('Energy', 18)
+		new Tick('Energy', 18),
+		new Tick('Planet', 25, 12)
 	].sort(function (a, b) {
 		return a.name.localeCompare(b.name);
 	}),
