@@ -696,7 +696,9 @@ var Hyperiums7 = {
 				element = $(element);
 				var highlights = element.closest('table').find('.highlight'),
 					planet = {
-						governmentId: hyperiums.governments.indexOf(highlights.eq(0).text()),
+						governmentId: hyperiums.governments.indexOf(
+							highlights.eq(0).text().replace(/ \(\d+\)$/, '')
+						),
 						id: parseFloat(element.attr('href').replace(/[^\d]+/, '')),
 						name: element.text(),
 						raceId: hyperiums.races.indexOf(highlights.eq(2).text()),
