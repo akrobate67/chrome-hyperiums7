@@ -7,6 +7,17 @@
 			}
 		});
 
+		$('table.stdArray tr:not(.stdArray)').each(function (_, element) {
+			var tr = $(element);
+			var planet = Hyperiums7.getPlanetFromTradingMapRow(tr);
+			tr.find('a[href^="Maps"]').after(' ', $('<a>').attr({
+					href: 'http://www.beka.fr/hyperiums/index.php?page=histo&planet=' +
+						encodeURIComponent(planet.name) + '&selectgame=Hyperiums7',
+					target: '_blank'
+				}).
+				append('<img src="/themes/theme1/misc/activity.png" alt="History" title="History"/>'));
+		});
+
 		var planets = Hyperiums7.getPlanetsFromTradingMap(document);
 
 		$('table.stdArray').append(

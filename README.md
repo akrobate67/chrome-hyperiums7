@@ -52,6 +52,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 #### Maps
 - Planet/Tag statistics on Map/Trading page and Political Maps
 - Map on trading map page
+- Link to planet history (Beka's tools) on trading map page
 
 ### Additional
 - Simple Fleet Calculator (Accessible via Military menu in game)

@@ -515,45 +515,47 @@ var Hyperiums7 = {
 	getPlanetsFromTradingMap: function (html) {
 		var planets = [];
 		$('table.stdArray tr:not(.stdArray)', html).each(function (_, element) {
-			var tr = $(element),
-				tds = tr.find('td'),
-				msgUrl = tds.eq(0).find('a[href^="Maps"]').attr('href'),
-				planet = {
-					id: msgUrl ? parseFloat(msgUrl.replace(/[^\d]+/g, '')) : undefined,
-					name: $.trim(tds.eq(0).text().replace(/^@/, '')),
-					isOwn: tds.eq(0).find('.grayed b, .std b').length == 1,
-					tag: tds.eq(1).text(),
-					civ: parseInt(tds.eq(3).text()) || 0,
-					govName: tds.eq(4).text(),
-					raceName: tds.eq(5).text(),
-					distance: parseInt(tds.eq(6).text()),
-					productName: tds.eq(7).text(),
-					activity: parseInt(tds.eq(8).text().replace(',', '')) || 0,
-					freeCapacity: parseInt(tds.eq(9).text().replace(',', '')) || 0,
-					isBlackholed: tr.hasClass('alertLight'),
-					isDoomed: tr.find('img[src$="death1.gif"]').length == 1,
-					daysBeforeAnnihilation: 0
-				};
-
-			if (planet.isDoomed) {
-				planet.daysBeforeAnnihilation = parseFloat(tr.find('img[src$="death1.gif"]').attr('onmouseover').replace(/[^\d]+/g, ''));
-			}
-
-			if (planet.raceName == '') {
-				planet.raceName = tds.eq(5).find('img').attr('src').
-					replace(/^.*_(.*)\.gif$/, '$1');
-			}
-
-			var coords = /^(SC\d+)?\((-?\d+),(-?\d+)\)$/i.exec(tds.eq(2).text());
-			if (coords.length) {
-				planet.x = parseInt(coords[2]);
-				planet.y = parseInt(coords[3]);
-			}
-			planets.push(planet);
+			planets.push(Hyperiums7.getPlanetFromTradingMapRow($(element)));
 		});
 		return planets.sort(function (a, b) {
 			return a.name.localeCompare(b.name);
 		});
+	},
+	getPlanetFromTradingMapRow: function (tr) {
+		var tds = tr.find('td'),
+			msgUrl = tds.eq(0).find('a[href^="Maps"]').attr('href'),
+			planet = {
+				id: msgUrl ? parseFloat(msgUrl.replace(/[^\d]+/g, '')) : undefined,
+				name: $.trim(tds.eq(0).text().replace(/^@/, '')),
+				isOwn: tds.eq(0).find('.grayed b, .std b').length == 1,
+				tag: tds.eq(1).text(),
+				civ: parseInt(tds.eq(3).text()) || 0,
+				govName: tds.eq(4).text(),
+				raceName: tds.eq(5).text(),
+				distance: parseInt(tds.eq(6).text()),
+				productName: tds.eq(7).text(),
+				activity: parseInt(tds.eq(8).text().replace(',', '')) || 0,
+				freeCapacity: parseInt(tds.eq(9).text().replace(',', '')) || 0,
+				isBlackholed: tr.hasClass('alertLight'),
+				isDoomed: tr.find('img[src$="death1.gif"]').length == 1,
+				daysBeforeAnnihilation: 0
+			};
+
+		if (planet.isDoomed) {
+			planet.daysBeforeAnnihilation = parseFloat(tr.find('img[src$="death1.gif"]').attr('onmouseover').replace(/[^\d]+/g, ''));
+		}
+
+		if (planet.raceName == '') {
+			planet.raceName = tds.eq(5).find('img').attr('src').
+				replace(/^.*_(.*)\.gif$/, '$1');
+		}
+
+		var coords = /^(SC\d+)?\((-?\d+),(-?\d+)\)$/i.exec(tds.eq(2).text());
+		if (coords.length) {
+			planet.x = parseInt(coords[2]);
+			planet.y = parseInt(coords[3]);
+		}
+		return planet;
 	},
 	getContacts: function () {
 		var promise = $.Deferred(), hyperiums = this;
