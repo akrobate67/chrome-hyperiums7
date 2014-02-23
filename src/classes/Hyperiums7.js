@@ -523,7 +523,7 @@ var Hyperiums7 = {
 					name: $.trim(tds.eq(0).text().replace(/^@/, '')),
 					isOwn: tds.eq(0).find('.grayed b, .std b').length == 1,
 					tag: tds.eq(1).text(),
-					civ: parseInt(tds.eq(3).text()),
+					civ: parseInt(tds.eq(3).text()) || 0,
 					govName: tds.eq(4).text(),
 					raceName: tds.eq(5).text(),
 					distance: parseInt(tds.eq(6).text()),
