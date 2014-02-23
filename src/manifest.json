@@ -126,7 +126,8 @@
 		]
 	}, {
 		"matches": [
-			"http://hyp2.hyperiums.com/servlet/Cash"
+			"http://hyp2.hyperiums.com/servlet/Cash",
+			"http://hyp2.hyperiums.com/servlet/Cash?pagetype=statement"
 		],
 		"js": [
 			"extlibs/jquery/jquery.js",
