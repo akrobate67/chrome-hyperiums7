@@ -163,6 +163,15 @@
 			"classes/Hyperiums7.js",
 			"scripts/contentscripts/forums.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Rankpage",
+			"http://hyp2.hyperiums.com/servlet/Rankpage?*"
+		],
+		"js": [
+			"extlibs/jquery/jquery.js",
+			"scripts/contentscripts/rankings.js"
+		]
 	}],
 
 	"icons": {
