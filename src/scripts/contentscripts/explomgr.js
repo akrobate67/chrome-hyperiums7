@@ -10,3 +10,11 @@ $('form #stdArray td:nth-child(4)').append(
 		})
 );
 
+Hyperiums7.getPlanetInfo().done(function (planets) {
+	$.each(planets, function (_, planet) {
+		$('[href="Planetprod?planetid=' + planet.id + '"]').closest('tr').
+			children('td').eq(2).append('<br>Population size: ',
+				numeral(planet.pop).format('0,0'), '&nbsp;M')
+	});
+});
+

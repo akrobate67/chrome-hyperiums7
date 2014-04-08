@@ -32,6 +32,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 
 #### Trading
 - One input for all planets in Global exploitations manager
+- Population size for each planet in Global exploitations manager
 
 #### Cash
 - Link to spy report for captive planets on cash page
