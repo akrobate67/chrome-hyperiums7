@@ -198,7 +198,8 @@
 	"update_url": "http://www.resident-uhlig.de/hyperiums/chrome.xml",
 
 	"web_accessible_resources": [
-		"pages/fleetcalc.html"
+		"pages/fleets/calc.html",
+		"pages/fleets/spreadsheet.html"
 	]
 }
 
