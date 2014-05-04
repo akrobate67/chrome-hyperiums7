@@ -9,16 +9,16 @@ $('.br_own').closest('table').each(function (_, table) {
 				unitId = Hyperiums7.units.indexOf(unitName),
 				numbers = {
 					own: {
-						initial: parseFloat(tds.eq(1).text()) || 0,
-						lost: parseFloat(tds.eq(2).text()) || 0
+						initial: numeral().unformat(tds.eq(1).text().toLowerCase()) || 0,
+						lost: numeral().unformat(tds.eq(2).text().toLowerCase()) || 0
 					},
 					defending: {
-						initial: parseFloat(tds.eq(3).text()) || 0,
-						lost: parseFloat(tds.eq(4).text()) || 0
+						initial: numeral().unformat(tds.eq(3).text().toLowerCase()) || 0,
+						lost: numeral().unformat(tds.eq(4).text().toLowerCase()) || 0
 					},
 					attacking: {
-						initial: parseFloat(tds.eq(5).text()) || 0,
-						lost: parseFloat(tds.eq(6).text()) || 0
+						initial: numeral().unformat(tds.eq(5).text().toLowerCase()) || 0,
+						lost: numeral().unformat(tds.eq(6).text().toLowerCase()) || 0
 					}
 				};
 			$.each(numbers, function (side, numbers) {
