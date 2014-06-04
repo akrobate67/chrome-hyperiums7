@@ -439,13 +439,16 @@ var Hyperiums7 = {
 			this.timeToBuildMultiplier.products[planet.productId] *
 			this.timeToBuildMultiplier.stasis[planet.stasis ? 1 : 0];
 	},
-	getBuildPipeTotals: function (pipe, planet) {
+	getBuildPipeTotals: function (pipe, planet, numDaysOfWar) {
 		var totals = {
 			timeToBuild: 0,
 			upkeepCosts: 0,
 			buildCosts: 0,
 			spaceAvgP: 0,
-			groundAvgP: 0
+			groundAvgP: 0,
+			spaceUpkeepCosts: 0,
+			spaceBuildCosts: 0,
+			groundUpkeepCosts: 0
 		},
 			multiplier = this.getTimeToBuildMultiplier(planet),
 			numFactories = planet.numFactories,
@@ -464,20 +467,32 @@ var Hyperiums7 = {
 					hyperiums.timeToBuild[order.unitId][raceId];
 			}
 
-			totals.upkeepCosts += order.count *
+			var upkeepCosts =  order.count *
 				hyperiums.upkeepCosts[order.unitId][raceId];
-			totals.buildCosts += order.count *
+			var buildCosts = order.count *
 				hyperiums.buildCosts[order.unitId][productId];
+
+			totals.upkeepCosts += upkeepCosts;
+			totals.buildCosts += buildCosts;
 			if (order.unitId != factoryUnitId) {
 				if (hyperiums.spaceAvgP[order.unitId][raceId] == 0) {
 					totals.groundAvgP += order.count *
 						hyperiums.groundAvgP[raceId];
+					totals.groundUpkeepCosts += upkeepCosts;
 				} else {
 					totals.spaceAvgP += order.count *
 						hyperiums.spaceAvgP[order.unitId][raceId];
+					totals.spaceUpkeepCosts += upkeepCosts;
+					totals.spaceBuildCosts += buildCosts;
 				}
 			}
 		});
+
+		totals.fleetLevel = Math.floor(Math.sqrt(0.03 * (numDaysOfWar *
+			totals.spaceUpkeepCosts + totals.spaceBuildCosts) / 10000000));
+		totals.gaLevel = Math.max(3, Math.floor((Math.sqrt(0.12 * numDaysOfWar *
+			totals.groundUpkeepCosts / 10000000 + 9) + 3) / 2));
+
 		return totals;
 	},
 	getPlanetIdInfluence: function (planetId) {

@@ -1,12 +1,15 @@
 $(document).ready(function () {
-	function fillSelect(select, array) {
+	function fillSelect(select, array, defaultText) {
 		$.each(array, function (value, text) {
 			select.append($('<option>').val(value).text(text));
+			if (defaultText == text) {
+				select.val(value);
+			}
 		});
 	}
 
-	fillSelect($('#productId'), Hyperiums7.products);
-	fillSelect($('#governmentId'), Hyperiums7.governments);
+	fillSelect($('#productId'), Hyperiums7.products, 'Techno');
+	fillSelect($('#governmentId'), Hyperiums7.governments, 'Dictatorial');
 
 	var theadTr = $('#units thead tr'),
 		tfootTr = $('#units tfoot tr');
@@ -43,7 +46,8 @@ $(document).ready(function () {
 				productId: parseInt($('#productId').val()),
 				stasis: parseInt($('[name="stasis"]:checked').val()),
 				numFactories: parseInt($('#numFactories').val())
-			};
+			},
+			numDaysOfWar = parseInt($('#numDaysOfWar').val());
 
 		$('#units input').each(function (_, input) {
 			input = $(input);
@@ -56,7 +60,8 @@ $(document).ready(function () {
 		var total = {};
 		$.each(pipes, function (raceId, pipe) {
 			planet.raceId = raceId;
-			$.each(Hyperiums7.getBuildPipeTotals(pipe, planet), function (key, value) {
+			$.each(Hyperiums7.getBuildPipeTotals(pipe, planet, numDaysOfWar),
+			function (key, value) {
 				if (!total[key]) {
 					total[key] = 0;
 				}
@@ -78,7 +83,7 @@ $(document).ready(function () {
 			if (value > 0) {
 				if (key == 'timeToBuild') {
 					text = moment.duration(Math.ceil(value) * 3600000).format()
-				} else {
+				} else if (key != 'fleetLevel' && key != 'gaLevel') {
 					text = numeral(value).format('0[.]0a');
 				}
 			}

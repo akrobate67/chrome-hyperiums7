@@ -3,6 +3,8 @@ https://github.com/resident-uhlig/chrome-hyperiums7/issues
 
 XXXX-XX-XX XX:XX:XX Version 0.6.0
 * Added fleet spread sheet
+* Added tech level suggestion to fleet calculator
+* Changed default production type to techno and government type to dictatorial in fleet calculator
 
 2014-04-08 20:20:00 Version 0.5.0
 * Added link to Beka's hyperiums tools for planet history on Trading map
