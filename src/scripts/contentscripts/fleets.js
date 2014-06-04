@@ -433,3 +433,56 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=moving_fleets"]').length 
 	});
 }
 
+var currentPlanetName = $('.planetNameHuge').text();
+if (currentPlanetName) {
+	if ($('[name="unittype"]').length == 1) {
+		fleetInfoData = 'own_planets';
+	} else {
+		fleetInfoData = 'foreign_planets';
+	}
+	Hyperiums7.getFleetsInfo({ data: fleetInfoData }).
+		done(function (planets) {
+			var total = {
+				0: { defend: { space: 0, ground: 0 }, attack: { space: 0, ground: 0 }},
+				1: { defend: { space: 0, ground: 0 }, attack: { space: 0, ground: 0 }},
+				2: { defend: { space: 0, ground: 0 }, attack: { space: 0, ground: 0 }},
+				3: { defend: { space: 0, ground: 0 }, attack: { space: 0, ground: 0 }},
+				4: { defend: { space: 0, ground: 0 }, attack: { space: 0, ground: 0 }},
+			};
+			console.log(planets);
+			$.each(planets.toNames[currentPlanetName].fleets, function (_, fleet) {
+				var stats = total[fleet.delay][fleet.defend ? 'defend' : 'attack'];
+				Hyperiums7.updateFleetAvgP(fleet);
+				stats.space += fleet.spaceAvgP;
+				stats.ground += fleet.groundAvgP;
+			});
+
+			var table = $('<table><col></table>');
+			$.each(total, function (na, _) {
+				table.append('<col style="width:70px"/>');
+			});
+
+			var tr = $('<tr><th>N/A</th></tr>');
+			$.each(total, function (na, _) {
+				tr.append($('<td class="hr">').text(na));
+			});
+			table.append($('<thead>').append(tr));
+
+			var i = 0;
+			$.each({space: 'Space', ground: 'Ground'}, function (type, typeLabel) {
+				$.each({defend: 'Defending', attack: 'Attacking'},
+					function (mode, modeLabel) {
+						var tr = $('<tr>').addClass('line' + (++i%2)).append($('<th>').text(
+							modeLabel + ' ' + typeLabel + ' AvgP'));
+						$.each(total, function (_, stats) {
+							tr.append($('<td class="hr">').text(stats[mode][type] ?
+								numeral(stats[mode][type]).format('0[.]0a') : '-'));
+						});
+						table.append(tr);
+					});
+			});
+
+			$('.civ').parent().closest('table').after(table);
+		});
+}
+

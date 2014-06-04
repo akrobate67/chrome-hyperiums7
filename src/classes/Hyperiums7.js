@@ -696,13 +696,14 @@ var Hyperiums7 = {
 	},
 	updateFleetAvgP: function (fleet) {
 		fleet.spaceAvgP =
-			fleet.numDestroyers * this.spaceAvgP[1][fleet.raceId] +
-			fleet.numCruisers * this.spaceAvgP[2][fleet.raceId] +
-			fleet.numScouts * this.spaceAvgP[3][fleet.raceId] +
-			fleet.numBombers * this.spaceAvgP[4][fleet.raceId] +
-			fleet.numStarbases * this.spaceAvgP[5][fleet.raceId];
+			(fleet.numDestroyers || 0) * this.spaceAvgP[1][fleet.raceId] +
+			(fleet.numCruisers || 0) * this.spaceAvgP[2][fleet.raceId] +
+			(fleet.numScouts || 0) * this.spaceAvgP[3][fleet.raceId] +
+			(fleet.numBombers || 0) * this.spaceAvgP[4][fleet.raceId] +
+			(fleet.numStarbases || 0) * this.spaceAvgP[5][fleet.raceId];
 		fleet.groundAvgP =
-			fleet.numCarriedArmies * this.groundAvgP[fleet.raceId];
+			(fleet.numGroundArmies || 0) * this.groundAvgP[fleet.raceId] +
+			(fleet.numCarriedArmies || 0) * this.groundAvgP[fleet.raceId];
 		
 	},
 	getControlledPlanets: function () {

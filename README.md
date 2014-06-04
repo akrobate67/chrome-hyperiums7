@@ -29,6 +29,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Coordinates for moving fleets
 - Button to drop/enable stasis on military page
 - Overview of Army Capacity, Carried Armies and Ground Armies on military page
+- Overview of Space and Ground AvgP by N/A
 
 #### Trading
 - One input for all planets in Global exploitations manager
