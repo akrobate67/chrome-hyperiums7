@@ -195,8 +195,6 @@
 		"unlimitedStorage"
 	],
 
-	"update_url": "http://www.resident-uhlig.de/hyperiums/chrome.xml",
-
 	"web_accessible_resources": [
 		"pages/fleets/calc.html",
 		"pages/fleets/spreadsheet.html"
