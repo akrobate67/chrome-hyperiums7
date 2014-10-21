@@ -389,6 +389,7 @@ var Hyperiums7 = {
 					case 'tax':
 					case 'x':
 					case 'y':
+					case 'counterinfiltr':
 						value = parseFloat(value);
 						break;
 					case 'bhole':
@@ -420,6 +421,7 @@ var Hyperiums7 = {
 					case 'publictag': key = 'tag'; break;
 					case 'purif': key = 'purificationHoursLeft'; break;
 					case 'race': key = 'raceId'; break;
+					case 'counterinfiltr': key = 'counterInfiltration'; break;
 					}
 
 					planets[i][key] = value;
