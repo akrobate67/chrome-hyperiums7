@@ -1,5 +1,8 @@
-Bugfixes are not included in this changelog. See github:
+Most Bugfixes are not included in this changelog. See github:
 https://github.com/resident-uhlig/chrome-hyperiums7/issues
+
+2014-10-21 16:21:00 Version 0.6.1
+* Fixed unknown HAPI data "counterinfiltr"
 
 2014-06-04 15:36:00 Version 0.6.0
 * Added fleet spread sheet
