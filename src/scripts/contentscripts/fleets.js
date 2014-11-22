@@ -449,7 +449,6 @@ if (currentPlanetName) {
 				3: { defend: { space: 0, ground: 0 }, attack: { space: 0, ground: 0 }},
 				4: { defend: { space: 0, ground: 0 }, attack: { space: 0, ground: 0 }},
 			};
-			console.log(planets);
 			$.each(planets.toNames[currentPlanetName].fleets, function (_, fleet) {
 				var stats = total[fleet.delay][fleet.defend ? 'defend' : 'attack'];
 				Hyperiums7.updateFleetAvgP(fleet);
