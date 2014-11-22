@@ -1,0 +1,16 @@
+.sorting, .sorting_asc, .sorting_desc {
+	padding-left:25px;
+	background-repeat:no-repeat;
+	background-position:5px center;
+	cursor:pointer;
+	outline:0;
+}
+
+.sorting_asc {
+	background-image:url(http://hyp2.hyperiums.com/themes/theme1/misc/arrow_decrease.gif);
+}
+
+.sorting_desc {
+	background-image:url(http://hyp2.hyperiums.com/themes/theme1/misc/arrow_increase.gif);
+}
+

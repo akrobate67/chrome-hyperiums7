@@ -66,16 +66,24 @@
 			"http://hyp2.hyperiums.com/servlet/Fleets?*"
 		],
 		"js": [
-			"extlibs/jquery/jquery.js",
 			"extlibs/jquery-ui/jquery-ui.js",
-			"extlibs/momentjs/moment.js",
-			"extlibs/numeraljs/numeral.js",
 			"classes/moment.js",
 			"scripts/contentscripts/fleets.js"
 		],
 		"css": [
 			"extlibs/jquery-ui/jquery-ui.css",
 			"styles/jquery-ui.css"
+		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Planetfloats?planetid=*&perplayer="
+		],
+		"js": [
+			"extlibs/jquery-datatables/jquery.datatables.js",
+			"scripts/contentscripts/fleets/perplayer.js"
+		],
+		"css": [
+			"styles/jquery-datatables.css"
 		]
 	}, {
 		"matches": [
@@ -150,8 +158,6 @@
 			"http://hyp2.hyperiums.com/servlet/Planetfloats?planetid=*"
 		],
 		"js": [
-			"extlibs/jquery/jquery.js",
-			"classes/Hyperiums7.js",
 			"scripts/contentscripts/nofleet.js"
 		]
 	}, {
