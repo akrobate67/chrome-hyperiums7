@@ -1,3 +1,11 @@
+.dataTables_wrapper {
+	margin:1em 0;
+}
+
+.dataTables_filter {
+	margin-bottom:0.3em;
+}
+
 .sorting, .sorting_asc, .sorting_desc {
 	padding-left:25px;
 	background-repeat:no-repeat;
