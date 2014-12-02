@@ -30,6 +30,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Button to drop/enable stasis on military page
 - Overview of Army Capacity, Carried Armies and Ground Armies on military page
 - Overview of Space and Ground AvgP by N/A
+- Filter and Sort function for "more details" on planet's military page
 
 #### Trading
 - One input for all planets in Global exploitations manager
