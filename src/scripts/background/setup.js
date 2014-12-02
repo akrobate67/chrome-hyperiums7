@@ -69,6 +69,11 @@ chrome.runtime.onInstalled.addListener(function (details) {
 						isTtsEnabled: false,
 						minutesBefore: 5
 					},
+					'Planet': {
+						isEnabled: false,
+						isTtsEnabled: false,
+						minutesBefore: 5
+					},
 					Tech: {
 						isEnabled: false,
 						isTtsEnabled: false,
