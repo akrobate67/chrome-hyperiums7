@@ -8,6 +8,9 @@
 	border-top:1px solid #3a3a3a;
 	padding:0.3em 0.5em;
 	text-align:center;
+	background-image:url(/themes/theme1/misc/arrow_increase.gif);
+	background-repeat:no-repeat;
+	background-position:5px 5px;
 }
 
 #hyperiums7-ticks ul {
@@ -38,5 +41,34 @@
 	0% { opacity: 1.0; }
 	50% { opacity: 0.5; }
 	100% { opacity: 1.0; }
+}
+
+#hyperiums7-ticks:hover {
+	background-image:url(/themes/theme1/misc/arrow_decrease.gif);
+}
+
+#hyperiums7-ticks:hover .timeline {
+	display:block;
+}
+
+#hyperiums7-ticks .timeline {
+	display:none;
+	height:75px;
+	margin:5px auto;
+	border:1px solid #3a3a3a;
+	width:75%;
+	position:relative;
+	overflow:hidden;
+	cursor:zoom-in;
+}
+
+#hyperiums7-ticks .timeline .tick {
+	height:100%;
+	width:2px;
+	background:#f0f0f0;
+	position:absolute;
+	cursor:help;
+	white-space:nowrap;
+	text-indent:5px;
 }
 

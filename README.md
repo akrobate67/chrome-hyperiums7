@@ -9,10 +9,11 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 ### In Game
 #### Global
 - Make URLs and e-mail addresses clickable
-- Live ticks at the bottom of each page
+- Live ticks at the bottom of all page
 - Link to player search in system messages
 - Highlight names of contacts in system messages
 - AvgP for leaving fleet messages
+- Live timeline at the bottom of all pages (hover ticks to show)
 
 #### Controlled planets
 - Planet statistics on Controlled planets page
