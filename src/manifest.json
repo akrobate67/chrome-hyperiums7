@@ -179,6 +179,14 @@
 			"extlibs/jquery/jquery.js",
 			"scripts/contentscripts/rankings.js"
 		]
+	}, {
+		"matches": [
+			"http://hyp2.hyperiums.com/servlet/Maps?maptype=credits"
+		],
+		"js": [
+			"extlibs/chartjs/Chart.min.js",
+			"scripts/contentscripts/maps/credits.js"
+		]
 	}],
 
 	"icons": {

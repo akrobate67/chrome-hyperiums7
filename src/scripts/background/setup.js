@@ -87,7 +87,8 @@ chrome.runtime.onInstalled.addListener(function (details) {
 			tts: {
 				isEnabled: false,
 				voiceName: 'native'
-			}
+			},
+			creditStats: []
 		})});
 	});
 

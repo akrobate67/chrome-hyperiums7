@@ -58,6 +58,9 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Map on trading map page
 - Link to planet history (Beka's tools) on trading map page
 
+#### Markets
+- Stats for credits on sale
+
 #### Rankings
 - Link to player history (Beka's tools) on ranking page
 
