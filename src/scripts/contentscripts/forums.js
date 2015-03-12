@@ -6,7 +6,7 @@ $.each(location.search.substr(1).split('&'), function (_, pair) {
 
 var url;
 if (params.action == 'fdispmsg' && params.limit === undefined && params.gotolast) {
-	url = $('.hc.info:not(.avgtext) a').eq(-2).attr('href');
+	url = $('.paging a').eq(-2).attr('href');
 	if (url) {
 		location.href = url;
 	}
