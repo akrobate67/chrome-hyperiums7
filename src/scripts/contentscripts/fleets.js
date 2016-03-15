@@ -485,3 +485,24 @@ if (currentPlanetName) {
 		});
 }
 
+if ($('#OwnPlGroups, #Groups').length == 1) {
+	$('a.planetName').each(function () {
+		var planetName = $(this).text();
+		$(this).parent().append([
+			'<br>',
+			$('<button class="addToGroup" title="Use Define/Extend to confirm &amp; save">Add to group</button>')
+				.click(function () {
+					$('#OwnPlGroups, #Groups').show();
+					var $listInput = $('input[name="listplanets"]');
+					var list = $.trim($listInput.val());
+					if (list.length) {
+						list += ','
+					}
+	
+					$listInput.val(list + planetName);
+					$(this).hide();
+				})
+		]);
+	});
+}
+ 

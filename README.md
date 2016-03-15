@@ -32,6 +32,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Overview of Army Capacity, Carried Armies and Ground Armies on military page
 - Overview of Space and Ground AvgP by N/A
 - Filter and Sort function for "more details" on planet's military page
+- Add planet to group (use "Define/Extend" to confirm & save)
 
 #### Trading
 - One input for all planets in Global exploitations manager
