@@ -38,3 +38,88 @@ $('a').each(function (_, element) {
 	}
 });
 
+if ($('.megaCurrentItem').attr('href') === 'Forums') {
+	$('.forumArray').before([
+		$('<form class="hl" style="width:700px"></form>')
+			.append([
+				$('<input name="query"/>'),
+				' ',
+				$('<input type="submit" class="button" value="Search"/>')
+			])
+			.submit(function (event) {
+				event.preventDefault();
+
+				$('#hyperiums7-forum-search-results').remove();
+				
+				var $form = $(this);
+				var $inputs = $form.find(':input').prop('disabled', true);
+				$.get(
+					'http://hyperiums.resident-uhlig.de/api.php/forum/search',
+					{ query: $form.find('input[name="query"]').val() }
+				)
+					.done(function (result) {
+						if (!result || !result.rows) {
+							alert('Fail: no result rows');
+							return;
+						}
+						
+						if (result.rows.length === 0) {
+							alert('No results.');
+							return;
+						}
+						
+						var $results = $('<div id="hyperiums7-forum-search-results" class="hc" style="margin:1em 0"></div>');
+						$.each(result.rows, function (index, row) {
+							$results.append(
+								$('<table class="hc"></table>').append([
+									$('<tr class="msgForum"></tr>').append($('<td colspan="2"></td>').append(
+										$('<table width="100%"></table>').append($('<tr></tr>')).append([
+											$('<td width="610"></td>').text(row.forum_title),
+											$('<td class="hc">View thread</td>')
+										])
+									)),
+									
+									$('<tr></tr>').append([
+										$('<td class="vt"></td>').append(
+											$('<table class="sender" width="160"></table>').append($('<tr></tr>').append(
+												$('<td width="100%" class="playerTitle"></td>').append([
+													document.createTextNode(row.post_datetime),
+													'<br/>',
+													document.createTextNode(row.player_name)
+												])
+											))
+										),
+										$('<td class="vt"></td>').append([
+											$('<table width="570"></table>').append($('<tr></tr>').append([
+												$('<td width="420" class="postTitle playerTitle" style="height: 28px"></td>').text(row.post_subject),
+												$('<td width="150" class="hc vc playerTitle">Reply</td>')
+											])),
+											
+											$('<table width="570" class="hc body"></table>').append($('<tr></tr>').append(
+												$('<td class="player"></td>').append(
+													$('<div style="width:568px; overflow-x:auto;"></div>').html(row.post_message)
+												)
+											))
+										])
+									]),
+									
+									$('<tr><td colspan="2"><div class="spacer10"></div></td></tr>')
+								])
+							);
+						});
+						
+						$form.after($results);
+					})
+					.fail(function (xhr, status, error) {
+						status = status || '';
+						error = error || '';
+						alert('Fail: ' + status + ' ' + error);
+					})
+					.always(function () {
+						$inputs.prop('disabled', false);
+					});
+			}),
+		'<br/><br/>'
+	]);
+}
+

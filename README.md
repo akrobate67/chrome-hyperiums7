@@ -53,6 +53,7 @@ A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
 - Average Space AvgP and Ground AvgP for Battle Reports
 - Count and display number of backup buddy logins
 - Link to forum on "last 20 messages" page (for alliances)
+- Search function for public forums
 
 #### Maps
 - Planet/Tag statistics on Map/Trading page and Political Maps
