@@ -1017,6 +1017,32 @@ var Hyperiums7 = {
 			promise.resolveWith(hyperiums);
 		});
 		return promise;
+	},
+	searchForums: function (query, offset, limit) {
+		var promise = $.Deferred();
+		offset = offset || 0;
+		limit = limit || 30;
+		$.get('http://hyperiums.resident-uhlig.de/api.php/forum/search', { query: query, offset: offset, limit: limit })
+			.done(function (result) {
+				if (!result || !result.rows) {
+					promise.reject('Error: no result rows');
+					return;
+				}
+
+				if (result.rows.length === 0) {
+					promise.reject('No results.');
+					return;
+				}
+				
+				promise.resolve(result);
+			})
+			.fail(function (xhr, status, error) {
+				status = status || '';
+				error = error || '';
+				promise.reject('Error: ' + status + ' ' + error);
+			});
+		
+		return promise;
 	}
 };
 
