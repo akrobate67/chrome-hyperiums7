@@ -74,8 +74,14 @@ if ($('.megaCurrentItem').attr('href') === 'Forums') {
 								$('<table class="hc"></table>').append([
 									$('<tr class="msgForum"></tr>').append($('<td colspan="2"></td>').append(
 										$('<table width="100%"></table>').append($('<tr></tr>')).append([
-											$('<td width="610"></td>').text(row.forum_title),
-											$('<td class="hc">View thread</td>')
+											$('<td width="610"></td>').append(
+												$('<a></a>')
+													.attr('href', 'Forums?action=fenter&forumid=' + row.forum_id)
+													.text(row.forum_title)
+											),
+											$('<td class="hc"></td>').append(
+												$('<a>View thread</a>').attr('href', 'Forums?action=fdispmsg&forumid=' + row.forum_id + '&threadid=' + row.thread_id + '&fatherthreadid=0')
+											)
 										])
 									)),
 									
@@ -85,18 +91,22 @@ if ($('.megaCurrentItem').attr('href') === 'Forums') {
 												$('<td width="100%" class="playerTitle"></td>').append([
 													document.createTextNode(row.post_datetime),
 													'<br/>',
-													document.createTextNode(row.player_name)
+													$('<a></a>')
+														.attr('href', 'Forums?playerprofile=' + row.player_id)
+														.text(row.player_name)
 												])
 											))
 										),
 										$('<td class="vt"></td>').append([
 											$('<table width="570"></table>').append($('<tr></tr>').append([
 												$('<td width="420" class="postTitle playerTitle" style="height: 28px"></td>').text(row.post_subject),
-												$('<td width="150" class="hc vc playerTitle">Reply</td>')
+												$('<td width="150" class="hc vc playerTitle"></td>').append(
+													$('<a>Reply</a>').attr('href', 'Forums?action=faddmsg&forumid=' + row.forum_id + '&threadid=' + row.post_id)
+												)
 											])),
 											
 											$('<table width="570" class="hc body"></table>').append($('<tr></tr>').append(
-												$('<td class="player"></td>').append(
+												$('<td class="player hl"></td>').append(
 													$('<div style="width:568px; overflow-x:auto;"></div>').html(row.post_message)
 												)
 											))
