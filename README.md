@@ -87,6 +87,14 @@ https://chrome.google.com/webstore/detail/mnbakcpkbpcafjdbejdlmkmcknheihbk
 
 You can contact the original author in game via personal message to *natalie_g*. There is also a contact link in the extension.
 
+## Privacy Policy
+
+This extension stores its options on your computer and in your Google account.
+
+Data that is sent to another server than *.hyperiums.com:
+* Your current user session (player id, game id, authentication key) in Hyperiums if you set a specific URL pattern in the options and use the function to send the session to an external website.
+* Your queries to the forum search. This is required because the forum is indexed on another server. The queries are not logged.
+
 ## License
 
 This chrome extension is licensed under the MIT license. See the LICENSE file for full details.
