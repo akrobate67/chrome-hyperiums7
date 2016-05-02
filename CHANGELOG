@@ -5,6 +5,7 @@ XXXX-XX-XX XX:XX:XX Version X.X.X
 * Added datatables to "per player" / "more details" fleets table
 * Added live timeline at the bottom of all pages (hover ticks to show)
 * Added stats for credits on sale
+* Added search function for public forums
 * Added check all by ETA on "Sort by ETA" for moving fleets
 
 2014-10-21 16:21:00 Version 0.6.1
