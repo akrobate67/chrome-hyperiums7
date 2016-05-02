@@ -410,7 +410,19 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=moving_fleets"]').length 
 		function formatPosition(position) {
 			return '(' + position.x + ',' + position.y + ')';
 		}
+		
+		function toggleAll() {
+			var $this = $(this);
+			$this
+				.closest('tr')
+				.nextUntil('.movingFleetGroupTitle')
+				.find('input[type=checkbox]')
+				.prop({ checked: $this.prop('checked') });
+		}
 
+		var $sortByEta = $('.banner [name=sortOrGroup').eq(0);
+		var groupByEta = $sortByEta.length === 0 || $sortByEta.prop('disabled');
+		var previousEta = null;
 		$.each(fleets, function (_, fleet) {
 			var distance = {
 					x: fleet.to.x - fleet.from.x,
@@ -423,12 +435,28 @@ if ($('.megaCurrentItem[href="/servlet/Fleets?pagetype=moving_fleets"]').length 
 					y: Math.round(fleet.from.y + progress * distance.y)
 				};
 
-			$('input[value="' + fleet.id + '"]').parent().prev().append(
+			var $input = $('input[value="' + fleet.id + '"]');
+			$input.parent().prev().append(
 				'<br>From ', formatPosition(fleet.from),
 				' to ', formatPosition(fleet.to),
 				' @ ', formatPosition(position),
 				' (', numeral(progress).format('0[.]0%'), ')'
 			);
+			
+			if (groupByEta && previousEta != fleet.eta) {
+				$input.closest('tr').before(
+					$('<tr class="movingFleetGroupTitle"></tr>').append([
+						$('<td></td>').append(
+							$('<b></b>').text('ETA: ' + fleet.eta + ' hour(s) (incl. delay)')
+						),
+						$('<td class="hr"></td>').append(
+							$('<input type="checkbox" class="checkbox" value>').click(toggleAll)
+						)
+					])
+				);
+			}
+			
+			previousEta = fleet.eta;
 		});
 	});
 }
