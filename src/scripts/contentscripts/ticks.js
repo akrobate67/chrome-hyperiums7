@@ -4,7 +4,7 @@ var offsetInMS = new Date().getTime() -
 
 $('.servertime').remove();
 
-var $div = $('<div id="hyperiums7-ticks" class="servertime"></div>');
+var $div = $('<div id="hyperiums7-ticks" class="servertime" style="z-index:99;"></div>');
 $('body').append($div);
 
 var msPerPx = 10000;

@@ -42,7 +42,7 @@ var Hyperiums7 = {
 		return promise;
 	},
 	getServletUrl: function (servlet) {
-		return 'http://hyp2.hyperiums.com/servlet/' + servlet;
+		return 'http://www.hyperiums.com/servlet/' + servlet;
 	},
 	getLogoutUrl: function () {
 		return this.getServletUrl('Logout?logout_mode=&logout=Logout');
@@ -263,19 +263,19 @@ var Hyperiums7 = {
 		return promise;
 	},
 	ticks: [
-		new Tick('Build', 23),
-		new Tick('Cash', 31, 8, 6),
-		new Tick('Move/Control', 26),
+		new Tick('Build', 59),
+		new Tick('Cash', 7, 8, 6),
+		new Tick('Move/Control', 2),
 		new Tick('Tech', 18),
-		new Tick('N/A', 6),
-		new Tick('Battle', 6, 2),
-		new Tick('Energy', 18),
+		//new Tick('N/A', 6),
+		new Tick('Battle', 42, 2),
+		new Tick('Energy', 54),
 		new Tick('Planet', 25, 12)
 	].sort(function (a, b) {
 		return a.name.localeCompare(b.name);
 	}),
 	races: ['Human', 'Azterk', 'Xillor'],
-	products: ['Agro', 'Minero', 'Techno'],
+	products: ['AGRO', 'MINERO', 'TECHNO'],
 	governments: ['Dictatorial', 'Authoritarian', 'Democratic', 'Hyp.protect.'],
 	govs: ['Dict.', 'Auth.', 'Demo.', 'Hyp.'],
 	units: ['Factories', 'Destroyers', 'Cruisers', 'Scouts', 'Bombers', 'Starbases', 'Ground Armies', 'Carried Armies'],
@@ -458,7 +458,6 @@ var Hyperiums7 = {
 			productId = planet.productId,
 			factoryUnitId = this.units.indexOf('Factories'),
 			hyperiums = this;
-
 		$.each(pipe, function (_, order) {
 			if (order.unitId == factoryUnitId) {
 				totals.timeToBuild += Math.log((order.count + numFactories) / numFactories) /
@@ -715,15 +714,14 @@ var Hyperiums7 = {
 			planets.numPlanets = 0;
 			$('.planet', data).each(function (_, element) {
 				element = $(element);
-				var highlights = element.closest('table').find('.highlight'),
-					planet = {
+				var planet = {
 						governmentId: hyperiums.governments.indexOf(
-							highlights.eq(0).text().replace(/ \(\d+\)$/, '')
+							element.closest('table').find('.vt span.bold').eq(0).text().replace(/ \(\d+\)$/, '')
 						),
 						id: parseFloat(element.attr('href').replace(/[^\d]+/, '')),
 						name: element.text(),
-						raceId: hyperiums.races.indexOf(highlights.eq(2).text()),
-						productId: hyperiums.products.indexOf(highlights.eq(1).text()),
+						raceId: hyperiums.races.indexOf(element.closest('table').find('.basedata span.bold').eq(0).text()),
+						productId: hyperiums.products.indexOf(element.closest('table').find('.vt span').eq(0).text()),
 						stasis: element.closest('table').find('[src$="stasis_icon.png"]').length == 1
 					};
 					planets[planet.id] = planet;

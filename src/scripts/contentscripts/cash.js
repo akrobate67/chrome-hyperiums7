@@ -102,7 +102,7 @@ $('.line0').eq(0).before(function () {
 			totalGrossIncome += value;
 		}
 	});
-
+console.log(totals);
 	rows.push($('<tr class="line0">').append([
 		'<td>Total gross income</td>',
 		$('<td class="hr">').text(numeral(totalGrossIncome).format('0,0'))

@@ -21,9 +21,11 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 	$('[name="build"]').
 		after($('<p class="totals">')).
 		click(function () {
-			var form = $(this).closest('form');
+			var element = $(this),
+        form = (element.closest('form').length?element.closest('form'): element.closest('div.pane'));
 			form.find('[name="buildunits"]').val(form.data('numUnits') || 0);
-		});
+
+    });
 
 	$('[name="buildunits"]').
 		attr({
@@ -46,8 +48,9 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 		])]).
 		add('[name="unittype"], [name="xtype"]').
 		on('input change keyup', function () {
+    
 			var element = $(this),
-				form = element.closest('form'),
+				form = (element.closest('form').length?element.closest('form'): element.closest('div.pane')) ,
 				planetId = parseInt(form.find('[name="planetid"]').val()) || 0,
 				planet = planets[planetId],
 				unitId = parseInt(form.find('[name="unittype"]').val()) || 0,
@@ -55,12 +58,10 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 				xtype = form.find('[name="xtype"]').val(),
 				ttbMultiplier = Hyperiums7.getTimeToBuildMultiplier(planet),
 				buildCostSpan;
-
-			planet.numFactories = parseFloat(element.
+      planet.numFactories = parseFloat(element.
 				closest('tbody').
 				children('tr').eq(1).
 				find('b').eq(0).text());
-
 			switch (xtype) {
 			case 'numHours':
 				if (unitId == factoryUnitId) {
@@ -84,7 +85,8 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 
 			numUnits = Math.floor(numUnits) || 0;
 			form.data('numUnits', numUnits);
-
+      
+  
 			var totals = Hyperiums7.getBuildPipeTotals([{
 				count: numUnits,
 				unitId: unitId
