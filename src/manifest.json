@@ -76,6 +76,21 @@
 		]
 	}, {
 		"matches": [
+			"http://www.hyperiums.com/servlet/Planet?globalciv="
+		],
+		"js": [
+			"extlibs/jquery-ui/jquery-ui.js",
+			"classes/moment.js",
+      "classes/Hyperiums7.js",
+			"extlibs/numeraljs/numeral.js",
+      "scripts/contentscripts/globalciv.js"
+		],
+		"css": [
+			"extlibs/jquery-ui/jquery-ui.css",
+			"styles/jquery-ui.css"
+		]
+	}, {
+		"matches": [
 			"http://www.hyperiums.com/servlet/Planetfloats?planetid=*&perplayer="
 		],
 		"js": [

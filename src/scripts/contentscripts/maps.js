@@ -6,13 +6,13 @@
 				$('#searchButton').click();
 			}
 		});
-
+        	
 		$('table.stdArray tr:not(.stdArray)').each(function (_, element) {
 			var tr = $(element);
 			var planet = Hyperiums7.getPlanetFromTradingMapRow(tr);
 			tr.find('a[href^="Maps"]').after(' ', $('<a>').attr({
-					href: 'http://www.beka.fr/hyperiums/index.php?page=histo&planet=' +
-						encodeURIComponent(planet.name) + '&selectgame=Hyperiums7',
+					href: 'https://atlas.hyp-legacy.com/#tab=history&game=Hyperiums9&planet=' +
+						encodeURIComponent(planet.name) + '',
 					target: '_blank'
 				}).
 				append('<img src="/themes/theme1/misc/activity.png" alt="History" title="History"/>'));

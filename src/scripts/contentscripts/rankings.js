@@ -5,9 +5,9 @@ $(document).ready(function () {
 			var playerName = playerTd.children('b').text();
 			playerTd.prepend(
 				$('<a target="_blank"><img src="/themes/theme1/misc/activity.png"></a>').
-				attr('href', 'http://www.beka.fr/hyperiums/index.php?page=histo&player=' +
-					encodeURIComponent(playerName) + '&selectgame=Hyperiums7'), ' ');
+				attr('href', 'https://atlas.hyp-legacy.com/#tab=history&game=Hyperiums9&player='+	encodeURIComponent(playerName)), ' ');
 		});
 	}
 });
 
+//beka

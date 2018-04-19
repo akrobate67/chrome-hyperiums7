@@ -20,7 +20,14 @@ Hyperiums7.searchPlanets(planetNames.join(',')).done(function (planets) {
 
 $('.line1').removeClass('line1').addClass('line0');
 
-var totalIncome = parseFloat($('.line0 .hr').text().replace(/,/g, ''));
+var totalIncome = parseFloat($('table.cashArray tr td.hr').text().replace(/,/g, ''));
+
+var trFleets = $('table.cashArray tr.line0').eq(1);
+trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find('td').eq(1).text().replace(/,/g, '')))/ totalIncome).format('0[.]0%')+")");
+var trFleets = $('table.cashArray tr.line0').eq(2);
+trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find('td').eq(1).text().replace(/,/g, '')))/ totalIncome).format('0[.]0%')+")");
+
+
 
 Hyperiums7.getFleetsUpkeep().done(function (upkeep) {
 	var upkeepRow = $('.line0').last(),
@@ -102,12 +109,12 @@ $('.line0').eq(0).before(function () {
 			totalGrossIncome += value;
 		}
 	});
-console.log(totals);
-	rows.push($('<tr class="line0">').append([
+
+/*	rows.push($('<tr class="line0">').append([
 		'<td>Total gross income</td>',
 		$('<td class="hr">').text(numeral(totalGrossIncome).format('0,0'))
 	]));
-
+  */
 	$.each(totals, function (label, value) {
 		if (value) {
 			rows.push($('<tr class="line1">').append([
