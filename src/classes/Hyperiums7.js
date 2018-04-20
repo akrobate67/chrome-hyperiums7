@@ -23,7 +23,8 @@ Tick.prototype.getNextDate = function (serverDate) {
 };
 
 var Hyperiums7 = {
-	NAME: 'Hyperiums7',
+	NAME: 'Hyperiums9',
+	rank: -1,
 	getSession: function () {
 		var hyperiums = this,
 			promise = $.Deferred();
@@ -302,54 +303,80 @@ var Hyperiums7 = {
 		0, // Ground Armies
 		0 // Carried Armies
 	],
-  civInvest:[
-    0,
-    0 ,
-    250000,
-    562500, 
-    953125, 
-    1441407 ,
-    2051758, 
-    2814698, 
-    3768372, 
-    4960465, 
-    6450581, 
-    8313226, 
-    10641533 ,
-    13551916, 
-    17189895, 
-    21737368, 
-    27421710, 
-    34527137, 
-    43408921, 
-    54511152, 
-    68388940, 
-    85736174, 
-    107420218 ,
-    134525272, 
-    168406590, 
-    210758237, 
-    263697797, 
-    329872246, 
-    412590307, 
-    515987883, 
-    645234854, 
-    806793567, 
-    1008741959 ,
-    1261177449, 
-    1576721811, 
-    1971152264, 
-    2464190329, 
-    3080487912, 
-    3850859889, 
-    4813824861, 
-    6017531077, 
-    7522163846, 
-    9402954807, 
-    11753943509,
-    14692679386, 
-    18366099232,
-  ],
+	rankAdditionalSlots: {
+		0:2,
+		1:3,
+		2:3,
+		3:4,
+		4:4,
+		5:5,
+		6:5,
+		7:6,
+		8:7,
+		9:8,
+		10:10
+	},
+	rankAbbrev: [
+		'Ens',
+		'Ltn',
+		'Lt.Cdr	',
+		'Cmdr',
+		'Cptn',
+		'Flt.Cpt',
+		'Commo',
+		'R.Adm',
+		'V.Adm',
+		'Adm',
+		'Flt.Adm'
+	],	
+	civInvest:[
+	  0,
+	  0 ,
+	  250000,
+	  562500, 
+	  953125, 
+	  1441407 ,
+	  2051758, 
+	  2814698, 
+	  3768372, 
+	  4960465, 
+	  6450581, 
+	  8313226, 
+	  10641533 ,
+	  13551916, 
+	  17189895, 
+	  21737368, 
+	  27421710, 
+	  34527137, 
+	  43408921, 
+	  54511152, 
+	  68388940, 
+	  85736174, 
+	  107420218 ,
+	  134525272, 
+	  168406590, 
+	  210758237, 
+	  263697797, 
+	  329872246, 
+	  412590307, 
+	  515987883, 
+	  645234854, 
+	  806793567, 
+	  1008741959 ,
+	  1261177449, 
+	  1576721811, 
+	  1971152264, 
+	  2464190329, 
+	  3080487912, 
+	  3850859889, 
+	  4813824861, 
+	  6017531077, 
+	  7522163846, 
+	  9402954807, 
+	  11753943509,
+	  14692679386, 
+	  18366099232,
+	],
 	upkeepCosts: [
 		// [Human, Azterk, Xillor]
 		[1800, 1900, 2100], // Factories
@@ -390,6 +417,19 @@ var Hyperiums7 = {
 		products: [1, 1, 0.85],
 		// [off, on]
 		stasis: [1, 3]
+	},
+	getUserRank: function(){
+		if( Hyperiums7.rank>-1) return Hyperiums7.rank;
+		var playerSubmenu = $("ul#htopmenu a.megaTextItem[rel='playerSubmenu'] div").text();
+		//var userRank
+		Hyperiums7.rank = -1;
+		for(var i=0;Hyperiums7.rank==-1 && ( i < Hyperiums7.rankAbbrev.length) ;i++){
+			var rank = Hyperiums7.rankAbbrev[i];
+			if( playerSubmenu.search(rank+ " ") ==0){
+		    	Hyperiums7.rank = i
+		  }
+		}
+		return Hyperiums7.rank;
 	},
 	getPlanetInfo: function (args) {
 		var promise = $.Deferred();

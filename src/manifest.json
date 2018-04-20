@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
 
-	"name": "Hyperiums 7",
-	"description": "Tools and improvements for Hyperiums 7 (unofficial)",
+	"name": "Hyperiums 9",
+	"description": "Tools and improvements for Hyperiums 9 (unofficial)",
 	"version": "0.7.0",
 
 	"background": {
@@ -210,7 +210,7 @@
 		"128": "assets/icon_128.png"
 	},
 
-	"homepage_url": "https://github.com/resident-uhlig/chrome-hyperiums7",
+	"homepage_url": "https://github.com/akrobate67/chrome-hyperiums7",
 
 	"options_page": "pages/options.html",
 
