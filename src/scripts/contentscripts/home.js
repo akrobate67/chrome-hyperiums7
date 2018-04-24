@@ -53,7 +53,6 @@ $.getScript('/js/overlibmws.js').done(function () {
 				productName = details.eq(0).text(),
 				popAmount = parseFloat(details.eq(3).text()),
 				civLevel = parseInt(details.eq(4).text());
-				alert(planetId +';'+raceName +';'+govName+';'+ productName+';'+popAmount +';'+civLevel);
 
 				$.each({
 					governments: govName,
