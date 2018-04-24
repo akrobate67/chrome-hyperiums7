@@ -3,8 +3,11 @@ var offsetInMS = new Date().getTime() -
 	new Date($('.servertime').eq(0).text().replace('Server Time: ', '') + ' +00:00');
 
 $('.servertime').remove();
+	
+var bkg = $('body').css('background-color');
+var color = $('body').css('color');
 
-var $div = $('<div id="hyperiums7-ticks" class="servertime" style="z-index:99;"></div>');
+var $div = $('<div id="hyperiums7-ticks" class="servertime" style="z-index:99;background-color:'+bkg+';color:'+color+';"></div>');
 $('body').append($div);
 
 var msPerPx = 10000;
