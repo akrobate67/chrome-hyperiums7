@@ -81,9 +81,9 @@
 		"js": [
 			"extlibs/jquery-ui/jquery-ui.js",
 			"classes/moment.js",
-      "classes/Hyperiums7.js",
+      			"classes/Hyperiums7.js",
 			"extlibs/numeraljs/numeral.js",
-      "scripts/contentscripts/globalciv.js"
+      			"scripts/contentscripts/globalciv.js"
 		],
 		"css": [
 			"extlibs/jquery-ui/jquery-ui.css",
@@ -116,7 +116,8 @@
 		]
 	}, {
 		"matches": [
-			"http://www.hyperiums.com/servlet/Trading?globalexploit="
+			"http://www.hyperiums.com/servlet/Trading?globalexploit=",
+			"http://www.hyperiums.com/servlet/Trading?globalwtr="
 		],
 		"js": [
 			"extlibs/jquery/jquery.js",
