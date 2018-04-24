@@ -20,16 +20,22 @@ Hyperiums7.searchPlanets(planetNames.join(',')).done(function (planets) {
 
 $('.line1').removeClass('line1').addClass('line0');
 
-var totalIncome = parseFloat($('table.cashArray tr td.hr').text().replace(/,/g, ''));
+var totalIncome = parseFloat($('table.cashArray tr td.hr').text().replace(/,/g, '')) + parseFloat($('table.cashArray tr td.hr').eq(1).text().replace(/,/g, ''));
 
 var trFleets = $('table.cashArray tr.line0').eq(1);
 trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find('td').eq(1).text().replace(/,/g, '')))/ totalIncome).format('0[.]0%')+")");
 var trFleets = $('table.cashArray tr.line0').eq(2);
 trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find('td').eq(1).text().replace(/,/g, '')))/ totalIncome).format('0[.]0%')+")");
+var trFleets = $('table.cashArray tr.line0').eq(4);
+trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find('td').eq(1).text().replace(/,/g, '')))/ totalIncome).format('0[.]0%')+")");
+var trFleets = $('table.cashArray tr.line0').eq(5);
+trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find('td').eq(1).text().replace(/,/g, '')))/ totalIncome).format('0[.]0%')+")");
 
+var CT = numeral(Math.floor(parseFloat($('table.cashArray tr td.hr').eq(4).text().replace(/,/g, ''))/3)).format('0,0');
+$('table.cashArray').first().find('tr:last').after('<tr><td class=vb>Per cash tick</td><td class="hr highlight">'+CT+'</td></tr>');
+$('table.cashArray').last().find('tr:last').after('<tr><td class=vb>Per cash tick</td><td class="hr highlight">'+CT+'</td></tr>');
 
-
-Hyperiums7.getFleetsUpkeep().done(function (upkeep) {
+/*Hyperiums7.getFleetsUpkeep().done(function (upkeep) {
 	var upkeepRow = $('.line0').last(),
 		totalUpkeep = Math.abs(parseFloat(upkeepRow.find('.hr').text().replace(/,/g, ''))),
 		maxNumDeployed = $('.bgLine').length * 5,
@@ -110,11 +116,11 @@ $('.line0').eq(0).before(function () {
 		}
 	});
 
-/*	rows.push($('<tr class="line0">').append([
+	rows.push($('<tr class="line0">').append([
 		'<td>Total gross income</td>',
 		$('<td class="hr">').text(numeral(totalGrossIncome).format('0,0'))
 	]));
-  */
+ 
 	$.each(totals, function (label, value) {
 		if (value) {
 			rows.push($('<tr class="line1">').append([
@@ -130,5 +136,5 @@ $('.line0').eq(0).before(function () {
 
 
 	return rows;
-});
+});*/
 

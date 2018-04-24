@@ -1,27 +1,7 @@
 $(document).ready(function () {
 
-	function numPlanetsByCiv(){
-		var civTab = [];
-		var addSlots = Hyperiums7.rankAdditionalSlots[Hyperiums7.getUserRank()];
-		for(var nb =1;nb<40;nb++){
-			civTab[nb] = Math.max(0,((nb+1)-addSlots)*nb);
-		}
-		return civTab;
-	}
-	
-
-	function getNbPlanets(civ){
-		var civTab = numPlanetsByCiv();
-		for(var nb =1;nb<40;nb++){
-			if( civTab[nb] > civ){
-				return [nb,civTab[nb]];
-			}
-		}
-		return false;
-	}
-
   var minLevel = 40, totalCiv = {'current':0,'target':0,'nb':0};
-  $('table.stdArray.hc tr.hlight').each(function(){
+  $('table.stdArray.hc tr.line0,.line1').each(function(){
 
     var element = $(this),
       td = element.find('td.hr'),
@@ -42,12 +22,19 @@ $(document).ready(function () {
         currentLevelTd.append($('<span class="tech_launchable bold">&nbsp;->&nbsp;<b>'+targetLevel+'</b</span>'));
       }
   });
-  var nbPlanets = getNbPlanets(totalCiv['current'])
+  
+  var slots = 0;
+  var addSlots = Hyperiums7.rankAdditionalSlots[Hyperiums7.getUserRank()];
+  var next = (totalCiv['nb']+1-addSlots)*totalCiv['nb'];
+  while(next <= totalCiv['current']) {
+	  slots++;
+	  next = (totalCiv['nb']+1+slots-addSlots)*(totalCiv['nb']+slots);
+  }
   $('table.stdArray.hc').append(
   	$('<tr class="hlight">')
 	  .append($('<td colspan="2" class="hr">').html('<b>'+totalCiv['current']+'</b> <span class="tech_launchable bold">&nbsp;->&nbsp;<b>'+totalCiv['target']+'</b</span> '))
 	  .append($('<td >'))
-	  .append($('<td colspan=3>').html("You have "+totalCiv['nb']+" planet(s) and <span class='tech_launchable bold'>"+(nbPlanets[0]-totalCiv['nb'])+"</span> free slot(s).<br>You need <span class='tech_launchable bold'>"+nbPlanets[1]+"</span> to have an additonal slot."))
+	  .append($('<td colspan=3>').html("You have "+totalCiv['nb']+" planet(s) and <span class='tech_launchable bold'>"+slots+"</span> free slot(s).<br>You need <span class='tech_launchable bold'>"+next+"</span> to have an additonal slot."))
 	  .append($('<td id=totalInvest class="tech_launchable bold">')));
 
   $('table.stdArray.hc tr.stdArray').append(
@@ -74,8 +61,12 @@ $(document).ready(function () {
 	        }
 	        
 	      });
-	      $('#totalInvest').html(numeral(investTotal).format('0,0'));
-	      
+		  if(investTotal>0) {
+	        $('#totalInvest').html(numeral(investTotal).format('0,0'));
+		  } else {
+		    $('#totalInvest').html('');
+		  }
+			
 	    });
 	    select.append($('<option>',{value:0,text:'-> Level'}));
 	    for(var i=minLevel+1;i<40;i++) select.append($('<option>',{value:i, text:'Civ '+i}));
