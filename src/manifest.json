@@ -160,8 +160,8 @@
 		]
 	}, {
 		"matches": [
-			"http://www.hyperiums.com/servlet/Maps?maptype=political",
-			"http://www.hyperiums.com/servlet/Maps?maptype=political&*"
+			"http://www.hyperiums.com/servlet/Maps?maptype=political//INACTIVE",
+			"http://www.hyperiums.com/servlet/Maps?maptype=political&*//INACTIVE"
 		],
 		"js": [
 			"extlibs/jquery/jquery.js",
