@@ -1,8 +1,6 @@
-[![Flattr chrome-hyperiums7](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=resident-uhlig&url=https://github.com/resident-uhlig/chrome-hyperiums7&title=chrome-hyperiums7&language=JavaScript&tags=github&category=software)
+# chrome-hyperiums9
 
-# chrome-hyperiums7
-
-A Chrome extension with tools and improvements for Hyperiums 7 (unofficial)
+A Chrome extension with tools and improvements for Hyperiums 9 (unofficial)
 
 ## Features
 
