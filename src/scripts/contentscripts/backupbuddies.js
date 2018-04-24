@@ -7,7 +7,7 @@ chrome.runtime.sendMessage({
 			find('input[name="contactid"]').val());
 
 		element.
-			val(element.val() + ' (' + (numLogins[playerId] || 0) + ' login(s) in 7 days)').
+			val(element.val() + ' (' + (numLogins[playerId] || 0) + ')').
 			click(function (event) {
 				chrome.runtime.sendMessage({
 					request: 'recordBackupBuddyLogin',
