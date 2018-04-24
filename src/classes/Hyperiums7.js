@@ -130,6 +130,23 @@ var Hyperiums7 = {
 		});
 		return events;
 	},
+  getDeployedFleets: function () {
+		var hyperiums = this,
+			promise = $.Deferred();
+		this.ajax(this.getServletUrl('Home?dashboard=')).
+			done(function (data, textStatus, jqXHR) {
+				promise.resolveWith(hyperiums, [hyperiums.getInfoFromHtmlDashboard(6,data)]);
+			});
+		return promise;
+	},
+  getInfoFromHtmlDashboard: function (key,html) {
+		var doc = $(html)
+    var element = $('div.dashboard div.element', doc).eq(key),
+      title = element.find('div.title').text(),
+      value = element.clone().find('div.title').remove().end().text();
+    var events = {title: title , value:value};
+		return events;
+	},
 	getFleetsInfo: function (args) {
 		var promise = $.Deferred();
 		args = args || {};
@@ -449,7 +466,6 @@ var Hyperiums7 = {
 					if (!planets[i]) {
 						planets[i] = {};
 					}
-
 					switch (key) {
 					case 'activity':
 					case 'block':
@@ -483,12 +499,14 @@ var Hyperiums7 = {
 					case 'bhole':
 					case 'stasis':
 					case 'parano':
+          case 'hgate':
 						value = value == '1';
 						break;
 					case 'planet':
 					case 'publictag':
 					case 'tag1':
 					case 'tag2':
+					case 'hnet':
 						break;
 					default:
 						throw 'unkown key ' + key + ' (' + value + ')';
@@ -993,7 +1011,7 @@ var Hyperiums7 = {
 		}
 
 		var promise = $.Deferred(), hyperiums = this;
-		chrome.runtime.sendMessage({
+ 		chrome.runtime.sendMessage({
 			request: 'getAjaxCache',
 			url: url,
 			settings: settings

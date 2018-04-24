@@ -109,14 +109,14 @@ Hyperiums7.getControlledPlanets().done(function (planets) {
 				buildCostSpan.addClass('alertLight');
 			}
 		});
+//    getFleetsUpkeep
 
-	Hyperiums7.getFleetsUpkeep().done(function (upkeep) {
+	Hyperiums7.getDeployedFleets().done(function (upkeep) {
 		$('#htopmenu2').append($('<li>').append(
 			$('<a href="Cash" class="megaTextItem">').append([
-				'Deployed fleets: ',
-				numeral(upkeep.numDeployed).format('0,0'),
-				'/',
-			numeral(5 * planets.numPlanets).format('0,0')
+				upkeep.title ,
+        " ",
+				upkeep.value
 			])
 		));
 	});
