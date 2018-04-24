@@ -46,13 +46,18 @@ $.getScript('/js/overlibmws.js').done(function () {
 				stats.numPlanets++;
 				element = $(element);
 				var detailsTr = element.closest('tr').next(),
-					details = detailsTr.find('.highlight, .civ b'),
-					planetId = parseFloat(element.attr('href').replace(/[^\d]+/g, '')),
-					raceName = details.eq(2).text();
+				details = detailsTr.find('.prod0,.prod1,.prod2,.bold,b'),
+				planetId = parseFloat(element.attr('href').replace(/[^\d]+/g, '')),
+				raceName = details.eq(2).text(),
+				govName = details.eq(1).text().replace(/ \(\d\)$/, ''),
+				productName = details.eq(0).text(),
+				popAmount = parseFloat(details.eq(3).text()),
+				civLevel = parseInt(details.eq(4).text());
+				alert(planetId +';'+raceName +';'+govName+';'+ productName+';'+popAmount +';'+civLevel);
 
 				$.each({
-					governments: details.eq(0).text().replace(/ \(\d\)$/, ''),
-					products: details.eq(1).text(),
+					governments: govName,
+					products: productName,
 					races: raceName
 				}, function (key, value) {
 					if (stats[key][value]) {
@@ -63,8 +68,8 @@ $.getScript('/js/overlibmws.js').done(function () {
 				});
 
 				$.each({
-					pop: parseFloat(details.eq(3).text()),
-					civ: parseInt(details.eq(4).text())
+					pop: popAmount,
+					civ: civLevel
 				}, function (key, value) {
 					if (!stats[key]) {
 						stats[key] = {min: Number.MAX_VALUE, max: 0, total: 0};
@@ -82,7 +87,7 @@ $.getScript('/js/overlibmws.js').done(function () {
 					}
 				}
 
-				Hyperiums7.getPlanetIdInfluence(planetId).done(function (influence) {
+				/*Hyperiums7.getPlanetIdInfluence(planetId).done(function (influence) {
 					var wtr = planets[planetId].wtr,
 						afterWtr = influence * (1 - wtr / 100);
 
@@ -103,7 +108,7 @@ $.getScript('/js/overlibmws.js').done(function () {
 							' (after WTR)'
 						])
 					));
-				});
+				});*/
 			}).
 			closest('table.hl').closest('td').append(container = $('<center>').append([
 				'<hr>',
