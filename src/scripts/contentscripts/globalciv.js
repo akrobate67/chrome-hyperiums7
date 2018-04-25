@@ -34,7 +34,7 @@ $(document).ready(function () {
   	$('<tr class="hlight">')
 	  .append($('<td colspan="2" class="hr">').html('<b>'+totalCiv['current']+'</b> <span class="tech_launchable bold">&nbsp;->&nbsp;<b>'+totalCiv['target']+'</b</span> '))
 	  .append($('<td >'))
-	  .append($('<td colspan=3>').html("You have "+totalCiv['nb']+" planet(s) and <span class='tech_launchable bold'>"+slots+"</span> free slot(s).<br>You need <span class='tech_launchable bold'>"+next+"</span> to have an additonal slot."))
+	  .append($('<td colspan=3>').html("You have "+totalCiv['nb']+" planet(s) and <span class='tech_launchable bold'>"+slots+"</span> free slot(s).<br>You need <span class='tech_launchable bold'>"+next+"</span> to have an additional slot."))
 	  .append($('<td id=totalInvest class="tech_launchable bold">')));
 
   $('table.stdArray.hc tr.stdArray').append(
