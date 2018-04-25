@@ -64,11 +64,11 @@ var msPerH = 3600000;
 		}
 
 		if (msUntilNextDate < 60000) { // 1 minute
-			$li.addClass('alert');
+			$li.addClass('prod1');
 		} else if (msUntilNextDate < 300000) { // 5 minutes
-			$li.addClass('alertLight');
+			$li.addClass('prod2');
 		} else if (msUntilNextDate < 600000) { // 10 minutes
-			$li.addClass('hlight');
+			$li.addClass('prod0');
 		}
 
 		$ul.append([' ', $li]);
@@ -76,7 +76,7 @@ var msPerH = 3600000;
 		var left = msUntilNextDate / msPerPx;
 		while (left < timelineWidth) {
 			$timeline.append(
-				$('<div class="tick hlight"></div>')
+				$('<div class="tick prod2"></div>')
 					.css({ left: left, 'padding-top': (tickIndex / 2) + 'em' })
 					.attr({ title: tick.name + '\n' + nextDate.format('HH:mm:ss') })
 					.text(tick.name)
