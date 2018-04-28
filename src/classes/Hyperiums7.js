@@ -841,7 +841,7 @@ var Hyperiums7 = {
 		var promise = $.Deferred(), hyperiums = this;
 		this.ajax(this.getServletUrl('Fleets?pagetype=foreign_fleets')).done(function (data) {
 			var planets = [];
-			$('.planetName', data).each(function (_, element) {
+			$('.large,planet', data).each(function (_, element) {
 				planets.push({
 					name: $(element).text()
 				});
