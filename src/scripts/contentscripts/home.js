@@ -52,7 +52,7 @@ $.getScript('/js/overlibmws.js').done(function () {
 				govName = details.eq(1).text().replace(/ \(\d\)$/, ''),
 				productName = details.eq(0).text(),
 				popAmount = parseFloat(details.eq(3).text()),
-				civLevel = parseInt(details.eq(4).text());
+				civLevel = parseInt(Number.isInteger(parseInt(details.eq(4).text())) ? details.eq(4).text() : details.eq(5).text());
 
 				$.each({
 					governments: govName,
