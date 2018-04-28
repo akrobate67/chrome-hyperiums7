@@ -1,5 +1,5 @@
 $('input[name="receiverid"]').autocomplete({
-	autoFocus: false,
+	autoFocus: true,
 	source: function (request, sendResponse) {
 		switch ($('input[name="totype"]:checked').val() || 'Player') {
 		case 'Planet':
