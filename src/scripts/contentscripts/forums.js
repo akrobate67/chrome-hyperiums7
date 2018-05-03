@@ -12,6 +12,12 @@ if (params.action == 'fdispmsg' && params.limit === undefined && params.gotolast
 	}
 }
 
+if (params.action == 'faddmsg' && params.withData) {
+  var dataContainer =$('table.hc tbody  table td.player');
+  $('textarea#msgAreaId').html(dataContainer.text());
+}
+
+
 $('a').each(function (_, element) {
 	element = $(element);
 	var url = element.attr('href'),
@@ -36,6 +42,15 @@ $('a').each(function (_, element) {
 			]);
 		});
 	}
+
+  
+  url = element.attr('href');
+  matches = /Forums\?action=faddmsg&forumid=(\d+)&threadid=(\d+)/.exec(url);
+  if (matches && matches.length && parseInt(matches[2])>0) {
+    url += '&withData=1';
+    $('<a>').attr('href', url).html('<img src="/themes/theme2/misc/forum/reply_on.png" class="vt reply" style="background-color: yellowgreen;" onmouseover="overlib(\'Reply with content\', WIDTH, 120)" onmouseout="nd()">').attr('title', 'Reply with content').insertBefore(element)
+  }
+  
 });
 
 if ($('.megaCurrentItem').attr('href') === 'Forums') {
