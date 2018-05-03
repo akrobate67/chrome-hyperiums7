@@ -117,7 +117,8 @@
 	}, {
 		"matches": [
 			"http://www.hyperiums.com/servlet/Trading?globalexploit=",
-			"http://www.hyperiums.com/servlet/Trading?globalwtr="
+			"http://www.hyperiums.com/servlet/Trading?globalwtr=",
+			"http://www.hyperiums.com/servlet/Trading"
 		],
 		"js": [
 			"extlibs/jquery/jquery.js",
