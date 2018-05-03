@@ -14,9 +14,13 @@ $('form #stdArray td:nth-child(4)').append(
 
 Hyperiums7.getPlanetInfo().done(function (planets) {
 	$.each(planets, function (_, planet) {
-		$('[href="Planetprod?planetid=' + planet.id + '"]').closest('tr').
-			children('td').eq(2).append('<br>Population size: ',
-				numeral(planet.pop).format('0,0'), '&nbsp;M')
+		var plDetails = $('[href="Planetprod?planetid=' + planet.id + '"]').closest('tr').children('td');
+		plDetails.eq(2).append('<br>Population size: ',
+				numeral(planet.pop).format('0,0'), '&nbsp;M');
+		var exp = numeral(plDetails.eq(1).find('tr').children('td').eq(1).text());
+		var bought = numeral(plDetails.eq(2).find('tr').children('td').eq(1).text()) || 0;
+		var opti = Math.floor(numeral(planet.pop)/100)*10 - exp - bought;
+		plDetails.eq(3).find('input').attr('placeholder', opti);
 	});
 });
 
