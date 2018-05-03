@@ -1,3 +1,5 @@
+if($('.formTitle').text().substring(0, 6)=='Global') {
+	
 $('form #stdArray td:nth-child(4)').append(
 	$('<input maxlength="4" size="4">').
 		keydown(function (event) {
@@ -18,3 +20,4 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 	});
 });
 
+}
