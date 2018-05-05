@@ -140,8 +140,8 @@ var Hyperiums7 = {
 		return promise;
 	},
   getInfoFromHtmlDashboard: function (key,html) {
-		var doc = $(html)
-    var element = $('div.dashboard div.element', doc).eq(key),
+		var doc = $(html);
+    var element = $('div.dashboard div.element.big:not(.alert)', doc).eq(key),
       title = element.find('div.title').text(),
       value = element.clone().find('div.title').remove().end().text();
     var events = {title: title , value:value};
