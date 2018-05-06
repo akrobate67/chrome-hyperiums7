@@ -24,8 +24,6 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 	});
 });
 
-}
-
 Hyperiums7.getTradingPartners().done(function (planets) {
 	var table = $('.stdArray').find('tbody:first');
 	var header = table.find('tr:first');
@@ -43,3 +41,5 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 		}
 	}
 });
+
+}
