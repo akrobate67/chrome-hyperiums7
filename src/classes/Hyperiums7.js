@@ -448,6 +448,33 @@ var Hyperiums7 = {
 		}
 		return Hyperiums7.rank;
 	},
+		getTradingPartners: function (args) {
+		var promise = $.Deferred();
+		args = args || {};
+		args.planet = args.planet || '*';
+		args.data = 'trading';
+		args.request = 'getplanetinfo';
+		this.hapi(args).done(function (pairs) {
+			var done = [];
+			var planets = [];
+			$.each(pairs, function (key, value) {
+				if(done.indexOf(value)==-1) {
+					var i, keys;
+					keys = /^(.+?)_?(\d+)$/.exec(key.split('.')[0]);
+					if (keys && keys.length) {
+						i = parseInt(keys[2]);
+						if(keys[1] == 'planet' || keys[1] == 'toplanet') {
+							if (!planets[i]) planets[i] = [];
+							planets[i].push(value);
+							done.push(value);
+						};
+					}
+				}
+			});
+			promise.resolveWith(this, [planets]);
+		});
+		return promise;
+	},
 	getPlanetInfo: function (args) {
 		var promise = $.Deferred();
 		args = args || {};
