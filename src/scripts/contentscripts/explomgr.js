@@ -25,3 +25,21 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 });
 
 }
+
+Hyperiums7.getTradingPartners().done(function (planets) {
+	var table = $('.stdArray').find('tbody:first');
+	var header = table.find('tr:first');
+	var a, grnum = 0;
+	for(var i=0; i<planets.length; i++) {
+		if(planets[i]!=null) {
+			grnum++;
+			for(var j=0; j<planets[i].length; j++) {
+				row = $("a:contains('"+planets[i][j]+"')").closest('tr');
+				if(row.text()!='') {
+					row.attr('class', 'line'+grnum%2);
+					row.insertAfter(header);
+				}
+			}
+		}
+	}
+});
