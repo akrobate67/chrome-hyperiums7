@@ -448,6 +448,15 @@ var Hyperiums7 = {
 		}
 		return Hyperiums7.rank;
 	},
+		cleanArray: function(arr, deleteValue) {
+		for (var i = 0; i < arr.length; i++) {
+			if (arr[i] == deleteValue) {         
+				arr.splice(i, 1);
+				i--;
+			}
+		}
+		return arr;
+	},
 		getTradingPartners: function (args) {
 		var promise = $.Deferred();
 		args = args || {};
