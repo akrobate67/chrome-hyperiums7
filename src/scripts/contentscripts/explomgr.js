@@ -31,13 +31,12 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 		});
 	});
 	planets.sort(function (a, b) {
-		return - a[0].localeCompare(b[0]);
+		return - a[a.length-1].localeCompare(b[b.length-1]);
 	});
 	var table = $('.stdArray').find('tbody:first');
 	var header = table.find('tr:first');
 	var a, grnum = 0;
 	for(var i=0; i<planets.length; i++) {
-		grnum++;
 		for(var j=0; j<planets[i].length; j++) {
 			row = $("a:contains('"+planets[i][j]+"')").closest('tr');
 			if(row.text()!='') {
@@ -45,6 +44,7 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 				row.insertAfter(header);
 			}
 		}
+		grnum++;
 	}
 });
 
