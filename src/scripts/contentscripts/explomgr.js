@@ -13,7 +13,9 @@ $('form #stdArray td:nth-child(4)').append(
 );
 
 Hyperiums7.getPlanetInfo().done(function (planets) {
+	var act = [];
 	$.each(planets, function (_, planet) {
+		act.push([planet.id, planet.activity]);
 		var plDetails = $('[href="Planetprod?planetid=' + planet.id + '"]').closest('tr').children('td');
 		plDetails.eq(2).append('<br>Population size: ',
 				numeral(planet.pop).format('0,0'), '&nbsp;M');
@@ -22,6 +24,12 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 		var opti = Math.floor(numeral(planet.pop)/10) - exp - bought;
 		plDetails.eq(3).find('input').attr('placeholder', opti);
 	});
+	act.sort(function (a, b) {
+		return numeral(b[1]) - numeral(a[1]);
+	});
+	for(var i=0;i<10;i++) {
+		$('[href="Planetprod?planetid=' + act[i][0] + '"]').attr('class', 'std prod1');
+	}
 });
 
 Hyperiums7.getTradingPartners().done(function (planets) {
@@ -37,11 +45,13 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 	var header = table.find('tr:first');
 	var a, grnum = 0;
 	for(var i=0; i<planets.length; i++) {
-		for(var j=0; j<planets[i].length; j++) {
-			row = $("a:contains('"+planets[i][j]+"')").closest('tr');
-			if(row.text()!='') {
-				row.attr('class', 'line'+grnum%2);
-				row.insertAfter(header);
+		if(planets[i]!=null) {
+			for(var j=0; j<planets[i].length; j++) {
+				row = $("a:contains('"+planets[i][j]+"')").closest('tr');
+				if(row.text()!='') {
+					row.attr('class', 'line'+grnum%2);
+					row.insertAfter(header);
+				}
 			}
 		}
 		grnum++;
