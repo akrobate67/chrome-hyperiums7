@@ -1,6 +1,6 @@
 if($('.formTitle').text().substring(0, 6)=='Global') {
 	
-$('form #stdArray td:nth-child(4)').append(
+$('form #stdArray td:nth-child(4)').text('').append(
 	$('<input maxlength="4" size="4">').
 		keydown(function (event) {
 			if (event.which == 13) {
@@ -9,6 +9,13 @@ $('form #stdArray td:nth-child(4)').append(
 		}).
 		on('input', function () {
 			$(this).closest('table').find(':not(#stdArray) input[type="text"]').val($(this).val());
+		})
+).append(
+	$('<input type="button" value="Max">').
+		on('click', function () {	
+			$(this).closest('table').find(':not(#stdArray) tr').each(function() {
+					$(this).find('input[type="text"]').val($(this).find('input[name="maxexp"]').val());
+			});	
 		})
 );
 
@@ -43,19 +50,32 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 	});
 	var table = $('.stdArray').find('tbody:first');
 	var header = table.find('tr:first');
-	var a, grnum = 0;
+	var a, grnum = 0, exp, max = 20;
 	for(var i=0; i<planets.length; i++) {
 		if(planets[i]!=null) {
+			exp = 10000;
+			for(var j=0; j<planets[i].length; j++) {
+				val = $("a:contains('"+planets[i][j]+"')").closest('tr').children('td').eq(3).children('input').eq(0).attr('placeholder');
+				if(numeral(val) < exp) exp = numeral(val);
+			}
+			if(exp > max) exp = max;
+			if(planets[i].length>2 && exp!=max) exp = 0;
 			for(var j=0; j<planets[i].length; j++) {
 				row = $("a:contains('"+planets[i][j]+"')").closest('tr');
 				if(row.text()!='') {
+					row.children('td').eq(3).append(
+						$('<input type="hidden" name="maxexp" value="'+exp+'">')
+					);
 					row.attr('class', 'line'+grnum%2);
 					row.insertAfter(header);
 				}
 			}
+			grnum++;
 		}
-		grnum++;
 	}
 });
+
+
+
 
 }
