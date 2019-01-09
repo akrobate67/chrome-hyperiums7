@@ -282,7 +282,7 @@ var Hyperiums7 = {
 	},
 	ticks: [
 		new Tick('Build', 35),
-		new Tick('Cash', 7, 8, 6),
+		new Tick('Cash', 35, 8, 6),
 		new Tick('Move/Control', 38),
 		new Tick('Tech', 30),
 		//new Tick('N/A', 6),
