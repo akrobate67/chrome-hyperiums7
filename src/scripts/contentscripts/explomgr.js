@@ -50,17 +50,25 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 	});
 	var table = $('.stdArray').find('tbody:first');
 	var header = table.find('tr:first');
-	var a, grnum = 0, exp, max = 20, one;
+	var a, grnum = 0, exp, max = 20, one, num;
 	for(var i=0; i<planets.length; i++) {
 		if(planets[i]!=null) {
 			exp = 1000;
+			num = 0;
 			for(var j=0; j<planets[i].length; j++) {
-				val = $("a:contains('"+planets[i][j]+"')").closest('tr').children('td').eq(3).children('input').eq(0).attr('placeholder');				
-				if(val && numeral(val) < exp) exp = numeral(val);
+				val = $("a:contains('"+planets[i][j]+"')").closest('tr').children('td').eq(3).children('input').eq(0).attr('placeholder');	
+				if(val) {
+					num++;
+					if(numeral(val) < exp) exp = numeral(val);
+				}
 			}
-			if(exp>max) exp = max;
-			if(exp<0) exp = 0;
-			if(planets[i].length>2 && exp!=max) exp = 0;
+			if(num>1) {
+				if(exp>max) exp = max;
+				if(exp<0) exp = 0;
+				if(planets[i].length>2 && exp!=max) exp = 0;
+			} else {
+				exp = 0;
+			}
 			one = false;
 			for(var j=0; j<planets[i].length; j++) {
 				row = $("a:contains('"+planets[i][j]+"')").closest('tr');
