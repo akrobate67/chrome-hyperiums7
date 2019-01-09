@@ -35,7 +35,8 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 		return numeral(b[1]) - numeral(a[1]);
 	});
 	for(var i=0;i<10&&i<act.length;i++) {
-		$('[href="Planetprod?planetid=' + act[i][0] + '"]').attr('class', 'std prod1');
+		//$('[href="Planetprod?planetid=' + act[i][0] + '"]').attr('class', 'std prod1');
+		$('[href="Planetprod?planetid=' + act[i][0] + '"]').closest('td').append(' <img src="/themes/theme1/misc/activity.png">');
 	}
 
 
@@ -50,7 +51,7 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 	});
 	var table = $('.stdArray').find('tbody:first');
 	var header = table.find('tr:first');
-	var a, grnum = 0, exp, max = 20, one, num;
+	var a, grnum = 0, exp, max = 20, one, num, alone = [];
 	for(var i=0; i<planets.length; i++) {
 		if(planets[i]!=null) {
 			exp = 1000;
@@ -66,24 +67,36 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 				if(exp>max) exp = max;
 				if(exp<0) exp = 0;
 				if(num>2 && exp!=max) exp = 0;
-			} else {
-				exp = 0;
-			}
-			one = false;
-			for(var j=0; j<planets[i].length; j++) {
-				row = $("a:contains('"+planets[i][j]+"')").closest('tr');
-				if(row.text()!='') {
-					row.children('td').eq(3).append(
-						$('<input type="hidden" name="maxexp" value="'+exp+'">')
-					);
-					row.attr('class', 'line'+grnum%2);
-					row.insertAfter(header);
-					one = true;
+				one = false;
+				for(var j=0; j<planets[i].length; j++) {
+					row = $("a:contains('"+planets[i][j]+"')").closest('tr');
+					if(row.text()!='') {
+						row.children('td').eq(3).append(
+							$('<input type="hidden" name="maxexp" value="'+exp+'">')
+						);
+						row.attr('class', 'line'+grnum%2);
+						row.insertAfter(header);
+						one = true;
+					}
 				}
+				if(one) grnum++;
+			} else {
+				alone.push(planets[i]);
 			}
-			if(one) grnum++;
 		}
 	}
+	exp=0;
+	for(var i=0; i<alone.length; i++) {
+		for(var j=0; j<alone[i].length; j++) {
+			row = $("a:contains('"+alone[i][j]+"')").closest('tr');
+			if(row.text()!='') {
+				row.attr('class', 'line0');
+				row.children('td').css('color', '#FF4444');
+				row.insertAfter(header);
+			}
+		}
+	}
+	
 });
 
 });
