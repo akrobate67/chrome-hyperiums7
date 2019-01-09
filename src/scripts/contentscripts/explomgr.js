@@ -65,7 +65,7 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 			if(num>1) {
 				if(exp>max) exp = max;
 				if(exp<0) exp = 0;
-				if(planets[i].length>2 && exp!=max) exp = 0;
+				if(num>2 && exp!=max) exp = 0;
 			} else {
 				exp = 0;
 			}
