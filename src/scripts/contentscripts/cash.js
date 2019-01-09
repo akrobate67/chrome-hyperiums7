@@ -31,9 +31,11 @@ trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find(
 var trFleets = $('table.cashArray tr.line0').eq(5);
 trFleets.find('td').eq(0).append(" ("+numeral(Math.abs(parseFloat(trFleets.find('td').eq(1).text().replace(/,/g, '')))/ totalIncome).format('0[.]0%')+")");
 
+var Cash = parseFloat($('#cashTab').text().replace(/,/g, ''));
+
 var CT = numeral(Math.floor(parseFloat($('table.cashArray tr td.hr').eq(4).text().replace(/,/g, ''))/3)).format('0,0');
-$('table.cashArray').first().find('tr:last').after('<tr><td class=vb>Per cash tick</td><td class="hr highlight">'+CT+'</td></tr>');
-$('table.cashArray').last().find('tr:last').after('<tr><td class=vb>Per cash tick</td><td class="hr highlight">'+CT+'</td></tr>');
+$('table.cashArray').first().find('tr:last').after('<tr><td class=vb>Cash tick</td><td class="hr highlight">'+CT+'</td></tr><tr><td class=vb>Available cash</td><td class="hr highlight">'+numeral(Cash/totalIncome).format('0[.]00')+' TI-AC</td></tr>');
+$('table.cashArray').last().find('tr:last').after('<tr><td class=vb>Cash tick</td><td class="hr highlight">'+CT+'</td></tr><tr><td class=vb>Available cash</td><td class="hr highlight">'+numeral(Cash/totalIncome).format('0[.]00')+' TI-AC</td></tr>');
 
 /*Hyperiums7.getFleetsUpkeep().done(function (upkeep) {
 	var upkeepRow = $('.line0').last(),

@@ -36,7 +36,7 @@ $(document).ready(function () {
 	  .append($('<td >'))
 	  .append($('<td colspan=3>').html("You have "+totalCiv['nb']+" planet(s) and <span class='tech_launchable bold'>"+slots+"</span> free slot(s).<br>You need <span class='tech_launchable bold'>"+next+"</span> to have an additional slot."))
 	  .append($('<td id=totalInvest class="tech_launchable bold">')));
-
+	
   $('table.stdArray.hc tr.stdArray').append(
 	  function(){
 	    var elementTr=$(this),

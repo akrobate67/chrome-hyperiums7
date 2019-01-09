@@ -34,10 +34,10 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 	act.sort(function (a, b) {
 		return numeral(b[1]) - numeral(a[1]);
 	});
-	for(var i=0;i<10;i++) {
+	for(var i=0;i<10&&i<act.length;i++) {
 		$('[href="Planetprod?planetid=' + act[i][0] + '"]').attr('class', 'std prod1');
 	}
-});
+
 
 Hyperiums7.getTradingPartners().done(function (planets) {
 	planets.map(function (e) {
@@ -50,16 +50,18 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 	});
 	var table = $('.stdArray').find('tbody:first');
 	var header = table.find('tr:first');
-	var a, grnum = 0, exp, max = 20;
+	var a, grnum = 0, exp, max = 20, one;
 	for(var i=0; i<planets.length; i++) {
 		if(planets[i]!=null) {
-			exp = 10000;
+			exp = 1000;
 			for(var j=0; j<planets[i].length; j++) {
-				val = $("a:contains('"+planets[i][j]+"')").closest('tr').children('td').eq(3).children('input').eq(0).attr('placeholder');
-				if(numeral(val) < exp) exp = numeral(val);
+				val = $("a:contains('"+planets[i][j]+"')").closest('tr').children('td').eq(3).children('input').eq(0).attr('placeholder');				
+				if(val && numeral(val) < exp) exp = numeral(val);
 			}
-			if(exp > max) exp = max;
+			if(exp>max) exp = max;
+			if(exp<0) exp = 0;
 			if(planets[i].length>2 && exp!=max) exp = 0;
+			one = false;
 			for(var j=0; j<planets[i].length; j++) {
 				row = $("a:contains('"+planets[i][j]+"')").closest('tr');
 				if(row.text()!='') {
@@ -68,14 +70,15 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 					);
 					row.attr('class', 'line'+grnum%2);
 					row.insertAfter(header);
+					one = true;
 				}
 			}
-			grnum++;
+			if(one) grnum++;
 		}
 	}
 });
 
-
+});
 
 
 }
