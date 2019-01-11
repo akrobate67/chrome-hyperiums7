@@ -29,13 +29,13 @@ Hyperiums7.getPlanetInfo().done(function (planets) {
 		var exp = numeral(plDetails.eq(1).find('tr').children('td').eq(1).text());
 		var bought = numeral(plDetails.eq(2).find('tr').children('td').eq(1).text()) || 0;
 		var opti = Math.floor(numeral(planet.pop)/10) - exp - bought;
-		plDetails.eq(3).find('input').attr('placeholder', opti);
+		plDetails.eq(3).find('input').eq(0).attr('placeholder', opti);
+		plDetails.eq(3).append('<input type="hidden" name="ph" value="'+opti+'">');
 	});
 	act.sort(function (a, b) {
 		return numeral(b[1]) - numeral(a[1]);
 	});
 	for(var i=0;i<10&&i<act.length;i++) {
-		//$('[href="Planetprod?planetid=' + act[i][0] + '"]').attr('class', 'std prod1');
 		$('[href="Planetprod?planetid=' + act[i][0] + '"]').closest('td').append(' <img src="/themes/theme1/misc/activity.png">');
 	}
 
@@ -56,8 +56,8 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 		if(planets[i]!=null) {
 			exp = 1000;
 			num = 0;
-			for(var j=0; j<planets[i].length; j++) {
-				val = $("a:contains('"+planets[i][j]+"')").closest('tr').children('td').eq(3).children('input').eq(0).attr('placeholder');	
+			for(var j=0; j<planets[i].length; j++) {	
+				val = $("a:contains('"+planets[i][j]+"')").closest('tr').children('td').eq(3).find('input[name="ph"]').val();
 				if(val) {
 					num++;
 					if(numeral(val) < exp) exp = numeral(val);
@@ -90,8 +90,8 @@ Hyperiums7.getTradingPartners().done(function (planets) {
 		for(var j=0; j<alone[i].length; j++) {
 			row = $("a:contains('"+alone[i][j]+"')").closest('tr');
 			if(row.text()!='') {
-				row.attr('class', 'line0');
-				row.children('td').css('color', '#FF4444');
+				row.attr('class', 'line'+grnum%2);
+				row.find('table[class="bars"]').eq(0).find('tr').eq(0).append('<td style="color: #FF4444; white-space: nowrap;">&nbsp;&nbsp;&nbsp;&nbsp;no self trade</td>');
 				row.insertAfter(header);
 			}
 		}
