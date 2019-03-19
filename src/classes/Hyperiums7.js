@@ -281,13 +281,21 @@ var Hyperiums7 = {
 		return promise;
 	},
 	ticks: [
-		new Tick('Build', 35),
+		/*new Tick('Build', 35),
 		new Tick('Cash', 35, 8, 6),
 		new Tick('Move/Control', 38),
 		new Tick('Tech', 30),
 		//new Tick('N/A', 6),
 		new Tick('Battle', 18, 2),
 		new Tick('Energy', 30),
+		new Tick('Planet', 1, 12)*/
+		new Tick('Build', 59),
+		new Tick('Cash', 7, 8, 6),
+		new Tick('Move/Control', 2),
+		new Tick('Tech', 54),
+		//new Tick('N/A', 6),
+		new Tick('Battle', 42, 2),
+		new Tick('Energy', 54),
 		new Tick('Planet', 1, 12)
 	].sort(function (a, b) {
 		return a.name.localeCompare(b.name);
@@ -530,6 +538,7 @@ var Hyperiums7 = {
 					case 'x':
 					case 'y':
 					case 'counterinfiltr':
+					case 'doomed':
 						value = parseFloat(value);
 						break;
 					case 'bhole':
